@@ -1,0 +1,9 @@
+{
+    "outline-none": false,
+    "universal-selector": false,
+    "box-sizing": false,
+    "ids": false,
+    "fallback-colors": false,
+    "box-model": false,
+    "adjoining-classes": false
+}
