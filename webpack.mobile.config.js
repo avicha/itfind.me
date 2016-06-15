@@ -4,7 +4,7 @@ module.exports = {
         index: ['./entries/index.js']
     },
     output: {
-        path: './build/assets/js/mobile/entries',
+        path: './public/assets/js/mobile/entries',
         filename: '[name].bundle.js'
     },
     module: {
