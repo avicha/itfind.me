@@ -10,7 +10,12 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-
-Route::get('/', function () {
-    return view('mobile.index');
+Route::group(['middleware' => 'web'], function(){
+    Route::group(['domain' => 'itfind.me', 'namespace' => 'Admin', 'middleware' => 'auth'], function(){
+        Route::get('/', 'HomeController@index');
+    });
+    Route::group(['namespace' => 'Auth'], function(){
+        Route::get('/login', 'AuthController@loginView');
+        Route::get('/register', 'AuthController@registerView');
+    });
 });

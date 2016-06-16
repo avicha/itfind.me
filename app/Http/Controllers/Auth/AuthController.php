@@ -55,6 +55,16 @@ class AuthController extends Controller
         ]);
     }
 
+    protected function loginView()
+    {
+        return view('pc.auth.login');
+    }
+
+    protected function registerView()
+    {
+        return view('pc.auth.register');
+    }
+
     /**
      * Create a new user instance after a valid registration.
      *
