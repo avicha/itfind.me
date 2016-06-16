@@ -14,7 +14,7 @@ return [
     */
 
     'paths' => [
-        realpath(base_path('resources/views')),
+        realpath(base_path(config('app.env') == 'production'? env('VIEWS_BUILD_ROOT'):env('VIEWS_ROOT'))),
     ],
 
     /*

@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+    @section('meta')
     <meta charset="utf-8" />
-    <meta name="viewpo
-    rt" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
     <!-- 优先使用 IE 最新版本和 Chrome -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <!-- 页面描述 -->
-    <meta name="description" content="Avicha的博客"/>
+    <meta name="description" content="@section('meta_description')不超过150个字符 @show"/>
     <!-- 页面关键词 -->
-    <meta name="keywords" content="Avicha,blog"/>
+    <meta name="keywords" content="@section('meta_keywords') @show"/>
     <!-- 网页作者 -->
-    <meta name="author" content="avicha, avichabc@gmail.com"/>
+    <meta name="author" content="@section('meta_author')name, email@gmail.com @show"/>
     <!-- 搜索引擎抓取 -->
     <meta name="robots" content="index,follow"/>
     <!-- 忽略页面中的数字识别为电话，忽略email识别 -->
@@ -23,16 +24,15 @@
     <!-- 设置苹果工具栏颜色 -->
     <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
     <!-- 添加到主屏后的标题（iOS 6 新增） -->
-    <meta name="apple-mobile-web-app-title" content="Avicha的博客" />
-    <title>Avicha's Blog</title>
+    <meta name="apple-mobile-web-app-title" content="@section('meta_apple_title')标题 @show" />
+    @show
+    <title>@section('title')标题 @show</title>
     <!-- 添加 favicon icon -->
-    <link rel="shortcut icon" type="image/x-icon" href="@static_host/img/common/favicon.ico" />
-    <link rel="stylesheet" type="text/css" href="@static_host/css/mobile/entries/index.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="@section('favicon'){{ config('app.static_host') }}/img/common/favicon.ico @show" />
+    @yield('stylesheet')
 </head>
 <body>
-    <div id="container"></div>
-    <script type="text/javascript" src="@static_host/js/lib/react/15.1.0/react.js"></script>
-    <script type="text/javascript" src="@static_host/js/lib/react/15.1.0/react-dom.js"></script>
-    <script type="text/javascript" src="@static_host/js/mobile/entries/index.bundle.js"></script>
+    @yield('body')
+    @yield('javascript')
 </body>
 </html>

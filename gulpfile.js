@@ -19,16 +19,20 @@ var replace = require('gulp-replace');
 var rev = require('gulp-rev');
 var revReplace = require('gulp-rev-replace');
 //配置路径
+var env = fs.readFileSync(__dirname + '/.env', {
+    encoding: 'utf8'
+});
 var SOURCE = __dirname + '/resources/assets';
 var BUILD = __dirname + '/public/assets';
 var STATIC_HOST = (function() {
-    var env = fs.readFileSync(__dirname + '/.env', {
-        encoding: 'utf8'
-    });
     return /STATIC_HOST=.*/.test(env) ? env.match(/STATIC_HOST=(.*)/)[1] : 'http://assets.itfind.me';
 })();
-var VIEWS_ROOT = __dirname + '/resources/views';
-var VIEWS_BUILD_ROOT = __dirname + '/public/views';
+var VIEWS_ROOT = (function() {
+    return /VIEWS_ROOT=.*/.test(env) ? env.match(/VIEWS_ROOT=(.*)/)[1] : 'resources/views';
+})();
+var VIEWS_BUILD_ROOT = (function() {
+    return /VIEWS_BUILD_ROOT=.*/.test(env) ? env.match(/VIEWS_BUILD_ROOT=(.*)/)[1] : 'resources/views_build';
+})();
 //clean mobile
 gulp.task('clean:mobile-css', function() {
     return del([BUILD + '/css/mobile/**/*']);
@@ -113,7 +117,7 @@ gulp.task('mobile-sass-dev', ['clean:mobile-css', 'copy:img'], function() {
 //copy mobile html
 gulp.task('mobile-html', ['mobile-js', 'mobile-sass', 'clean:mobile-html'], function() {
     var resourcesMap = require(BUILD + '/mobile-rev-manifest.json');
-    return gulp.src(VIEWS_ROOT + '/mobile/**/*.html').pipe(replace('@static_host', STATIC_HOST)).pipe(revReplace({
+    return gulp.src(VIEWS_ROOT + '/mobile/**/*').pipe(revReplace({
         replaceInExtensions: ['.js', '.css', '.html', '.hbs', '.php'],
         manifest: gulp.src(BUILD + '/mobile-rev-manifest.json')
     })).pipe(htmlmin({
@@ -121,22 +125,18 @@ gulp.task('mobile-html', ['mobile-js', 'mobile-sass', 'clean:mobile-html'], func
         removeComments: true
     })).pipe(gulp.dest(VIEWS_BUILD_ROOT + '/mobile'));
 });
-gulp.task('mobile-html-dev', ['clean:mobile-html'], function() {
-    return gulp.src(VIEWS_ROOT + '/mobile/**/*.html').pipe(replace('@static_host', STATIC_HOST)).pipe(gulp.dest(VIEWS_BUILD_ROOT + '/mobile'));
-});
 //watch mobile
 gulp.task('watch:mobile', function() {
     gulp.watch(SOURCE + '/js/mobile/**/*.js', ['mobile-js-dev']);
     gulp.watch(SOURCE + '/css/mobile/**/*.scss', ['mobile-sass-dev']);
-    gulp.watch(VIEWS_ROOT + '/mobile/**/*.html', ['mobile-html-dev']);
 });
 //watch 全部
 gulp.task('watch', ['watch:mobile']);
 //build mobile
 gulp.task('build:mobile', ['copy:lib-css', 'copy:lib-js', 'mobile-html']);
 //开发环境下build mobile
-gulp.task('build:mobile-dev', ['copy:lib-css-dev', 'copy:lib-js-dev', 'mobile-js-dev', 'mobile-sass-dev', 'mobile-html-dev']);
+gulp.task('build:mobile-dev', ['copy:lib-css-dev', 'copy:lib-js-dev', 'mobile-js-dev', 'mobile-sass-dev']);
 //默认build全部
 gulp.task('default', ['copy:lib-css', 'copy:lib-js', 'mobile-html']);
 //开发环境下build全部
-gulp.task('dev', ['copy:lib-css-dev', 'copy:lib-js-dev', 'mobile-js-dev', 'mobile-sass-dev', 'mobile-html-dev']);
+gulp.task('dev', ['copy:lib-css-dev', 'copy:lib-js-dev', 'mobile-js-dev', 'mobile-sass-dev']);
