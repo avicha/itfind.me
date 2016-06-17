@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use Validator;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
@@ -30,14 +31,18 @@ class AuthController extends Controller
      */
     protected $redirectTo = '/';
 
+    // protected $loginView = 'pc.auth.login'.Request::url();
+
     /**
      * Create a new authentication controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Request $req)
     {
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
+        $this->loginView = \App\Common\Utils::getAgent().'.auth.login';
+        $this->registerView = \App\Common\Utils::getAgent().'.auth.register';
     }
 
     /**
@@ -53,16 +58,6 @@ class AuthController extends Controller
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
         ]);
-    }
-
-    protected function loginView()
-    {
-        return view('pc.auth.login');
-    }
-
-    protected function registerView()
-    {
-        return view('pc.auth.register');
     }
 
     /**
