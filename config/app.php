@@ -40,8 +40,11 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
-
-    'static_host' => env('STATIC_HOST'),
+    'main_host' => env('MAIN_HOST', 'http://itfind.me'),
+    //静态资源域名
+    'static_host' => env('STATIC_HOST', 'http://assets.itfind.me'),
+    //后台域名
+    'admin_host' => env('ADMIN_HOST', 'http://admin.itfind.me'),
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

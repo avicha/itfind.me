@@ -22,7 +22,7 @@ class Authenticate
             if ($request->ajax() || $request->wantsJson()) {
                 return response(['code'=> Response::HTTP_UNAUTHORIZED, 'msg'=> 'Unauthorized.'], Response::HTTP_UNAUTHORIZED);
             } else {
-                return redirect('/login?redirect_uri='.urlencode($request->getUri()));
+                return redirect()->route('login', ['redirect_uri' => $request->getUri()]);
             }
         }
 

@@ -24,9 +24,9 @@
     <!-- 设置苹果工具栏颜色 -->
     <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
     <!-- 添加到主屏后的标题（iOS 6 新增） -->
-    <meta name="apple-mobile-web-app-title" content="@section('meta_apple_title')标题 @show" />
+    <meta name="apple-mobile-web-app-title" content="itfind.me-@section('meta_apple_title')标题 @show" />
     @show
-    <title>@section('title')标题 @show</title>
+    <title>itfind.me-@section('title')标题 @show</title>
     <!-- 添加 favicon icon -->
     <link rel="shortcut icon" type="image/x-icon" href="@section('favicon'){{ config('app.static_host') }}/img/common/favicon.ico @show" />
     @yield('stylesheet')

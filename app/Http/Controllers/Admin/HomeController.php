@@ -25,6 +25,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('pc.admin.index');
+        return view(\App\Common\Utils::getAgent().'.admin.index');
     }
 }

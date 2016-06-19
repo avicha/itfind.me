@@ -1,18 +1,18 @@
 @extends('pc.app')
-@section('title', 'Avicha\'s Blog')
 
+@section('title', Auth::user()->nick.'的博客')
 @section('meta')
     @parent
-    @section('meta_description', 'Avicha的博客')
-    @section('meta_keywords', 'Avicha,blog')
-    @section('meta_apple_title', 'Avicha的博客')
+    @section('meta_description', Auth::user()->nick.'的博客')
+    @section('meta_keywords', 'blog,博客')
+    @section('meta_apple_title', Auth::user()->nick.'的博客')
 @stop
 
 @section('stylesheet')
     <link rel="stylesheet" type="text/css" href="{{ config('app.static_host') }}/css/pc/admin/entries/index.css" />
 @stop
 
-@section('body')
+@section('content')
 @stop
 
 @section('javascript')
