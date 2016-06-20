@@ -1,10 +1,10 @@
 module.exports = {
-    context: __dirname + '/resources/assets/js/pc',
+    context: __dirname + '/resources/assets/js/pc/admin',
     entry: {
-        index: ['./entries/index.js']
+        'index': ['./entries/index.js']
     },
     output: {
-        path: './public/assets/js/pc/entries',
+        path: './public/assets/js/pc/admin/entries',
         filename: '[name].bundle.js'
     },
     module: {
