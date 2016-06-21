@@ -6,21 +6,23 @@ export default class Menu extends Component {
         return (
             <div className="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                 <div className="panel panel-default">
-                    <div class="panel-heading" role="tab" id="article-manage-tab">
-                      <h4 class="panel-title">
-                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#article-manage" aria-expanded="true" aria-controls="article-manage">
+                    <div className="panel-heading" role="tab" id="article-manage-tab">
+                        <h4 className="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#article-manage" aria-expanded="false" aria-controls="article-manage">
                           文章管理
-                        </a>
-                      </h4>
+                            </a>
+                        </h4>
                     </div>
-                    <div id="article-manage" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="article-manage-tab">
-                        <div class="panel-body">
-                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="/article" aria-expanded="true" aria-controls="article-manage">
-                          文章管理
-                        </a>
-                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#article-manage" aria-expanded="true" aria-controls="article-manage">
-                          文章管理
-                        </a>
+                    <div id="article-manage" className="panel-collapse collapse" role="tabpanel" aria-labelledby="article-manage-tab">
+                        <div className="panel-body">
+                            <ul className="nav nav-pills nav-stacked">
+                                <li>
+                                    <a href="/article" target="_blank">文章列表</a>
+                                </li>
+                                <li>
+                                    <a href="/article/create" target="_blank">写文章</a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
