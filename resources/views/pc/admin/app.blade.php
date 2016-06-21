@@ -1,11 +1,12 @@
 @extends('pc.app')
 
-@section('title', Auth::user()->nick.'的博客-管理后台')
+@section('title', '管理后台')
+
 @section('meta')
     @parent
-    @section('meta_description', Auth::user()->nick.'的博客-管理后台')
+    @section('meta_description', '管理后台')
     @section('meta_keywords', 'blog,博客,管理后台')
-    @section('meta_apple_title', Auth::user()->nick.'的博客-管理后台')
+    @section('meta_author', 'avicha, avichabc@gmail.com')
 @endsection
 
 @section('stylesheet')
@@ -16,8 +17,8 @@
 @include('pc.auth.nav')
 <div class="container">
     <div class="row">
-        <div id="left-panel" class="col-md-2"></div>
-        <div id="right-panel" class="col-md-10"></div>
+        <div id="left-panel" class="col-md-3"></div>
+        <div id="right-panel" class="col-md-9"></div>
     </div>
 </div>
 @endsection

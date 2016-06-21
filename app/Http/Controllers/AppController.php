@@ -12,4 +12,13 @@ class AppController extends Controller
     {
         return view(\App\Common\Utils::getAgent().'.index');
     }
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function adminIndexView()
+    {
+        return view(\App\Common\Utils::getAgent().'.admin.index');
+    }
 }

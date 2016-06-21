@@ -11,9 +11,13 @@
 |
 */
 //后台
-Route::group(['domain' => 'admin.itfind.me', 'namespace' => 'Admin', 'middleware' => 'auth'], function(){
+Route::group(['domain' => 'admin.itfind.me', 'middleware' => 'auth'], function(){
     //首页
-    Route::get('/', ['as' => 'admin_index', 'uses' => 'HomeController@index']);
+    Route::get('/', ['as' => 'admin_index', 'uses' => 'AppController@adminIndexView']);
+    //文章管理
+    Route::group(['prefix' => 'article'], function(){
+        Route::get('/create', 'ArticleController@createView');
+    });
 });
 //主站点
 Route::group(['domain' => config('main_host')], function(){

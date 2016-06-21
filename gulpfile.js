@@ -46,12 +46,12 @@ gulp.task('clean:img', function() {
 });
 //copy common
 gulp.task('copy:lib-css', ['clean:lib-css'], function() {
-    return gulp.src([SOURCE + '/css/lib/**/*.css']).pipe(cleanCSS({
+    return gulp.src([SOURCE + '/css/lib/**/*']).pipe(cleanCSS({
         compatibility: 'ie8'
     })).pipe(gulp.dest(BUILD + '/css/lib'));
 });
 gulp.task('copy:lib-css-dev', ['clean:lib-css'], function() {
-    return gulp.src([SOURCE + '/css/lib/**/*.css']).pipe(gulp.dest(BUILD + '/css/lib'));
+    return gulp.src([SOURCE + '/css/lib/**/*']).pipe(gulp.dest(BUILD + '/css/lib'));
 });
 gulp.task('copy:lib-js', ['clean:lib-js'], function() {
     return gulp.src([SOURCE + '/js/lib/**/*.js']).pipe(uglify()).pipe(gulp.dest(BUILD + '/js/lib'));

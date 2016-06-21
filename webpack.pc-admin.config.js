@@ -1,7 +1,8 @@
 module.exports = {
     context: __dirname + '/resources/assets/js/pc/admin',
     entry: {
-        'index': ['./entries/index.js']
+        'index': ['./entries/index.js'],
+        'article/edit': ['./entries/article/edit.js']
     },
     output: {
         path: './public/assets/js/pc/admin/entries',
@@ -19,7 +20,8 @@ module.exports = {
     },
     externals: {
         'react': 'React',
-        'react-dom': 'ReactDOM'
+        'react-dom': 'ReactDOM',
+        'qs': 'qs'
     },
     resolve: {
         extensions: ['', '.js', '.jsx']

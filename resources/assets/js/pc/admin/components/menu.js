@@ -3,27 +3,26 @@ import React, {
 } from 'react';
 export default class Menu extends Component {
     render() {
+        let url = window.location.pathname;
         return (
             <div className="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                 <div className="panel panel-default">
                     <div className="panel-heading" role="tab" id="article-manage-tab">
                         <h4 className="panel-title">
-                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#article-manage" aria-expanded="false" aria-controls="article-manage">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#article-manage">
                           文章管理
                             </a>
                         </h4>
                     </div>
-                    <div id="article-manage" className="panel-collapse collapse" role="tabpanel" aria-labelledby="article-manage-tab">
-                        <div className="panel-body">
-                            <ul className="nav nav-pills nav-stacked">
-                                <li>
-                                    <a href="/article" target="_blank">文章列表</a>
-                                </li>
-                                <li>
-                                    <a href="/article/create" target="_blank">写文章</a>
-                                </li>
-                            </ul>
-                        </div>
+                    <div id="article-manage" className="panel-collapse collapse in" role="tabpanel" aria-labelledby="article-manage-tab">
+                        <ul className="nav nav-pills nav-stacked">
+                            <li className={url == '/article'? 'active':''}>
+                                <a href="/article" target="_blank">文章列表</a>
+                            </li>
+                            <li className={url == '/article/create'? 'active' : ''}>
+                                <a href="/article/create" target="_blank">写文章</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
