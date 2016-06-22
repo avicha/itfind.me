@@ -2,7 +2,8 @@ module.exports = {
     context: __dirname + '/resources/assets/js/pc/admin',
     entry: {
         'index': ['./entries/index.js'],
-        'article/edit': ['./entries/article/edit.js']
+        'article/edit': ['./entries/article/edit.js'],
+        'article_category/list': ['./entries/article_category/list.js']
     },
     output: {
         path: './public/assets/js/pc/admin/entries',

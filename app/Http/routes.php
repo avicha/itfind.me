@@ -18,6 +18,7 @@ Route::group(['domain' => 'admin.itfind.me', 'middleware' => 'auth'], function()
     Route::group(['prefix' => 'article'], function(){
         Route::get('/create', 'ArticleController@createView');
     });
+    Route::resource('article_category', 'ArticleCategoryController');
 });
 //主站点
 Route::group(['domain' => config('main_host')], function(){

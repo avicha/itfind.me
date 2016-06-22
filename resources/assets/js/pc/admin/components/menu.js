@@ -16,11 +16,14 @@ export default class Menu extends Component {
                     </div>
                     <div id="article-manage" className="panel-collapse collapse in" role="tabpanel" aria-labelledby="article-manage-tab">
                         <ul className="nav nav-pills nav-stacked">
+                            <li className={url == '/article_category'? 'active':''}>
+                                <a href="/article_category">分类管理</a>
+                            </li>
                             <li className={url == '/article'? 'active':''}>
-                                <a href="/article" target="_blank">文章列表</a>
+                                <a href="/article">文章列表</a>
                             </li>
                             <li className={url == '/article/create'? 'active' : ''}>
-                                <a href="/article/create" target="_blank">写文章</a>
+                                <a href="/article/create">写文章</a>
                             </li>
                         </ul>
                     </div>
