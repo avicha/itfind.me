@@ -22,9 +22,13 @@ module.exports = {
     externals: {
         'react': 'React',
         'react-dom': 'ReactDOM',
-        'qs': 'qs'
+        'qs': 'qs',
+        'jquery': 'jQuery',
     },
     resolve: {
-        extensions: ['', '.js', '.jsx']
+        extensions: ['', '.js', '.jsx'],
+        alias: {
+            jQuery: 'jquery' // 强制转换包名
+        }
     }
 }
