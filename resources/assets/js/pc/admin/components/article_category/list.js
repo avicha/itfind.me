@@ -1,7 +1,7 @@
 import React, {
     Component
 } from 'react';
-import $ from 'jquery';
+import ArticleCategoryModel from 'models/article_category';
 export default class ArticleCategoryTable extends Component {
     constructor(props) {
         super(props);
@@ -10,11 +10,19 @@ export default class ArticleCategoryTable extends Component {
         };
     }
     componentDidMount() {
-        $.get('/article_category', function(res) {
-            this.setState({
-                article_categories: res.data
-            });
-        }.bind(this), 'json');
+        let self = this;
+        ArticleCategoryModel.list(({
+            err,
+            data
+        }) => {
+            if (err) {
+                alert(err);
+            } else {
+                self.setState({
+                    article_categories: data
+                });
+            }
+        });
     }
     render() {
         return (

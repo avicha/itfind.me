@@ -28,7 +28,7 @@ module.exports = {
     resolve: {
         extensions: ['', '.js', '.jsx'],
         alias: {
-            jQuery: 'jquery' // 强制转换包名
+            models: '../../../models' // 强制转换包名
         }
     }
 }
