@@ -5,5 +5,4 @@ export default class ArticleCategoryModel extends BaseModel {
         super(props);
         this.urlRoot = '/article_category';
     }
-
 }

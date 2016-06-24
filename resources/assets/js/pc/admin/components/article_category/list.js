@@ -20,18 +20,19 @@ export default class ArticleCategoryTable extends Component {
     }
     createArticleCategory(article_category) {
         this.state.article_categories.push(article_category);
-        console.log(this);
         this.setState(this.state);
     }
     handleArticleCategoryRemove(id) {
         let index = this.state.article_categories.findIndex(article_category => article_category.id == id);
         if (~index) {
             let article_category = this.state.article_categories[index];
-            console.log(article_category);
-            article_category.remove().done(() => {
-                this.state.article_categories.splice(index, 1);
-                this.setState(this.state);
-            });
+            if (window.confirm('确认删除文章分类-' + article_category.name + '?')) {
+                article_category.remove().done(() => {
+                    alert('删除成功');
+                    this.state.article_categories.splice(index, 1);
+                    this.setState(this.state);
+                });
+            }
         }
     }
     render() {

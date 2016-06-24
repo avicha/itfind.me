@@ -6,10 +6,10 @@ export default class BaseModel {
         this.idAttribute = 'id';
     }
     get(attribute_name) {
-        return this.attributes[attribute_name];
+        return this[attribute_name];
     }
     set(attribute_name, attribute_value) {
-        this.attributes[attribute_name] = attribute_value;
+        this[attribute_name] = attribute_value;
         return this;
     }
     static list(filter = {}) {
@@ -37,7 +37,7 @@ export default class BaseModel {
             },
             contentType: 'application/json; charset=UTF-8',
             dataType: 'json',
-            success: (res) => {
+            success: res => {
                 $.extend(this, res.data);
             }
         });

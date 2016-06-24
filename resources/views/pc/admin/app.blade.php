@@ -15,11 +15,8 @@
 
 @section('content')
 @include('pc.auth.nav')
-<div class="container">
-    <div class="row">
-        <div id="left-panel" class="col-md-3"></div>
-        <div id="right-panel" class="col-md-9"></div>
-    </div>
+<div id="root" class="container">
+    
 </div>
 @endsection
 

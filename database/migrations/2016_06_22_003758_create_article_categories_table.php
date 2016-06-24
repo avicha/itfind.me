@@ -14,7 +14,7 @@ class CreateArticleCategoriesTable extends Migration
     {
         Schema::create('article_categories', function (Blueprint $table) {
             $table->increments('id')->comment('文章分类ID');
-            $table->string('name')->unique()->comment('名称');
+            $table->string('name')->comment('名称');
             $table->integer('user_id')->unsigned()->comment('作者ID');
             $table->timestamps();
             $table->softDeletes();

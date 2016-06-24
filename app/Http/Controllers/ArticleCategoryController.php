@@ -17,7 +17,7 @@ class ArticleCategoryController extends Controller
     public function index(Request $request)
     {
         if($request->isXmlHttpRequest()){
-            return response()->json(['code' => 0, 'data' => ArticleCategory::where('user_id', $request->user()->id)->get()->toArray()]);
+            return response()->json(['code' => 0, 'data' => ArticleCategory::where('user_id', $request->user()->id)->select(['id', 'name'])->get()->toArray()]);
         }else{
             return view(\App\Common\Utils::getAgent().'.admin.article_category.list');
         }
@@ -45,7 +45,7 @@ class ArticleCategoryController extends Controller
         $article_category->name = $request->input('name');
         $article_category->user_id = $request->user()->id;
         $article_category->save();
-        return response()->json(['code' => 0, 'data' => $article_category]);
+        return response()->json(['code' => 0, 'data' => ['created_at' => $article_category->created_at->format('Y-m-d h:i:s'), 'id' => $article_category->id]]);
     }
 
     /**
@@ -90,10 +90,8 @@ class ArticleCategoryController extends Controller
      */
     public function destroy($id)
     {
-        $article_category = ArticleCategory::find($id);
-        if($article_category){
-            $article_category->delete();
-            return response()->json(['code' => 0, 'data' => $article_category]);
-        }
+        $article_category = ArticleCategory::findOrfail($id);
+        $article_category->delete();
+        return response()->json(['code' => 0, 'data' => ['deleted_at' => $article_category->deleted_at->format('Y-m-d h:i:s')]]);
     }
 }
