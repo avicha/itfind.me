@@ -1,3 +1,4 @@
+var path = require('path');
 module.exports = {
     context: __dirname + '/resources/assets/js/pc/admin',
     entry: {
@@ -27,8 +28,6 @@ module.exports = {
     },
     resolve: {
         extensions: ['', '.js', '.jsx'],
-        alias: {
-            models: '../../../models' // 强制转换包名
-        }
+        root: [path.resolve('node_modules'), path.resolve('resources/assets/js')]
     }
 }

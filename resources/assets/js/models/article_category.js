@@ -1,13 +1,9 @@
 import $ from 'jquery';
-class ArticleCategory {
-    static list(callback) {
-        $.ajax('/article_category', {
-            success: (res) => {
-                callback(null, res.data);
-            },
-            error: (xhr, response, error) => {
-                callback(xhr.responseText);
-            }
-        });
+import BaseModel from 'models/base';
+export default class ArticleCategoryModel extends BaseModel {
+    constructor(props) {
+        super(props);
+        this.urlRoot = '/article_category';
     }
+
 }

@@ -14,10 +14,10 @@ class ArticleCategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $req)
+    public function index(Request $request)
     {
-        if($req->isXmlHttpRequest()){
-            return response()->json(['code' => 0, 'data' => ArticleCategory::where('user_id', $req->user()->id)->get()->toArray()]);
+        if($request->isXmlHttpRequest()){
+            return response()->json(['code' => 0, 'data' => ArticleCategory::where('user_id', $request->user()->id)->get()->toArray()]);
         }else{
             return view(\App\Common\Utils::getAgent().'.admin.article_category.list');
         }
@@ -41,7 +41,11 @@ class ArticleCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $article_category = new ArticleCategory();
+        $article_category->name = $request->input('name');
+        $article_category->user_id = $request->user()->id;
+        $article_category->save();
+        return response()->json(['code' => 0, 'data' => $article_category]);
     }
 
     /**
@@ -86,6 +90,10 @@ class ArticleCategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $article_category = ArticleCategory::find($id);
+        if($article_category){
+            $article_category->delete();
+            return response()->json(['code' => 0, 'data' => $article_category]);
+        }
     }
 }

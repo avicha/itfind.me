@@ -11,18 +11,28 @@ export default class ArticleCategoryTable extends Component {
     }
     componentDidMount() {
         let self = this;
-        ArticleCategoryModel.list(({
-            err,
-            data
-        }) => {
-            if (err) {
-                alert(err);
-            } else {
-                self.setState({
-                    article_categories: data
-                });
-            }
+        ArticleCategoryModel.list().done(res => {
+            let article_categories = res.data.map(article_category => new ArticleCategoryModel(article_category));
+            this.setState({
+                article_categories: article_categories
+            });
         });
+    }
+    createArticleCategory(article_category) {
+        this.state.article_categories.push(article_category);
+        console.log(this);
+        this.setState(this.state);
+    }
+    handleArticleCategoryRemove(id) {
+        let index = this.state.article_categories.findIndex(article_category => article_category.id == id);
+        if (~index) {
+            let article_category = this.state.article_categories[index];
+            console.log(article_category);
+            article_category.remove().done(() => {
+                this.state.article_categories.splice(index, 1);
+                this.setState(this.state);
+            });
+        }
     }
     render() {
         return (
@@ -35,7 +45,7 @@ export default class ArticleCategoryTable extends Component {
                 </thead>
                 <tbody>
                     {this.state.article_categories.map((article_category)=>{
-                        return <tr><td>{article_category.name}</td><td><a className="btn btn-info btn-xs edit"><span className="glyphicon glyphicon-edit"></span> 编辑</a></td></tr>
+                        return <tr key={article_category.id}><td>{article_category.name}</td><td><a className="btn btn-info btn-xs"><span className="glyphicon glyphicon-edit"></span> 编辑</a> <a className="btn btn-danger btn-xs" onClick={this.handleArticleCategoryRemove.bind(this, article_category.id)}><span className="glyphicon glyphicon-remove"></span> 删除</a></td></tr>
                     })}
                 </tbody>
             </table>
