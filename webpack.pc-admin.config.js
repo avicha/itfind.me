@@ -25,6 +25,8 @@ module.exports = {
         'react-dom': 'ReactDOM',
         'qs': 'qs',
         'jquery': 'jQuery',
+        'react-redux': 'ReactRedux',
+        'redux': 'Redux'
     },
     resolve: {
         extensions: ['', '.js', '.jsx'],

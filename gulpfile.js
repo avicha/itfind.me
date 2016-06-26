@@ -160,6 +160,6 @@ gulp.task('dev', ['copy:lib-css-dev', 'copy:lib-js-dev'], function() {
 //watch 全部
 gulp.task('watch', function() {
     blocks.forEach(function(block) {
-        gulp.start(block + '-watch');
+        gulp.start('watch:' + block);
     });
 });

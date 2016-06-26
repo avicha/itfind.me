@@ -12,6 +12,19 @@ export default class BaseModel {
         this[attribute_name] = attribute_value;
         return this;
     }
+    _getId() {
+        return this[this.idAttribute];
+    }
+    _getAttributes() {
+        let attributes = {};
+        let blackProps = ['urlRoot', 'idAttribute'];
+        for (let prop in this) {
+            if (!blackProps.includes(prop)) {
+                attributes[prop] = this[prop];
+            }
+        }
+        return attributes;
+    }
     static list(filter = {}) {
         return $.ajax({
             url: this.urlRoot,
@@ -20,14 +33,36 @@ export default class BaseModel {
             dataType: 'json',
         });
     }
-    create() {
-        let attributes = {};
-        let blackProps = ['urlRoot', 'idAttribute'];
-        for (let prop in this) {
-            if (!blackProps.includes(prop)) {
-                attributes[prop] = this[prop];
+    get() {
+        let id = this._getId();
+        return $.ajax({
+            url: this.urlRoot + '/' + id,
+            type: 'get',
+            dataType: 'json',
+            success: res => {
+                $.extend(this, res.data);
             }
-        }
+        });
+    }
+    update(attributes = this._getAttributes()) {
+        let id = this._getId();
+        return $.ajax({
+            url: this.urlRoot + '/' + id,
+            type: 'put',
+            data: JSON.stringify(attributes),
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            contentType: 'application/json; charset=UTF-8',
+            dataType: 'json',
+            success: res => {
+                $.extend(this, attributes);
+                $.extend(this, res.data);
+            }
+        });
+    }
+    create() {
+        let attributes = this._getAttributes();
         return $.ajax({
             url: this.urlRoot,
             type: 'post',
@@ -42,8 +77,16 @@ export default class BaseModel {
             }
         });
     }
+    save() {
+        let id = this._getId();
+        if (id) {
+            return this.update();
+        } else {
+            return this.create();
+        }
+    }
     remove() {
-        let id = this[this.idAttribute];
+        let id = this._getId();
         return $.ajax({
             url: this.urlRoot + '/' + id,
             type: 'delete',

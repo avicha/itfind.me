@@ -56,7 +56,8 @@ class ArticleCategoryController extends Controller
      */
     public function show($id)
     {
-        //
+        $article_category = ArticleCategory::select(['id', 'name'])->findOrfail($id);
+        return response()->json(['code' => 0, 'data' => $article_category]);
     }
 
     /**
@@ -79,7 +80,10 @@ class ArticleCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->only(['name']);
+        $article_category = ArticleCategory::findOrfail($id);
+        $article_category->update($data);
+        return response()->json(['code' => 0, 'data' => ['updated_at' => $article_category->updated_at->format('Y-m-d h:i:s')]]);
     }
 
     /**
