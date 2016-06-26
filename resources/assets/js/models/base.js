@@ -1,7 +1,17 @@
 import $ from 'jquery';
+import request from 'superagent';
+import superagentPromisePlugin from 'superagent-promise-plugin';
+import Es6Promise from 'es6-promise';
+superagentPromisePlugin.Promise = Es6Promise.Promise;
+let extend = (base, other) => {
+    for (let prop in other) {
+        base[prop] = other[prop];
+    }
+    return base;
+}
 export default class BaseModel {
     constructor(attributes = {}) {
-        $.extend(this, attributes);
+        extend(this, attributes);
         this.urlRoot = '';
         this.idAttribute = 'id';
     }
@@ -26,55 +36,44 @@ export default class BaseModel {
         return attributes;
     }
     static list(filter = {}) {
-        return $.ajax({
-            url: this.urlRoot,
-            type: 'get',
-            data: filter,
-            dataType: 'json',
-        });
+        return request.get(this.urlRoot).query(filter).set({
+            Accept: 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+        }).use(superagentPromisePlugin).then(res => res.body);
     }
     get() {
         let id = this._getId();
-        return $.ajax({
-            url: this.urlRoot + '/' + id,
-            type: 'get',
-            dataType: 'json',
-            success: res => {
-                $.extend(this, res.data);
-            }
+        return request.get(this.urlRoot + '/' + id).set({
+            Accept: 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+        }).use(superagentPromisePlugin).then(res => {
+            extend(this, res.body.data);
+            return res.body;
         });
     }
     update(attributes = this._getAttributes()) {
         let id = this._getId();
-        return $.ajax({
-            url: this.urlRoot + '/' + id,
-            type: 'put',
-            data: JSON.stringify(attributes),
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            contentType: 'application/json; charset=UTF-8',
-            dataType: 'json',
-            success: res => {
-                $.extend(this, attributes);
-                $.extend(this, res.data);
-            }
+        return request.put(this.urlRoot + '/' + id).set({
+            Accept: 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'Content-Type': 'application/json; charset=UTF-8',
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }).send(JSON.stringify(attributes)).then(res => {
+            extend(this, attributes);
+            extend(this, res.body.data);
+            return res.body;
         });
     }
     create() {
         let attributes = this._getAttributes();
-        return $.ajax({
-            url: this.urlRoot,
-            type: 'post',
-            data: JSON.stringify(attributes),
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            contentType: 'application/json; charset=UTF-8',
-            dataType: 'json',
-            success: res => {
-                $.extend(this, res.data);
-            }
+        return request.put(this.urlRoot).set({
+            Accept: 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'Content-Type': 'application/json; charset=UTF-8',
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }).send(JSON.stringify(attributes)).then(res => {
+            extend(this, res.body.data);
+            return res.body;
         });
     }
     save() {
@@ -87,13 +86,12 @@ export default class BaseModel {
     }
     remove() {
         let id = this._getId();
-        return $.ajax({
-            url: this.urlRoot + '/' + id,
-            type: 'delete',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            dataType: 'json',
+        return request.del(this.urlRoot + '/' + id).set({
+            Accept: 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+        }).use(superagentPromisePlugin).then(res => {
+            extend(this, res.body.data);
+            return res.body;
         });
     }
 }

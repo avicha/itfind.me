@@ -1,6 +1,6 @@
 @extends('pc.admin.app')
 
-@section('title', '文章文章分类')
+@section('title', '文章分类')
 
 @section('javascript')
 @parent

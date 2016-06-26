@@ -4,7 +4,10 @@ import {
 let url = (state, action) => window.location.pathname
 let article_categories = (state = [], action) => {
     switch (action.type) {
-        default: return state;
+        case 'receiveList':
+            return action.payload;
+        default:
+            return state;
     }
 }
 const article_category_list = combineReducers({

@@ -1,8 +1,10 @@
 import $ from 'jquery';
 import BaseModel from 'models/base';
-export default class ArticleCategoryModel extends BaseModel {
+class ArticleCategoryModel extends BaseModel {
     constructor(props) {
         super(props);
         this.urlRoot = '/article_category';
     }
 }
+ArticleCategoryModel.urlRoot = '/article_category';
+export default ArticleCategoryModel
