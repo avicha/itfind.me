@@ -10,6 +10,7 @@ import {
 const mapStateToProps = (state, ownProps) => ({})
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
+    dispatch: dispatch,
     onCreateArticleCategoryBtnClick: () => {
         dispatch(setArticleCategoryEditModalStatus(visibility_types.VISIBLE));
     }

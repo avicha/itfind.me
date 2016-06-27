@@ -8,6 +8,8 @@ let article_categories = (state = [], action) => {
     switch (action.type) {
         case action_types.article_category.RECEIVE_LIST:
             return action.data;
+        case action_types.article_category.RECEIVE_CREATE:
+            return [...state, action.data];
         default:
             return state;
     }
