@@ -11,7 +11,7 @@ import {
     applyMiddleware
 } from 'redux'
 import article_category_list from '../../reducers/article_category'
-import Menu from '../../containers/menu';
+import Menu from '../../components/menu';
 import ArticleCategoryNav from '../../containers/article_category/nav';
 import ArticleCategoryTable from '../../containers/article_category/table';
 import ArticleCategoryEditModal from '../../containers/article_category/edit_modal';
