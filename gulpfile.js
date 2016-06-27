@@ -1,6 +1,7 @@
 var fs = require('fs');
 var gulp = require('gulp');
-var gutil = require("gulp-util");
+var gutil = require('gulp-util');
+var gulpif = require('gulp-if');
 var del = require('del');
 var webpack = require('webpack');
 //CSS
@@ -46,9 +47,9 @@ gulp.task('clean:img', function() {
 });
 //copy common
 gulp.task('copy:lib-css', ['clean:lib-css'], function() {
-    return gulp.src([SOURCE + '/css/lib/**/*']).pipe(cleanCSS({
+    return gulp.src([SOURCE + '/css/lib/**/*']).pipe(gulpif('*.css', cleanCSS({
         compatibility: 'ie8'
-    })).pipe(gulp.dest(BUILD + '/css/lib'));
+    }))).pipe(gulp.dest(BUILD + '/css/lib'));
 });
 gulp.task('copy:lib-css-dev', ['clean:lib-css'], function() {
     return gulp.src([SOURCE + '/css/lib/**/*']).pipe(gulp.dest(BUILD + '/css/lib'));
@@ -119,13 +120,13 @@ var generateBlockTasks = function(block, blockPath) {
     });
     //copy block html
     gulp.task(block + '-html', [block + '-js', block + '-sass', 'clean:' + block + '-html'], function() {
-        return gulp.src(VIEWS_ROOT + blockPath + '/**/*').pipe(revReplace({
+        return gulp.src(VIEWS_ROOT).pipe(gulpif(blockPath + '/**/*', revReplace({
             replaceInExtensions: ['.js', '.css', '.html', '.hbs', '.php'],
             manifest: gulp.src(BUILD + '/' + block + '-rev-manifest.json')
-        })).pipe(htmlmin({
+        }), htmlmin({
             collapseWhitespace: true,
             removeComments: true
-        })).pipe(gulp.dest(VIEWS_BUILD_ROOT + blockPath));
+        }))).pipe(gulp.dest(VIEWS_BUILD_ROOT));
     });
     //watch block
     gulp.task('watch:' + block, function() {

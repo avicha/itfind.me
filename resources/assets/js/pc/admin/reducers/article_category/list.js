@@ -5,7 +5,7 @@ let url = (state, action) => window.location.pathname
 let article_categories = (state = [], action) => {
     switch (action.type) {
         case 'receiveList':
-            return action.payload;
+            return action.data;
         default:
             return state;
     }

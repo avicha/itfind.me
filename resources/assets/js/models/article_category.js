@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import BaseModel from 'models/base';
 class ArticleCategoryModel extends BaseModel {
     constructor(props) {

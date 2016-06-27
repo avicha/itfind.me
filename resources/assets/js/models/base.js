@@ -1,8 +1,5 @@
 import $ from 'jquery';
-import request from 'superagent';
-import superagentPromisePlugin from 'superagent-promise-plugin';
-import Es6Promise from 'es6-promise';
-superagentPromisePlugin.Promise = Es6Promise.Promise;
+
 let extend = (base, other) => {
     for (let prop in other) {
         base[prop] = other[prop];
@@ -36,44 +33,72 @@ export default class BaseModel {
         return attributes;
     }
     static list(filter = {}) {
-        return request.get(this.urlRoot).query(filter).set({
-            Accept: 'application/json',
-            'X-Requested-With': 'XMLHttpRequest'
-        }).use(superagentPromisePlugin).then(res => res.body);
+        return fetch(this.urlRoot, {
+            method: 'get',
+            headers: new Headers({
+                Accept: 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            }),
+            body: filter,
+            credentials: 'include',
+        }).then(res => res.json());
     }
     get() {
         let id = this._getId();
-        return request.get(this.urlRoot + '/' + id).set({
-            Accept: 'application/json',
-            'X-Requested-With': 'XMLHttpRequest'
-        }).use(superagentPromisePlugin).then(res => {
-            extend(this, res.body.data);
-            return res.body;
+        return fetch(this.urlRoot + '/' + id, {
+            method: 'get',
+            headers: new Headers({
+                Accept: 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            }),
+            credentials: 'include',
+        }).then(res => {
+            let response = res.json();
+            if (!response.code) {
+                extend(this, response.data);
+            }
+            return response;
         });
     }
     update(attributes = this._getAttributes()) {
         let id = this._getId();
-        return request.put(this.urlRoot + '/' + id).set({
-            Accept: 'application/json',
-            'X-Requested-With': 'XMLHttpRequest',
-            'Content-Type': 'application/json; charset=UTF-8',
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }).send(JSON.stringify(attributes)).then(res => {
-            extend(this, attributes);
-            extend(this, res.body.data);
-            return res.body;
+        return fetch(this.urlRoot + '/' + id, {
+            method: 'put',
+            headers: new Headers({
+                Accept: 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/json; charset=UTF-8',
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }),
+            body: JSON.stringify(attributes),
+            credentials: 'include',
+        }).then(res => {
+            let response = res.json();
+            if (!response.code) {
+                extend(this, attributes);
+                extend(this, response.data);
+            }
+            return response;
         });
     }
     create() {
         let attributes = this._getAttributes();
-        return request.put(this.urlRoot).set({
-            Accept: 'application/json',
-            'X-Requested-With': 'XMLHttpRequest',
-            'Content-Type': 'application/json; charset=UTF-8',
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }).send(JSON.stringify(attributes)).then(res => {
-            extend(this, res.body.data);
-            return res.body;
+        return fetch(this.urlRoot, {
+            method: 'post',
+            headers: new Headers({
+                Accept: 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/json; charset=UTF-8',
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }),
+            body: JSON.stringify(attributes),
+            credentials: 'include',
+        }).then(res => {
+            let response = res.json();
+            if (!response.code) {
+                extend(this, response.data);
+            }
+            return response;
         });
     }
     save() {
@@ -86,12 +111,20 @@ export default class BaseModel {
     }
     remove() {
         let id = this._getId();
-        return request.del(this.urlRoot + '/' + id).set({
-            Accept: 'application/json',
-            'X-Requested-With': 'XMLHttpRequest'
-        }).use(superagentPromisePlugin).then(res => {
-            extend(this, res.body.data);
-            return res.body;
+        return fetch(this.urlRoot + '/' + id, {
+            method: 'delete',
+            headers: {
+                Accept: 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            credentials: 'include'
+        }).then(res => {
+            let response = res.json();
+            if (!response.code) {
+                extend(this, response.data);
+            }
+            return response;
         });
     }
 }

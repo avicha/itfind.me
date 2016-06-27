@@ -10,10 +10,10 @@ let requestList = (filter = {}) => {
         });
     }
 }
-let receiveList = (error, payload) => {
+let receiveList = (error, data) => {
     return {
         type: 'receiveList',
-        payload,
+        data,
         error: error
     }
 }

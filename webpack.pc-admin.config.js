@@ -21,12 +21,11 @@ module.exports = {
         }]
     },
     externals: {
-        'react': 'React',
-        'react-dom': 'ReactDOM',
-        'qs': 'qs',
+        // 'react': 'React',
+        // 'react-dom': 'ReactDOM',
         'jquery': 'jQuery',
-        'react-redux': 'ReactRedux',
-        'redux': 'Redux'
+        // 'react-redux': 'ReactRedux',
+        // 'redux': 'Redux'
     },
     resolve: {
         extensions: ['', '.js', '.jsx'],
