@@ -1,0 +1,6 @@
+export default {
+    article_category: {
+        RECEIVE_LIST: 'RECEIVE_ARTICLE_CATEGORY_LIST',
+        SET_EDIT_MODAL_STATUS: 'SET_ARTICLE_CATEGORY_EDIT_MODAL_STATUS'
+    }
+}

@@ -3,7 +3,9 @@ import {
 } from 'react-redux'
 import EditModal from '../../components/article_category/edit_modal'
 
-const mapStateToProps = (state, ownProps) => ({})
+const mapStateToProps = (state, ownProps) => ({
+    edit_modal_status: state.edit_modal_status
+})
 
 const mapDispatchToProps = (dispatch, ownProps) => ({})
 
