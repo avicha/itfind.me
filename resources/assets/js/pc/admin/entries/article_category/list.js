@@ -10,7 +10,7 @@ import {
     createStore,
     applyMiddleware
 } from 'redux'
-import article_category_list from '../../reducers/article_category/list'
+import article_category_list from '../../reducers/article_category'
 import Menu from '../../containers/menu';
 import ArticleCategoryNav from '../../containers/article_category/nav';
 import ArticleCategoryTable from '../../containers/article_category/table';

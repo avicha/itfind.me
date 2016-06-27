@@ -1,8 +1,7 @@
 import React from 'react';
-const Menu = ({
-    url
-}) => (
-    <div className="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+const Menu = () => {
+    let url = window.location.pathname;
+    return <div className="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
         <div className="panel panel-default">
             <div className="panel-heading" role="tab" id="article-manage-tab">
                 <h4 className="panel-title">
@@ -26,5 +25,5 @@ const Menu = ({
             </div>
         </div>
     </div>
-)
+}
 export default Menu
