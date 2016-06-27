@@ -67,13 +67,13 @@ gulp.task('copy:img', ['clean:img'], function() {
 var generateBlockTasks = function(block, blockPath) {
     //clean block
     gulp.task('clean:' + block + '-css', function() {
-        return del([BUILD + '/css' + blockPath + '/**/*']);
+        return del([BUILD + '/css/' + blockPath + '/**/*']);
     });
     gulp.task('clean:' + block + '-js', function() {
-        return del([BUILD + '/js' + blockPath + '/**/*']);
+        return del([BUILD + '/js/' + blockPath + '/**/*']);
     });
     gulp.task('clean:' + block + '-html', function() {
-        return del([VIEWS_BUILD_ROOT + blockPath + '/**/*']);
+        return del([VIEWS_BUILD_ROOT + '/' + blockPath + '/**/*']);
     });
     //clean block rev-manifest
     gulp.task('clean:' + block + '-rev-manifest', function() {
@@ -91,17 +91,17 @@ var generateBlockTasks = function(block, blockPath) {
         });
     });
     gulp.task(block + '-js', [block + '-webpack'], function() {
-        return gulp.src([BUILD + '/js' + blockPath + '/**/*.js']).pipe(jshint()).pipe(uglify()).pipe(rev()).pipe(gulp.dest(BUILD + '/js' + blockPath)).pipe(rev.manifest(BUILD + '/' + block + '-rev-manifest.json', {
+        return gulp.src([BUILD + '/js/' + blockPath + '/**/*.js']).pipe(jshint()).pipe(uglify()).pipe(rev()).pipe(gulp.dest(BUILD + '/js/' + blockPath)).pipe(rev.manifest(BUILD + '/' + block + '-rev-manifest.json', {
             base: BUILD,
             merge: true
         })).pipe(gulp.dest(BUILD));
     });
     gulp.task(block + '-js-dev', [block + '-webpack'], function() {
-        return gulp.src([BUILD + '/js' + blockPath + '/**/*.js']).pipe(jshint()).pipe(gulp.dest(BUILD + '/js' + blockPath));
+        return gulp.src([BUILD + '/js/' + blockPath + '/**/*.js']).pipe(jshint()).pipe(gulp.dest(BUILD + '/js/' + blockPath));
     });
     //copy block css
     gulp.task(block + '-sass', ['clean:' + block + '-css', 'copy:img'], function() {
-        return gulp.src([SOURCE + '/css' + blockPath + '/**/*.scss']).pipe(replace('@host', STATIC_HOST)).pipe(sass().on('error', sass.logError)).pipe(autoprefixer({
+        return gulp.src([SOURCE + '/css/' + blockPath + '/**/*.scss']).pipe(replace('@host', STATIC_HOST)).pipe(sass().on('error', sass.logError)).pipe(autoprefixer({
             browsers: ['last 18 versions'],
             cascade: false
         })).pipe(csslint(SOURCE + '/css/.csslintrc.json')).pipe(csscomb(SOURCE + '/css/.csscomb.json')).pipe(cleanCSS({
@@ -110,17 +110,17 @@ var generateBlockTasks = function(block, blockPath) {
             baseDir: BUILD,
             maxWeightResource: 32768,
             extensionsAllowed: ['.gif', '.jpg', '.png']
-        })).pipe(rev()).pipe(gulp.dest(BUILD + '/css' + blockPath)).pipe(rev.manifest(BUILD + '/' + block + '-rev-manifest.json', {
+        })).pipe(rev()).pipe(gulp.dest(BUILD + '/css/' + blockPath)).pipe(rev.manifest(BUILD + '/' + block + '-rev-manifest.json', {
             base: BUILD,
             merge: true
         })).pipe(gulp.dest(BUILD));
     });
     gulp.task(block + '-sass-dev', ['clean:' + block + '-css', 'copy:img'], function() {
-        return gulp.src([SOURCE + '/css' + blockPath + '/**/*.scss']).pipe(replace('@host', STATIC_HOST)).pipe(sass().on('error', sass.logError)).pipe(gulp.dest(BUILD + '/css' + blockPath));
+        return gulp.src([SOURCE + '/css/' + blockPath + '/**/*.scss']).pipe(replace('@host', STATIC_HOST)).pipe(sass().on('error', sass.logError)).pipe(gulp.dest(BUILD + '/css/' + blockPath));
     });
     //copy block html
     gulp.task(block + '-html', [block + '-js', block + '-sass', 'clean:' + block + '-html'], function() {
-        return gulp.src(VIEWS_ROOT).pipe(gulpif(blockPath + '/**/*', revReplace({
+        return gulp.src(VIEWS_ROOT + '/**/*').pipe(gulpif(blockPath + '/**/*', revReplace({
             replaceInExtensions: ['.js', '.css', '.html', '.hbs', '.php'],
             manifest: gulp.src(BUILD + '/' + block + '-rev-manifest.json')
         }), htmlmin({
@@ -130,8 +130,8 @@ var generateBlockTasks = function(block, blockPath) {
     });
     //watch block
     gulp.task('watch:' + block, function() {
-        gulp.watch(SOURCE + '/js' + blockPath + '/**/*.js', [block + '-js-dev']);
-        gulp.watch(SOURCE + '/css' + blockPath + '/**/*.scss', [block + '-sass-dev']);
+        gulp.watch(SOURCE + '/js/' + blockPath + '/**/*.js', [block + '-js-dev']);
+        gulp.watch(SOURCE + '/css/' + blockPath + '/**/*.scss', [block + '-sass-dev']);
     });
     //build block
     gulp.task('build:' + block, ['copy:lib-css', 'copy:lib-js', block + '-html']);
@@ -140,9 +140,7 @@ var generateBlockTasks = function(block, blockPath) {
 };
 
 blocks.forEach(function(block) {
-    var blockPath = block.split('-').map(function(str) {
-        return '/' + str;
-    }).join('');
+    var blockPath = block.split('-').join('/');
     generateBlockTasks(block, blockPath);
 });
 //默认build全部
