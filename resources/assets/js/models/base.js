@@ -12,6 +12,9 @@ export default class BaseModel {
         this.urlRoot = '';
         this.idAttribute = 'id';
     }
+    clone() {
+        return new this.constructor(this._getAttributes());
+    }
     get(attribute_name) {
         return this[attribute_name];
     }
@@ -54,10 +57,12 @@ export default class BaseModel {
             credentials: 'include',
         }).then(res => {
             let response = res.json();
-            if (!response.code) {
-                extend(this, response.data);
-            }
-            return response;
+            return response.then(json => {
+                if (!json.code) {
+                    extend(this, json.data);
+                }
+                return json;
+            });
         });
     }
     update(attributes = this._getAttributes()) {
@@ -74,11 +79,13 @@ export default class BaseModel {
             credentials: 'include',
         }).then(res => {
             let response = res.json();
-            if (!response.code) {
-                extend(this, attributes);
-                extend(this, response.data);
-            }
-            return response;
+            return response.then(json => {
+                if (!json.code) {
+                    extend(this, attributes);
+                    extend(this, json.data);
+                }
+                return json;
+            });
         });
     }
     create() {
@@ -95,10 +102,12 @@ export default class BaseModel {
             credentials: 'include',
         }).then(res => {
             let response = res.json();
-            if (!response.code) {
-                extend(this, response.data);
-            }
-            return response;
+            return response.then(json => {
+                if (!json.code) {
+                    extend(this, json.data);
+                }
+                return json;
+            });
         });
     }
     save() {
@@ -121,10 +130,12 @@ export default class BaseModel {
             credentials: 'include'
         }).then(res => {
             let response = res.json();
-            if (!response.code) {
-                extend(this, response.data);
-            }
-            return response;
+            return response.then(json => {
+                if (!json.code) {
+                    extend(this, json.data);
+                }
+                return json;
+            });
         });
     }
 }

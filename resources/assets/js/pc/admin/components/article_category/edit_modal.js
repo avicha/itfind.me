@@ -1,40 +1,46 @@
 import React, {
     Component
 } from 'react';
-import ReactDOM from 'react-dom'
-import {
-    setArticleCategoryEditModalStatus,
-    requestCreate
-} from '../../actions/article_category'
-import visibility_types from '../../constants/visibility'
+import ReactDOM from 'react-dom';
+import visibility_types from '../../constants/visibility';
 import $ from 'jquery'
 
 class ArticleCategoryEditModal extends Component {
     componentDidMount() {
         let {
-            dispatch
+            setEditModalStatus
         } = this.props;
         this.dom = $(ReactDOM.findDOMNode(this));
         this.dom.on('hidden.bs.modal', () => {
-            dispatch(setArticleCategoryEditModalStatus(visibility_types.HIDDEN));
+            setEditModalStatus(visibility_types.HIDDEN);
         });
     }
     componentWillReceiveProps(nextProps) {
-        if (nextProps.edit_modal_status === visibility_types.VISIBLE) {
+        let {
+            article_category,
+            edit_modal_status,
+        } = nextProps;
+        if (edit_modal_status === visibility_types.VISIBLE) {
             this.dom.modal('show');
+            this.refs.id.value = article_category.id || null;
+            this.refs.name.value = article_category.name || null;
         } else {
             this.dom.modal('hide');
         }
     }
     saveBtnClick() {
-        let id = this.refs.id.value;
-        let data = {
-            name: this.refs.name.value.trim()
+        let {
+            requestUpdate,
+            requestCreate
+        } = this.props;
+        let article_category = {
+            id: this.refs.id.value,
+            name: this.refs.name.value
         };
-        if (id) {
-
+        if (article_category.id) {
+            requestUpdate(article_category);
         } else {
-            this.props.dispatch(requestCreate(data));
+            requestCreate(article_category);
         }
     }
     render() {
@@ -51,8 +57,8 @@ class ArticleCategoryEditModal extends Component {
                                 <div className="form-group">
                                     <label className="col-sm-3 control-label" htmlFor="name-input">名称</label>
                                     <div className="col-sm-8">
-                                        <input type="hidden" value={this.props.id} ref="id"/>
-                                        <input type="text" className="form-control" id="name-input" value={this.props.name} ref="name"/>
+                                        <input type="hidden" ref="id"/>
+                                        <input type="text" className="form-control" id="name-input" ref="name"/>
                                     </div>
                                 </div>
                             </fieldset>

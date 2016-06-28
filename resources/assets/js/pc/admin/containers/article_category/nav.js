@@ -4,18 +4,18 @@ import {
 import Nav from '../../components/article_category/nav'
 import visibility_types from '../../constants/visibility'
 import {
-    setArticleCategoryEditModalStatus
+    setEditModalStatus,
+    newObject,
 } from '../../actions/article_category'
 
 const mapStateToProps = (state, ownProps) => ({})
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    dispatch: dispatch,
     onCreateArticleCategoryBtnClick: () => {
-        dispatch(setArticleCategoryEditModalStatus(visibility_types.VISIBLE));
+        dispatch(newObject());
+        dispatch(setEditModalStatus(visibility_types.VISIBLE));
     }
 })
-
 
 const articleCategoryNav = connect(
     mapStateToProps,
