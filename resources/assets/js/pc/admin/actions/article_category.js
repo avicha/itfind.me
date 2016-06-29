@@ -1,9 +1,15 @@
 import ArticleCategory from 'models/article_category'
-import action_types from '../constants/actions'
 import visibility_types from '../constants/visibility'
 import {
     receiveError
 } from './global'
+export const RECEIVE_LIST = 'RECEIVE_ARTICLE_CATEGORY_LIST'
+export const RECEIVE_CREATE = 'RECEIVE_ARTICLE_CATEGORY_CREATE'
+export const RECEIVE_UPDATE = 'RECEIVE_ARTICLE_CATEGORY_UPDATE'
+export const SET_EDIT_MODAL_STATUS = 'SET_ARTICLE_CATEGORY_EDIT_MODAL_STATUS'
+export const NEW_OBJECT = 'NEW_ARTICLE_CATEGORY_OBJECT'
+export const UPDATE_OBJECT = 'UPDATE_ARTICLE_CATEGORY_OBJECT'
+export const RECEIVE_REMOVE = 'RECEIVE_ARTICLE_CATEGORY_REMOVE'
 
 let requestList = (filter = {}) => {
     return (dispatch) => {
@@ -18,25 +24,25 @@ let requestList = (filter = {}) => {
 }
 let receiveList = (data) => {
     return {
-        type: action_types.article_category.RECEIVE_LIST,
+        type: RECEIVE_LIST,
         data: data.map(article_category => new ArticleCategory(article_category)),
     }
 }
 let setEditModalStatus = (visibility) => {
     return {
-        type: action_types.article_category.SET_EDIT_MODAL_STATUS,
+        type: SET_EDIT_MODAL_STATUS,
         data: visibility,
     }
 }
 let newObject = () => {
     return {
-        type: action_types.article_category.NEW_OBJECT,
+        type: NEW_OBJECT,
         data: {},
     };
 }
 let updateObject = (article_category) => {
     return {
-        type: action_types.article_category.UPDATE_OBJECT,
+        type: UPDATE_OBJECT,
         data: {
             id: article_category.id,
             name: article_category.name
@@ -58,7 +64,7 @@ let requestCreate = (data) => {
 }
 let receiveCreate = (data) => {
     return {
-        type: action_types.article_category.RECEIVE_CREATE,
+        type: RECEIVE_CREATE,
         data,
     }
 }
@@ -77,7 +83,7 @@ let requestUpdate = (data) => {
 }
 let receiveUpdate = (data) => {
     return {
-        type: action_types.article_category.RECEIVE_UPDATE,
+        type: RECEIVE_UPDATE,
         data,
     }
 }
@@ -88,7 +94,7 @@ let requestRemove = (id) => {
         });
         return article_category.remove().then(json => {
             if (json.code === 0) {
-                dispatch(receiveRemove(article_category));
+                dispatch(receiveRemove(id));
             } else {
                 dispatch(receiveError(json.msg))
             }
@@ -97,7 +103,7 @@ let requestRemove = (id) => {
 }
 let receiveRemove = (data) => {
     return {
-        type: action_types.article_category.RECEIVE_REMOVE,
+        type: RECEIVE_REMOVE,
         data,
     }
 }

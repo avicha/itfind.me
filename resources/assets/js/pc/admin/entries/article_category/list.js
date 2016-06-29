@@ -3,32 +3,17 @@ import {
     render
 } from 'react-dom'
 import {
-    Provider
+    Provider,
 } from 'react-redux'
 import thunk from 'redux-thunk';
 import {
     createStore,
     applyMiddleware
 } from 'redux'
-import article_category_list from '../../reducers/article_category'
-import Menu from '../../components/menu';
-import ArticleCategoryNav from '../../containers/article_category/nav';
-import ArticleCategoryTable from '../../containers/article_category/table';
-import ArticleCategoryEditModal from '../../containers/article_category/edit_modal';
+import article_category_reducers from '../../reducers/article_category'
+import ArticleCategoryListContainer from '../../containers/article_category/list'
 
-let store = createStore(article_category_list, applyMiddleware(thunk))
-const ArticleCategoryListContainer = () => (
-    <div className="row">
-        <div id="left-panel" className="col-md-3">
-            <Menu />
-        </div>
-        <div id="right-panel" className="col-md-9">
-            <ArticleCategoryNav />
-            <ArticleCategoryTable />
-            <ArticleCategoryEditModal />
-        </div>
-    </div>
-)
+let store = createStore(article_category_reducers, applyMiddleware(thunk))
 render(
     <Provider store={store}>
         <ArticleCategoryListContainer />

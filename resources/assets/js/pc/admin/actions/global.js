@@ -1,7 +1,7 @@
-import action_types from '../constants/actions';
+export const RECEIVE_ERROR = 'RECEIVE_ERROR'
 let receiveError = (error) => {
     return {
-        type: action_types.RECEIVE_ERROR,
+        type: RECEIVE_ERROR,
         data: error
     }
 }
