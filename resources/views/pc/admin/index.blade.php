@@ -1,5 +1,6 @@
 @extends('pc.admin.app')
 
+@section('title', '个人中心')
 @section('stylesheet')
 @parent
 <link rel="stylesheet" type="text/css" href="{{ config('app.static_host') }}/css/pc/admin/entries/index.css" />

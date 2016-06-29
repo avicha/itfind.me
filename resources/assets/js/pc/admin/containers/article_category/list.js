@@ -28,10 +28,10 @@ const ArticleCategoryListContainer = ({
     article_category
 }) => (
     <div className="row">
-        <div id="left-panel" className="col-md-3">
+        <div className="col-md-3">
             <Menu />
         </div>
-        <div id="right-panel" className="col-md-9">
+        <div className="col-md-9">
             <ArticleCategoryNav
                 onCreateBtnClick={()=>{
                     dispatch(newObject());
