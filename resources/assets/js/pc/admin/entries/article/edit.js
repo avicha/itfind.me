@@ -1,6 +1,18 @@
 import React from 'react';
-import ReactDom from 'react-dom';
-import Menu from '../../components/menu';
-import ArticleEditForm from '../../components/article/edit';
-ReactDom.render(<Menu />,document.getElementById('left-panel'));
-ReactDom.render(<ArticleEditForm />,document.getElementById('right-panel'));
+import {
+    render
+} from 'react-dom';
+import {
+    Provider,
+} from 'react-redux';
+import article_reducers from '../../reducers/article';
+import configureStore from '../../stores/configure_store';
+import ArticleEditApp from '../../containers/article/edit';
+
+let store = configureStore(article_reducers);
+render(
+    <Provider store={store}>
+        <ArticleEditApp />
+    </Provider>,
+    document.getElementById('root')
+)
