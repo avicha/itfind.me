@@ -1,9 +1,4 @@
 import React from 'react';
-import {
-    setEditModalStatus,
-    newObject,
-} from '../../actions/article_category'
-import visibility_types from '../../constants/visibility'
 
 const ArticleCategoryNav = ({
     onCreateBtnClick

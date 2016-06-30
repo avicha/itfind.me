@@ -81,7 +81,17 @@ var generateBlockTasks = function(block, blockPath) {
     });
     //copy block js
     gulp.task(block + '-webpack', ['clean:' + block + '-js'], function(callback) {
-        var webpackConf = require('./webpack.' + block + '.config.js');
+        var webpackConf = require('./webpack.' + block + '.config.prod.js');
+        webpack(webpackConf, function(err, stats) {
+            if (err) throw new gutil.PluginError('[' + block + '-webpack]', err);
+            gutil.log('[' + block + '-webpack]', stats.toString({
+                // output options
+            }));
+            callback();
+        });
+    });
+    gulp.task(block + '-webpack-dev', ['clean:' + block + '-js'], function(callback) {
+        var webpackConf = require('./webpack.' + block + '.config.dev.js');
         webpack(webpackConf, function(err, stats) {
             if (err) throw new gutil.PluginError('[' + block + '-webpack]', err);
             gutil.log('[' + block + '-webpack]', stats.toString({
@@ -96,7 +106,7 @@ var generateBlockTasks = function(block, blockPath) {
             merge: true
         })).pipe(gulp.dest(BUILD));
     });
-    gulp.task(block + '-js-dev', [block + '-webpack'], function() {
+    gulp.task(block + '-js-dev', [block + '-webpack-dev'], function() {
         return gulp.src([BUILD + '/js/' + blockPath + '/**/*.js']).pipe(jshint()).pipe(gulp.dest(BUILD + '/js/' + blockPath));
     });
     //copy block css

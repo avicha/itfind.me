@@ -1,6 +1,6 @@
 import {
     combineReducers
-} from 'redux'
+} from 'redux';
 import {
     RECEIVE_LIST,
     RECEIVE_CREATE,
@@ -9,8 +9,8 @@ import {
     SET_EDIT_MODAL_STATUS,
     NEW_OBJECT,
     UPDATE_OBJECT
-} from '../actions/article_category'
-import visibility_types from '../constants/visibility'
+} from '../actions/article_category';
+import visibility_types from '../constants/visibility';
 
 let article_categories = (state = [], action) => {
     switch (action.type) {
@@ -31,7 +31,7 @@ let article_categories = (state = [], action) => {
         default:
             return state;
     }
-}
+};
 let edit_modal_status = (state = visibility_types.HIDDEN, action) => {
     switch (action.type) {
         case SET_EDIT_MODAL_STATUS:
@@ -39,7 +39,7 @@ let edit_modal_status = (state = visibility_types.HIDDEN, action) => {
         default:
             return state;
     }
-}
+};
 let article_category = (state = {}, action) => {
     switch (action.type) {
         case NEW_OBJECT:
@@ -49,11 +49,11 @@ let article_category = (state = {}, action) => {
         default:
             return state;
     }
-}
+};
 const app = combineReducers({
     article_categories,
     edit_modal_status,
     article_category,
-})
+});
 
-export default app
+export default app;

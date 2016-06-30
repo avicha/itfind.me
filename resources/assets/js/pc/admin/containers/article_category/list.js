@@ -1,6 +1,8 @@
+import React from 'react';
 import {
     connect,
-} from 'react-redux'
+    Provider,
+} from 'react-redux';
 import Menu from '../../components/menu';
 import ArticleCategoryNav from '../../components/article_category/nav';
 import ArticleCategoryTable from '../../components/article_category/table';
@@ -16,11 +18,7 @@ import {
     setEditModalStatus
 } from '../../actions/article_category';
 
-const mapStateToProps = (state, ownProps) => ({
-    article_categories: state.article_categories,
-    edit_modal_status: state.edit_modal_status,
-    article_category: state.article_category
-})
+const mapStateToProps = (state, ownProps) => state;
 const ArticleCategoryListContainer = ({
     dispatch,
     article_categories,
@@ -36,7 +34,7 @@ const ArticleCategoryListContainer = ({
                 onCreateBtnClick={()=>{
                     dispatch(newObject());
                     dispatch(setEditModalStatus(visibility_types.VISIBLE));
-                }} 
+                }}
             />
             <ArticleCategoryTable
                 article_categories={article_categories}

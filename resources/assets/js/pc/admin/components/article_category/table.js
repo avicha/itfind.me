@@ -4,24 +4,14 @@ import React, {
 
 class ArticleCategoryTable extends Component {
     componentDidMount() {
-        let {
-            requestList
-        } = this.props;
-        requestList();
+        this.props.requestList();
     }
     removeBtnClick(article_category) {
-        let {
-            requestRemove
-        } = this.props;
         if (window.confirm('是否确认删除文章分类-' + article_category.name + '？')) {
-            requestRemove(article_category.id);
+            this.props.requestRemove(article_category.id);
         }
     }
     render() {
-        let {
-            article_categories,
-            onEditBtnClick
-        } = this.props;
         return (
             <table className="table table-bordered">
                 <thead>
@@ -32,12 +22,12 @@ class ArticleCategoryTable extends Component {
                     </tr>
                 </thead>
                 <tbody>
-                    {article_categories.map((article_category)=>{
-                        return <tr key={article_category.id}><td>{article_category.id}</td><td>{article_category.name}</td><td><a className="btn btn-info btn-xs" onClick={onEditBtnClick.bind(this, article_category)}><span className="glyphicon glyphicon-edit"></span> 编辑</a> <a className="btn btn-danger btn-xs" onClick={this.removeBtnClick.bind(this, article_category)}><span className="glyphicon glyphicon-remove"></span> 删除</a></td></tr>
+                    {this.props.article_categories.map((article_category)=>{
+                        return <tr key={article_category.id}><td>{article_category.id}</td><td>{article_category.name}</td><td><a className="btn btn-info btn-xs" onClick={this.props.onEditBtnClick.bind(this, article_category)}><span className="glyphicon glyphicon-edit"></span> 编辑</a> <a className="btn btn-danger btn-xs" onClick={this.removeBtnClick.bind(this, article_category)}><span className="glyphicon glyphicon-remove"></span> 删除</a></td></tr>
                     })}
                 </tbody>
             </table>
-        )
+        );
     }
 }
 export default ArticleCategoryTable
