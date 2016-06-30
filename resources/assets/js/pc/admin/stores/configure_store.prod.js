@@ -8,4 +8,4 @@ const enhancer = applyMiddleware(thunk);
 
 export default (reducer, initial_state = {}) => {
     return createStore(reducer, initial_state, enhancer);
-}
+};

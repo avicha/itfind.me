@@ -8,4 +8,4 @@ const enhancer = compose(applyMiddleware(thunk), window.devToolsExtension ? wind
 
 export default (reducer, initial_state = {}) => {
     return createStore(reducer, initial_state, enhancer);
-}
+};
