@@ -23,19 +23,34 @@ export default class ArticleEditForm extends Component {
             ]
         });
     }
+    handleSubmit(e) {
+        let data = {
+            title: this.refs.title.value,
+            category_id: this.refs.category.value,
+            tags: this.refs.tags.value,
+            content: this.content_editor.summernote('code')
+        };
+        if (!title) {
+            alert('请输入文章标题');
+        } else {
+            
+        }
+        e.preventDefault();
+        return false;
+    }
     render() {
         return (
-            <form className="form-horizontal">
+            <form className="form-horizontal" onSubmit={this.handleSubmit.bind(this)}>
                 <div className="form-group">
-                    <label for="title-input" className="col-sm-1 control-label">标题</label>
-                    <div className="col-sm-8">
-                        <input type="text" className="form-control" id="title-input" placeholder="请输入文章标题"/>
+                    <label htmlFor="title-input" className="col-sm-1 control-label">标题</label>
+                    <div className="col-sm-10">
+                        <input type="text" className="form-control" id="title-input" ref="title" placeholder="请输入文章标题"/>
                     </div>
                 </div>
                 <div className="form-group">
-                    <label for="category-selector" className="col-sm-1 control-label">分类</label>
-                    <div className="col-sm-8">
-                        <select className="form-control" id="category-selector">
+                    <label htmlFor="category-selector" className="col-sm-1 control-label">分类</label>
+                    <div className="col-sm-10">
+                        <select className="form-control" id="category-selector" ref="category">
                             {this.props.article_categories.map((article_categoriy)=>{
                                 return <option value={article_categoriy.id}>{article_categoriy.name}</option>
                             })}
@@ -43,19 +58,19 @@ export default class ArticleEditForm extends Component {
                     </div>
                 </div>
                 <div className="form-group">
-                    <label for="tags-input" className="col-sm-1 control-label">标签</label>
-                    <div className="col-sm-8">
-                        <input type="text" className="form-control" id="tags-input" placeholder="请输入文章标签，用,分割词语" />
+                    <label htmlFor="tags-input" className="col-sm-1 control-label">标签</label>
+                    <div className="col-sm-10">
+                        <input type="text" className="form-control" id="tags-input" ref="tags" placeholder="请输入文章标签，用,分割词语" />
                     </div>
                 </div>
                 <div className="form-group">
-                    <label for="content-textarea" className="col-sm-1 control-label">正文</label>
+                    <label htmlFor="content-textarea" className="col-sm-1 control-label">正文</label>
                     <div className="col-sm-10">
                         <textarea className="form-control" value="" id="content-textarea"></textarea>
                     </div>
                 </div>
                 <div className="form-group">
-                    <div className="col-sm-offset-1 col-sm-8">
+                    <div className="col-sm-offset-1 col-sm-10">
                         <button type="submit" className="btn btn-primary">保存</button>
                     </div>
                 </div>

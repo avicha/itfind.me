@@ -16,6 +16,7 @@ class CreateArticlesTable extends Migration
             $table->increments('id')->comment('文章ID');
             $table->string('title')->comment('标题');
             $table->integer('category_id')->unsigned()->comment('分类');
+            $table->string('tags')->comment('标签');
             $table->text('content')->comment('正文');
             $table->integer('user_id')->unsigned()->comment('作者ID');
             $table->timestamps();

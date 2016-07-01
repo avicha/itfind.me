@@ -16,6 +16,8 @@ class CreateArticleCategoriesTable extends Migration
             $table->increments('id')->comment('文章分类ID');
             $table->string('name')->comment('名称');
             $table->integer('user_id')->unsigned()->comment('作者ID');
+            $table->boolean('is_systemic')->comment('是否系统分类')->default(false);
+            $table->integer('sequence')->unsigned()->comment('排列顺序');
             $table->timestamps();
             $table->softDeletes();
         });

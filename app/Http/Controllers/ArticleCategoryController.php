@@ -17,7 +17,7 @@ class ArticleCategoryController extends Controller
     public function index(Request $request)
     {
         if($request->isXmlHttpRequest()){
-            return response()->json(['code' => 0, 'data' => ArticleCategory::where('user_id', $request->user()->id)->select(['id', 'name'])->get()->toArray()]);
+            return response()->json(['code' => 0, 'data' => $request->user()->article_categories->toArray()]);
         }else{
             return view(\App\Common\Utils::getAgent().'.admin.article_category.list');
         }
@@ -43,9 +43,8 @@ class ArticleCategoryController extends Controller
     {
         $article_category = new ArticleCategory();
         $article_category->name = $request->input('name');
-        $article_category->user_id = $request->user()->id;
-        $article_category->save();
-        return response()->json(['code' => 0, 'data' => ['created_at' => $article_category->created_at->format('Y-m-d h:i:s'), 'id' => $article_category->id]]);
+        $request->user()->createArticleCategory($article_category);
+        return response()->json(['code' => 0, 'data' => ['created_at' => $article_category->created_at->format('Y-m-d h:i:s'), 'is_systemic' => $article_category->is_systemic, 'id' => $article_category->id]]);
     }
 
     /**
@@ -54,9 +53,9 @@ class ArticleCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        $article_category = ArticleCategory::select(['id', 'name'])->findOrfail($id);
+        $article_category = $request->user()->getArticleCategory($id);
         return response()->json(['code' => 0, 'data' => $article_category]);
     }
 
@@ -81,8 +80,7 @@ class ArticleCategoryController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->only(['name']);
-        $article_category = ArticleCategory::findOrfail($id);
-        $article_category->update($data);
+        $article_category = $request->user()->updateArticleCategory($id, $data);
         return response()->json(['code' => 0, 'data' => ['updated_at' => $article_category->updated_at->format('Y-m-d h:i:s')]]);
     }
 
@@ -92,10 +90,9 @@ class ArticleCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        $article_category = ArticleCategory::findOrfail($id);
-        $article_category->delete();
+        $article_category = $request->user()->deleteArticleCategory($id);
         return response()->json(['code' => 0, 'data' => ['deleted_at' => $article_category->deleted_at->format('Y-m-d h:i:s')]]);
     }
 }

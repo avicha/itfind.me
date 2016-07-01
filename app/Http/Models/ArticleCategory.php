@@ -26,4 +26,13 @@ class ArticleCategory extends Model
      * @var array
      */
     protected $fillable = ['name'];
+
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'is_systemic' => 'boolean',
+    ];
 }
