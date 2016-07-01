@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Requests;
-use App\Http\Models\ArticleCategory;
+use App\Http\Services\ArticleService;
 
 class ArticleController extends Controller
 {
@@ -37,7 +37,15 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->only(['title', 'category_id', 'tags', 'content']);
+        $res = ArticleService::create($request->user()->id, $data);
+        if($res['code']){
+            return response()->json($res, $res['code']);
+        }
+        else{
+            $article = $res['data'];
+            return response()->json(['code' => 0, 'data' => ['created_at' => $article->created_at->format('Y-m-d h:i:s'), 'id' => $article->id]], Response::HTTP_CREATED);
+        }
     }
 
     /**

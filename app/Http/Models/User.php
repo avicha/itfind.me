@@ -35,4 +35,8 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Http\Models\ArticleCategory', 'user_id', 'id');
     }
+    public function articles()
+    {
+        return $this->hasMany('App\Http\Models\Article', 'user_id', 'id');
+    }
 }
