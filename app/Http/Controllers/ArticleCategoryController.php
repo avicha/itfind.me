@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Requests;
-use App\Http\Models\ArticleCategory;
+use App\Http\Services\ArticleCategoryService;
 
 class ArticleCategoryController extends Controller
 {
@@ -17,7 +17,13 @@ class ArticleCategoryController extends Controller
     public function index(Request $request)
     {
         if($request->isXmlHttpRequest()){
-            return response()->json(['code' => 0, 'data' => $request->user()->article_categories->toArray()]);
+            $res = ArticleCategoryService::getList($request->user()->id);
+            if($res['code']){
+                return response()->json($res, $res['code']);
+            }
+            else{
+                return response()->json($res, Response::HTTP_OK);
+            }
         }else{
             return view(\App\Common\Utils::getAgent().'.admin.article_category.list');
         }
@@ -41,10 +47,15 @@ class ArticleCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $article_category = new ArticleCategory();
-        $article_category->name = $request->input('name');
-        $request->user()->createArticleCategory($article_category);
-        return response()->json(['code' => 0, 'data' => ['created_at' => $article_category->created_at->format('Y-m-d h:i:s'), 'is_systemic' => $article_category->is_systemic, 'id' => $article_category->id]]);
+        $data = $request->only(['name']);
+        $res = ArticleCategoryService::create($request->user()->id, $data);
+        if($res['code']){
+            return response()->json($res, $res['code']);
+        }
+        else{
+            $article_category = $res['data'];
+            return response()->json(['code' => 0, 'data' => ['created_at' => $article_category->created_at->format('Y-m-d h:i:s'), 'is_systemic' => $article_category->is_systemic, 'id' => $article_category->id]], Response::HTTP_CREATED);
+        }
     }
 
     /**
@@ -55,8 +66,13 @@ class ArticleCategoryController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $article_category = $request->user()->getArticleCategory($id);
-        return response()->json(['code' => 0, 'data' => $article_category]);
+        $res = ArticleCategoryService::get($request->user()->id, $id);
+        if($res['code']){
+            return response()->json($res, $res['code']);
+        }
+        else{
+            return response()->json($res, Response::HTTP_OK);
+        }
     }
 
     /**
@@ -80,8 +96,14 @@ class ArticleCategoryController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->only(['name']);
-        $article_category = $request->user()->updateArticleCategory($id, $data);
-        return response()->json(['code' => 0, 'data' => ['updated_at' => $article_category->updated_at->format('Y-m-d h:i:s')]]);
+        $res = ArticleCategoryService::update($request->user()->id, $id, $data);
+        if($res['code']){
+            return response()->json($res, $res['code']);
+        }
+        else{
+            $article_category = $res['data'];
+            return response()->json(['code' => 0, 'data' => ['updated_at' => $article_category->updated_at->format('Y-m-d h:i:s')]], Response::HTTP_OK);
+        }
     }
 
     /**
@@ -92,7 +114,13 @@ class ArticleCategoryController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $article_category = $request->user()->deleteArticleCategory($id);
-        return response()->json(['code' => 0, 'data' => ['deleted_at' => $article_category->deleted_at->format('Y-m-d h:i:s')]]);
+        $res = ArticleCategoryService::delete($request->user()->id, $id);
+        if($res['code']){
+            return response()->json($res, $res['code']);
+        }
+        else{
+            $article_category = $res['data'];
+            return response()->json(['code' => 0, 'data' => ['deleted_at' => $article_category->deleted_at->format('Y-m-d h:i:s')]], Response::HTTP_OK);
+        }
     }
 }

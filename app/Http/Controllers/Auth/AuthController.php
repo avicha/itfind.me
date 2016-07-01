@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Models\User;
-use App\Http\Models\ArticleCategory;
+use App\Http\Services\ArticleCategoryService;
 use Validator;
 use Auth;
 use App\Http\Controllers\Controller;
@@ -110,11 +110,7 @@ class AuthController extends Controller
         }else{
             $user = $this->create($credentials);
             //创建一个用户的默认文章分类，并且是系统分类，不能删除
-            $article_category = new ArticleCategory();
-            $article_category->name = '默认分类';
-            $article_category->is_systemic = true;
-            $article_category->sequence = 1;
-            $user->createArticleCategory($article_category);
+            ArticleCategoryService::create($user->id, ['name' => '默认分类'], true);
             Auth::guard('web')->login($user);
             return redirect()->intended($redirect_uri);
         }

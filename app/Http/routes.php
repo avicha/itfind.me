@@ -15,9 +15,7 @@ Route::group(['domain' => 'admin.itfind.me', 'middleware' => 'auth'], function()
     //首页
     Route::get('/', ['as' => 'admin_index', 'uses' => 'AppController@adminIndexView']);
     //文章管理
-    Route::group(['prefix' => 'article'], function(){
-        Route::get('/create', 'ArticleController@createView');
-    });
+    Route::resource('article', 'ArticleController');
     Route::resource('article_category', 'ArticleCategoryController');
 });
 //主站点

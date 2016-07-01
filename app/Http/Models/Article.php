@@ -5,7 +5,7 @@ namespace App\Http\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ArticleCategory extends Model
+class Article extends Model
 {
     use SoftDeletes;
     /**
@@ -13,7 +13,7 @@ class ArticleCategory extends Model
      *
      * @var string
      */
-    protected $table = 'article_categories';
+    protected $table = 'articles';
     /**
      * The attributes that should be mutated to dates.
      *
@@ -25,14 +25,5 @@ class ArticleCategory extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'sequence'];
-
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'is_systemic' => 'boolean',
-    ];
+    protected $fillable = ['title', 'category_id', 'tags', 'content'];
 }

@@ -10,6 +10,9 @@ import {
     NEW_OBJECT,
     UPDATE_OBJECT
 } from '../actions/article_category';
+import {
+    RECEIVE_ERROR
+} from '../actions/global';
 import visibility_types from '../constants/visibility';
 
 let article_categories = (state = [], action) => {
@@ -50,10 +53,19 @@ let article_category = (state = {}, action) => {
             return state;
     }
 };
+let error = (state = '', action) => {
+    switch (action.type) {
+        case RECEIVE_ERROR:
+            return action.data;
+        default:
+            return state;
+    }
+}
 const app = combineReducers({
     article_categories,
     edit_modal_status,
     article_category,
+    error,
 });
 
 export default app;
