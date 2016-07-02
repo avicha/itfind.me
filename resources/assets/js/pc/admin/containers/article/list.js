@@ -4,8 +4,8 @@ import {
     Provider,
 } from 'react-redux';
 import Menu from '../../components/menu';
-import ArticleNav from '../../components/article/list_nav';
-import ArticleTable from '../../components/article/list_table';
+import ArticleListNav from '../../components/article/list_nav';
+import ArticleListTable from '../../components/article/list_table';
 
 const mapStateToProps = (state, ownProps) => state;
 const ArticleListContainer = ({
@@ -17,8 +17,8 @@ const ArticleListContainer = ({
             <Menu />
         </div>
         <div className="col-md-9">
-            <ArticleNav />
-            <ArticleTable
+            <ArticleListNav />
+            <ArticleListTable
                 articles={articles}
                 dispatch={dispatch}
             />

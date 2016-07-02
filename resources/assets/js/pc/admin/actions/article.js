@@ -3,111 +3,111 @@ import {
     receiveError
 } from './global';
 
-export const RECEIVE_LIST = 'RECEIVE_ARTICLE_LIST';
-export const RECEIVE_FETCH = 'RECEIVE_ARTICLE_FETCH';
-export const RECEIVE_CREATE = 'RECEIVE_ARTICLE_CREATE';
-export const RECEIVE_UPDATE = 'RECEIVE_ARTICLE_UPDATE';
-export const RECEIVE_REMOVE = 'RECEIVE_ARTICLE_REMOVE';
+export const RECEIVE_ARTICLE_LIST = 'RECEIVE_ARTICLE_LIST';
+export const RECEIVE_ARTICLE_FETCH = 'RECEIVE_ARTICLE_FETCH';
+export const RECEIVE_ARTICLE_CREATE = 'RECEIVE_ARTICLE_CREATE';
+export const RECEIVE_ARTICLE_UPDATE = 'RECEIVE_ARTICLE_UPDATE';
+export const RECEIVE_ARTICLE_REMOVE = 'RECEIVE_ARTICLE_REMOVE';
 
-let requestList = (filter = {}) => {
+let requestArticleList = (filter = {}) => {
     return (dispatch) => {
         return Article.list(filter).then(json => {
             if (json.code === 0) {
-                return dispatch(receiveList(json.data));
+                return dispatch(receiveArticleList(json.data));
             } else {
                 return dispatch(receiveError(json.msg));
             }
         });
     };
 };
-let receiveList = (data) => {
+let receiveArticleList = (data) => {
     return {
-        type: RECEIVE_LIST,
+        type: RECEIVE_ARTICLE_LIST,
         data: data.map(article => new Article(article)),
     };
 };
-let requestFetch = (id) => {
+let requestArticleFetch = (id) => {
     return (dispatch) => {
         let article = new Article({
             id: id
         });
         return article.fetch().then(json => {
             if (json.code === 0) {
-                return dispatch(receiveFetch(json.data));
+                return dispatch(receiveArticleFetch(json.data));
             } else {
                 return dispatch(receiveError(json.msg));
             }
         });
     };
 };
-let receiveFetch = (data) => {
+let receiveArticleFetch = (data) => {
     return {
-        type: RECEIVE_FETCH,
+        type: RECEIVE_ARTICLE_FETCH,
         data,
     };
 };
-let requestCreate = (data) => {
+let requestArticleCreate = (data) => {
     return (dispatch) => {
         let article = new Article(data);
         return article.create().then(json => {
             if (json.code === 0) {
-                return dispatch(receiveCreate(article));
+                return dispatch(receiveArticleCreate(article));
             } else {
                 return dispatch(receiveError(json.msg))
             }
         });
     };
 };
-let receiveCreate = (data) => {
+let receiveArticleCreate = (data) => {
     return {
-        type: RECEIVE_CREATE,
+        type: RECEIVE_ARTICLE_CREATE,
         data,
     };
 };
-let requestUpdate = (id, data) => {
+let requestArticleUpdate = (id, data) => {
     return (dispatch) => {
         let article = new Article({
             id: id
         });
         return article.update(data).then(json => {
             if (json.code === 0) {
-                return dispatch(receiveUpdate(article));
+                return dispatch(receiveArticleUpdate(article));
             } else {
                 return dispatch(receiveError(json.msg))
             }
         });
     };
 };
-let receiveUpdate = (data) => {
+let receiveArticleUpdate = (data) => {
     return {
-        type: RECEIVE_UPDATE,
+        type: RECEIVE_ARTICLE_UPDATE,
         data,
     };
 };
-let requestRemove = (id) => {
+let requestArticleRemove = (id) => {
     return (dispatch) => {
         let article = new Article({
             id: id
         });
         return article.remove().then(json => {
             if (json.code === 0) {
-                return dispatch(receiveRemove(id));
+                return dispatch(receiveArticleRemove(id));
             } else {
                 return dispatch(receiveError(json.msg))
             }
         });
     };
 };
-let receiveRemove = (data) => {
+let receiveArticleRemove = (data) => {
     return {
-        type: RECEIVE_REMOVE,
+        type: RECEIVE_ARTICLE_REMOVE,
         data,
     };
 };
 export {
-    requestList,
-    requestFetch,
-    requestCreate,
-    requestUpdate,
-    requestRemove
+    requestArticleList,
+    requestArticleFetch,
+    requestArticleCreate,
+    requestArticleUpdate,
+    requestArticleRemove,
 };

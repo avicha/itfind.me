@@ -46,9 +46,9 @@ class ArticleCategoryService extends BaseService
      * @param  [type] $id      [文章分类ID]
      * @return [type]          [文章分类]
      */
-    public static function get($user_id, $id)
+    public static function get($id, $fields = ['id', 'name', 'is_systemic'])
     {
-        $article_category = ArticleCategory::select(['id', 'name', 'is_systemic'])->where(['user_id' => $user_id, 'id' => $id])->firstOrFail();
+        $article_category = ArticleCategory::select($fields)->findOrFail($id);
         return ['code' => 0, 'data' => $article_category];
     }
     /**

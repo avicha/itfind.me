@@ -25,12 +25,7 @@ class ArticleController extends Controller
                 return response()->json($res, Response::HTTP_OK);
             }
         }else{
-            if($request->getHost() == config('app.admin_host')){
-                return view(\App\Common\Utils::getAgent().'.admin.article.list');
-            }
-            else{
-                return view(\App\Common\Utils::getAgent().'.article.list');
-            }
+            return view(\App\Common\Utils::getAgent().'.admin.article.list');
         }
     }
 
@@ -71,7 +66,7 @@ class ArticleController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $res = ArticleService::get($request->user()->id, $id);
+        $res = ArticleService::get($id);
         if($res['code']){
             return response()->json($res, $res['code']);
         }

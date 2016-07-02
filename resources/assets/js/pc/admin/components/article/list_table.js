@@ -2,8 +2,8 @@ import React, {
     Component
 } from 'react';
 import {
-    requestList as requestArticleList,
-    requestRemove as requestArticleRemove,
+    requestArticleList,
+    requestArticleRemove,
 } from '../../actions/article';
 
 class ArticleTable extends Component {

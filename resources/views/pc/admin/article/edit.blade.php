@@ -1,6 +1,6 @@
 @extends('pc.admin.app')
 
-@section('title', '写文章')
+@section('title', '编辑文章')
 
 @section('stylesheet')
 @parent
@@ -11,6 +11,5 @@
 @parent
 <script type="text/javascript" src="{{ config('app.static_url_prefix') }}/js/lib/summernote/0.8.1/summernote.js"></script>
 <script type="text/javascript" src="{{ config('app.static_url_prefix') }}/js/lib/summernote/0.8.1/lang/summernote-zh-CN.js"></script>
-<script type="text/javascript" src="{{ config('app.static_url_prefix') }}/js/lib/qs/1.0.0/qs.js"></script>
 <script type="text/javascript" src="{{ config('app.static_url_prefix') }}/js/pc/admin/entries/article/edit.bundle.js"></script>
 @endsection

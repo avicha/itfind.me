@@ -3,15 +3,15 @@ import React, {
 } from 'react';
 import $ from 'jquery';
 import {
-    requestList as requestArticleCategories,
+    requestArticleCategoryList,
 } from '../../actions/article_category';
 import {
-    requestFetch as requestArticleFetch,
-    requestCreate as requestArticleCreate,
-    requestUpdate as requestArticleUpdate,
-    RECEIVE_FETCH,
-    RECEIVE_CREATE,
-    RECEIVE_UPDATE,
+    requestArticleFetch,
+    requestArticleCreate,
+    requestArticleUpdate,
+    RECEIVE_ARTICLE_FETCH,
+    RECEIVE_ARTICLE_CREATE,
+    RECEIVE_ARTICLE_UPDATE,
 } from '../../actions/article';
 
 export default class ArticleEditForm extends Component {
@@ -30,10 +30,10 @@ export default class ArticleEditForm extends Component {
                 ['insert', ['picture', 'link', 'video', 'table', 'hr']],
             ]
         });
-        this.props.dispatch(requestArticleCategories()).then(() => {
+        this.props.dispatch(requestArticleCategoryList()).then(() => {
             if (this.props.article_id) {
                 this.props.dispatch(requestArticleFetch(this.props.article_id)).then(action => {
-                    if (action.type == RECEIVE_FETCH) {
+                    if (action.type == RECEIVE_ARTICLE_FETCH) {
                         let article = action.data;
                         this.refs.title.value = article.title;
                         this.refs.category.value = article.category_id;
@@ -64,13 +64,13 @@ export default class ArticleEditForm extends Component {
             } else {
                 if (this.props.article_id) {
                     this.props.dispatch(requestArticleUpdate(this.props.article_id, data)).then(action => {
-                        if (action.type === RECEIVE_UPDATE) {
+                        if (action.type === RECEIVE_ARTICLE_UPDATE) {
                             window.location.href = '/article/' + this.props.article_id;
                         }
                     });
                 } else {
                     this.props.dispatch(requestArticleCreate(data)).then(action => {
-                        if (action.type === RECEIVE_CREATE) {
+                        if (action.type === RECEIVE_ARTICLE_CREATE) {
                             window.location.href = '/article/' + action.data.id;
                         }
                     });

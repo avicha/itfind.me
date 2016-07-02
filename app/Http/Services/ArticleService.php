@@ -48,9 +48,9 @@ class ArticleService extends BaseService
      * @param  [type] $id      [文章ID]
      * @return [type]          [文章]
      */
-    public static function get($user_id, $id)
+    public static function get($id, $fields = ['id', 'title', 'category_id', 'tags', 'content', 'created_at'])
     {
-        $article = Article::where(['user_id' => $user_id, 'id' => $id])->select(['id', 'title', 'category_id', 'tags', 'content', 'created_at'])->firstOrFail();
+        $article = Article::select($fields)->findOrFail($id);
         return ['code' => 0, 'data' => $article];
     }
     /**

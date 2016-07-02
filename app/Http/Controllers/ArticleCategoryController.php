@@ -66,7 +66,7 @@ class ArticleCategoryController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $res = ArticleCategoryService::get($request->user()->id, $id);
+        $res = ArticleCategoryService::get($id);
         if($res['code']){
             return response()->json($res, $res['code']);
         }

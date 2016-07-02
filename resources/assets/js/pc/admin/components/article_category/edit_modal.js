@@ -2,6 +2,11 @@ import React, {
     Component
 } from 'react';
 import ReactDOM from 'react-dom';
+import {
+    requestArticleCategoryCreate,
+    requestArticleCategoryUpdate,
+    setArticleCategoryEditModalStatus,
+} from '../../actions/article_category';
 import visibility_types from '../../constants/visibility';
 import $ from 'jquery';
 
@@ -9,7 +14,7 @@ class ArticleCategoryEditModal extends Component {
     componentDidMount() {
         this.dom = $(ReactDOM.findDOMNode(this));
         this.dom.on('hidden.bs.modal', () => {
-            this.props.setEditModalStatus(visibility_types.HIDDEN);
+            this.props.dispatch(setArticleCategoryEditModalStatus(visibility_types.HIDDEN));
         });
     }
     componentWillReceiveProps(nextProps) {
@@ -31,9 +36,13 @@ class ArticleCategoryEditModal extends Component {
             name: this.refs.name.value
         };
         if (article_category.id) {
-            this.props.requestUpdate(article_category);
+            this.props.dispatch(requestArticleCategoryUpdate(article_category)).then(action => {
+                this.dom.modal('hide');
+            });
         } else {
-            this.props.requestCreate(article_category);
+            this.props.dispatch(requestArticleCategoryCreate(article_category)).then(action => {
+                this.dom.modal('hide');
+            });
         }
     }
     render() {
