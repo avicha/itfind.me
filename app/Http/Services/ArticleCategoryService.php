@@ -5,6 +5,7 @@ namespace App\Http\Services;
 use Illuminate\Http\Response;
 use App\Http\Models\User;
 use App\Http\Models\ArticleCategory;
+use App\Http\Models\Article;
 /**
 * 文章分类服务层
 */
@@ -80,6 +81,8 @@ class ArticleCategoryService extends BaseService
         if($article_category->is_systemic){
             return ['code' => Response::HTTP_FORBIDDEN, 'msg' => '禁止删除系统文章分类'];
         }else{
+            $systemic_article_category = ArticleCategory::where(['user_id' => $user_id, 'is_systemic' => true])->firstOrFail();
+            $article_category->articles()->update(['category_id' => $systemic_article_category->id]);
             $article_category->delete();
             return ['code' => 0, 'data' => $article_category];
         }

@@ -1,5 +1,4 @@
 import ArticleCategory from 'models/article_category';
-import visibility_types from '../constants/visibility';
 import {
     receiveError
 } from './global';

@@ -35,4 +35,9 @@ class ArticleCategory extends Model
     protected $casts = [
         'is_systemic' => 'boolean',
     ];
+
+    public function articles()
+    {
+        return $this->hasMany('App\Http\Models\Article', 'category_id', 'id');
+    }
 }

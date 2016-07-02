@@ -30,10 +30,18 @@ let articles = (state = [], action) => {
             return state;
     }
 }
-
+let error = (state = '', action) => {
+    switch (action.type) {
+        case RECEIVE_ERROR:
+            return action.data;
+        default:
+            return state;
+    }
+}
 const app = combineReducers({
     article_categories,
     articles,
+    error,
 });
 
 export default app;
