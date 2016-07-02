@@ -18,7 +18,7 @@
     @show
     <title>@section('title')itfind.me @show</title>
     <!-- 添加 favicon icon -->
-    <link rel="shortcut icon" type="image/x-icon" href="@section('favicon'){{ config('app.static_host') }}/img/common/favicon.ico @show" />
+    <link rel="shortcut icon" type="image/x-icon" href="@section('favicon'){{ config('app.static_url_prefix') }}/img/common/favicon.ico @show" />
     @yield('stylesheet')
 </head>
 <body>

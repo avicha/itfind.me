@@ -5,7 +5,8 @@ module.exports = {
     entry: {
         'index': ['./entries/index.js'],
         'article_category/list': ['./entries/article_category/list.js'],
-        'article/edit': ['./entries/article/edit.js']
+        'article/list': ['./entries/article/list.js'],
+        'article/edit': ['./entries/article/edit.js'],
     },
     output: {
         path: './public/assets/js/pc/admin/entries',

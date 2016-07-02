@@ -5,13 +5,21 @@ import $ from 'jquery';
 import {
     requestList as requestArticleCategories,
 } from '../../actions/article_category';
+import {
+    requestFetch as requestArticleFetch,
+    requestCreate as requestArticleCreate,
+    requestUpdate as requestArticleUpdate,
+    RECEIVE_FETCH,
+    RECEIVE_CREATE,
+    RECEIVE_UPDATE,
+} from '../../actions/article';
 
 export default class ArticleEditForm extends Component {
     constructor(props) {
         super(props);
     }
     componentDidMount() {
-        this.props.dispatch(requestArticleCategories());
+        this.isReady = false;
         this.content_editor = $('#content-textarea').summernote({
             height: 300,
             lang: 'zh-CN',
@@ -22,20 +30,53 @@ export default class ArticleEditForm extends Component {
                 ['insert', ['picture', 'link', 'video', 'table', 'hr']],
             ]
         });
+        this.props.dispatch(requestArticleCategories()).then(() => {
+            if (this.props.article_id) {
+                this.props.dispatch(requestArticleFetch(this.props.article_id)).then(action => {
+                    if (action.type == RECEIVE_FETCH) {
+                        let article = action.data;
+                        this.refs.title.value = article.title;
+                        this.refs.category.value = article.category_id;
+                        this.refs.tags.value = article.tags;
+                        this.content_editor.summernote('code', article.content);
+                        this.isReady = true;
+                    }
+                });
+            } else {
+                this.isReady = true;
+            }
+        });
+
     }
     handleSubmit(e) {
-        let data = {
-            title: this.refs.title.value,
-            category_id: this.refs.category.value,
-            tags: this.refs.tags.value,
-            content: this.content_editor.summernote('code')
-        };
-        if (!title) {
-            alert('请输入文章标题');
-        } else {
-            
-        }
         e.preventDefault();
+        if (!this.isReady) {
+            window.alert('请先等待数据加载完毕');
+        } else {
+            let data = {
+                title: this.refs.title.value,
+                category_id: this.refs.category.value,
+                tags: this.refs.tags.value.replace(/，/g, ','),
+                content: this.content_editor.summernote('code')
+            };
+            if (!data.title) {
+                window.alert('请输入文章标题');
+            } else {
+                if (this.props.article_id) {
+                    this.props.dispatch(requestArticleUpdate(this.props.article_id, data)).then(action => {
+                        if (action.type === RECEIVE_UPDATE) {
+                            window.location.href = '/article/' + this.props.article_id;
+                        }
+                    });
+                } else {
+                    this.props.dispatch(requestArticleCreate(data)).then(action => {
+                        if (action.type === RECEIVE_CREATE) {
+                            window.location.href = '/article/' + action.data.id;
+                        }
+                    });
+                }
+            }
+        }
         return false;
     }
     render() {

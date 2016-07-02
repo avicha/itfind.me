@@ -19,7 +19,10 @@ class ArticleService extends BaseService
     {
         $user = new User();
         $user->id = $user_id;
-        return ['code' => 0, 'data' => $user->articles()->orderBy('created_at', 'desc')->get()->toArray()];
+        $with = ['category' => function($query){
+            $query->select(['id', 'name']);
+        }];
+        return ['code' => 0, 'data' => $user->articles()->select(['id', 'title', 'category_id', 'tags', 'content', 'created_at'])->with($with)->orderBy('created_at', 'desc')->get()->toArray()];
     }
     /**
      * [create 为某个用户创建文章]
@@ -47,7 +50,7 @@ class ArticleService extends BaseService
      */
     public static function get($user_id, $id)
     {
-        $article = Article::where(['user_id' => $user_id, 'id' => $id])->firstOrFail();
+        $article = Article::where(['user_id' => $user_id, 'id' => $id])->select(['id', 'title', 'category_id', 'tags', 'content', 'created_at'])->firstOrFail();
         return ['code' => 0, 'data' => $article];
     }
     /**

@@ -11,7 +11,7 @@
             </button>
 
             <!-- Branding Image -->
-            <a class="navbar-brand" href="{{ config('app.main_host').'/' }}">
+            <a class="navbar-brand" href="{{ config('app.main_url_prefix').'/' }}">
                 itfind.me
             </a>
         </div>
@@ -19,7 +19,7 @@
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
             <!-- Left Side Of Navbar -->
             <ul class="nav navbar-nav">
-                <li><a href="{{ config('app.admin_host').'/' }}">个人中心</a></li>
+                <li><a href="{{ config('app.admin_url_prefix').'/' }}">个人中心</a></li>
             </ul>
 
             <!-- Right Side Of Navbar -->

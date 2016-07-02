@@ -11,12 +11,12 @@ const ArticleEditNav = ({
     }
     return (
         <nav className="navbar navbar-default">
-        <div className="container-fluid">
-            <div className="collapse navbar-collapse">
-                {header}
+            <div className="container-fluid">
+                <div className="collapse navbar-collapse">
+                    {header}
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
     );
 }
 export default ArticleEditNav;

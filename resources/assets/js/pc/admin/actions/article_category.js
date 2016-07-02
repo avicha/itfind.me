@@ -16,9 +16,9 @@ let requestList = (filter = {}) => {
     return (dispatch) => {
         return ArticleCategory.list(filter).then(json => {
             if (json.code === 0) {
-                dispatch(receiveList(json.data));
+                return dispatch(receiveList(json.data));
             } else {
-                dispatch(receiveError(json.msg));
+                return dispatch(receiveError(json.msg));
             }
         });
     };

@@ -40,11 +40,18 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
-    'main_host' => env('MAIN_HOST', 'http://itfind.me'),
+    //主站域名
+    'main_host' => env('MAIN_HOST', 'itfind.me'),
     //静态资源域名
-    'static_host' => env('STATIC_HOST', 'http://assets.itfind.me'),
+    'static_host' => env('STATIC_HOST', 'assets.itfind.me'),
     //后台域名
-    'admin_host' => env('ADMIN_HOST', 'http://admin.itfind.me'),
+    'admin_host' => env('ADMIN_HOST', 'admin.itfind.me'),
+    //主站URL前缀
+    'main_url_prefix' => env('MAIN_URL_PREFIX', 'http://itfind.me'),
+    //静态资源URL前缀
+    'static_url_prefix' => env('STATIC_URL_PREFIX', 'http://assets.itfind.me'),
+    //后台URL前缀
+    'admin_url_prefix' => env('ADMIN_URL_PREFIX', 'http://admin.itfind.me'),
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

@@ -4,5 +4,5 @@
 
 @section('javascript')
 @parent
-<script type="text/javascript" src="{{ config('app.static_host') }}/js/pc/admin/entries/article_category/list.bundle.js"></script>
+<script type="text/javascript" src="{{ config('app.static_url_prefix') }}/js/pc/admin/entries/article_category/list.bundle.js"></script>
 @endsection

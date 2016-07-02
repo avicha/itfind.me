@@ -14,6 +14,7 @@ const ArticleEditContainer = ({
 }) => {
     let pathname = window.location.pathname;
     let is_create_article = /^\/article\/create/.test(pathname);
+    let article_id = /^\/article\/(\d+)\/edit/.test(pathname) ? pathname.match(/^\/article\/(\d+)\/edit/)[1] : '';
     return (
         <div className="row">
             <div className="col-md-3">
@@ -25,6 +26,7 @@ const ArticleEditContainer = ({
                 />
                 <ArticleEditForm
                     article_categories={article_categories}
+                    article_id={article_id}
                     dispatch={dispatch}
                 />
             </div>

@@ -46,7 +46,7 @@ export default class BaseModel {
             credentials: 'include',
         }).then(res => res.json());
     }
-    get() {
+    fetch() {
         let id = this._getId();
         return fetch(this.urlRoot + '/' + id, {
             method: 'get',

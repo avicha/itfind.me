@@ -26,4 +26,9 @@ class Article extends Model
      * @var array
      */
     protected $fillable = ['title', 'category_id', 'tags', 'content'];
+
+    public function category()
+    {
+        return $this->hasOne('App\Http\Models\ArticleCategory', 'id', 'category_id');
+    }
 }

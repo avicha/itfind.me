@@ -14,9 +14,24 @@ class ArticleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if($request->isXmlHttpRequest()){
+            $res = ArticleService::getList($request->user()->id);
+            if($res['code']){
+                return response()->json($res, $res['code']);
+            }
+            else{
+                return response()->json($res, Response::HTTP_OK);
+            }
+        }else{
+            if($request->getHost() == config('app.admin_host')){
+                return view(\App\Common\Utils::getAgent().'.admin.article.list');
+            }
+            else{
+                return view(\App\Common\Utils::getAgent().'.article.list');
+            }
+        }
     }
 
     /**
@@ -54,9 +69,15 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        //
+        $res = ArticleService::get($request->user()->id, $id);
+        if($res['code']){
+            return response()->json($res, $res['code']);
+        }
+        else{
+            return response()->json($res, Response::HTTP_OK);
+        }
     }
 
     /**
@@ -67,7 +88,7 @@ class ArticleController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view(\App\Common\Utils::getAgent().'.admin.article.edit');
     }
 
     /**
@@ -79,7 +100,15 @@ class ArticleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->only(['title', 'category_id', 'tags', 'content']);
+        $res = ArticleService::update($request->user()->id, $id, $data);
+        if($res['code']){
+            return response()->json($res, $res['code']);
+        }
+        else{
+            $article = $res['data'];
+            return response()->json(['code' => 0, 'data' => ['updated_at' => $article->updated_at->format('Y-m-d h:i:s')]], Response::HTTP_OK);
+        }
     }
 
     /**
@@ -88,8 +117,15 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $res = ArticleService::delete($request->user()->id, $id);
+        if($res['code']){
+            return response()->json($res, $res['code']);
+        }
+        else{
+            $article = $res['data'];
+            return response()->json(['code' => 0, 'data' => ['deleted_at' => $article->deleted_at->format('Y-m-d h:i:s')]], Response::HTTP_OK);
+        }
     }
 }
