@@ -7,6 +7,7 @@ module.exports = {
         'article_category/list': ['./entries/article_category/list.js'],
         'article/list': ['./entries/article/list.js'],
         'article/edit': ['./entries/article/edit.js'],
+        'article/detail': ['./entries/article/detail.js'],
     },
     output: {
         path: './public/assets/js/pc/admin/entries',

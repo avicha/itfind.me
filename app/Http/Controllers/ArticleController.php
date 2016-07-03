@@ -66,12 +66,16 @@ class ArticleController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $res = ArticleService::get($id);
-        if($res['code']){
-            return response()->json($res, $res['code']);
-        }
-        else{
-            return response()->json($res, Response::HTTP_OK);
+        if($request->isXmlHttpRequest()){
+            $res = ArticleService::get($id);
+            if($res['code']){
+                return response()->json($res, $res['code']);
+            }
+            else{
+                return response()->json($res, Response::HTTP_OK);
+            }
+        }else{
+            return view(\App\Common\Utils::getAgent().'.admin.article.detail');
         }
     }
 

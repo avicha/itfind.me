@@ -7,7 +7,11 @@ import Menu from '../../components/menu';
 import ArticleEditNav from '../../components/article/edit_nav';
 import ArticleEditForm from '../../components/article/edit_form';
 
-const mapStateToProps = (state, ownProps) => state;
+const mapStateToProps = (state, ownProps) => {
+    return {
+        article_categories: state.article_categories
+    };
+};
 const ArticleEditContainer = ({
     dispatch,
     article_categories,

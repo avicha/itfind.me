@@ -50,7 +50,10 @@ class ArticleService extends BaseService
      */
     public static function get($id, $fields = ['id', 'title', 'category_id', 'tags', 'content', 'created_at'])
     {
-        $article = Article::select($fields)->findOrFail($id);
+        $with = ['category' => function($query){
+            $query->select(['id', 'name']);
+        }];
+        $article = Article::select($fields)->with($with)->findOrFail($id);
         return ['code' => 0, 'data' => $article];
     }
     /**

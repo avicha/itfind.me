@@ -11,6 +11,9 @@ import {
     RECEIVE_ARTICLE_UPDATE,
     RECEIVE_ARTICLE_REMOVE,
 } from '../actions/article';
+import {
+    RECEIVE_ERROR
+} from '../actions/global';
 
 let article_categories = (state = [], action) => {
     switch (action.type) {
@@ -29,7 +32,17 @@ let articles = (state = [], action) => {
         default:
             return state;
     }
-}
+};
+let article = (state = {
+    id: /^\/article\/(\d+)$/.test(window.location.pathname) ? window.location.pathname.match(/^\/article\/(\d+)$/)[1] : ''
+}, action) => {
+    switch (action.type) {
+        case RECEIVE_ARTICLE_FETCH:
+            return action.data;
+        default:
+            return state;
+    }
+};
 let error = (state = '', action) => {
     switch (action.type) {
         case RECEIVE_ERROR:
@@ -41,6 +54,7 @@ let error = (state = '', action) => {
 const app = combineReducers({
     article_categories,
     articles,
+    article,
     error,
 });
 
