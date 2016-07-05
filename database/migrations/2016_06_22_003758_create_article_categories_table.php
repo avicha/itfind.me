@@ -15,9 +15,10 @@ class CreateArticleCategoriesTable extends Migration
         Schema::create('article_categories', function (Blueprint $table) {
             $table->increments('id')->comment('文章分类ID');
             $table->string('name')->comment('名称');
-            $table->integer('user_id')->unsigned()->comment('作者ID');
+            $table->integer('blog_id')->unsigned()->comment('博客ID');
             $table->boolean('is_systemic')->comment('是否系统分类')->default(false);
             $table->integer('sequence')->unsigned()->comment('排列顺序');
+            $table->integer('articles_count')->unsigned()->comment('该分类下文章数量');
             $table->timestamps();
             $table->softDeletes();
         });

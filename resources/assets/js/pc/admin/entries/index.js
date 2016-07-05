@@ -1,12 +1,18 @@
 import React from 'react';
-import ReactDom from 'react-dom';
-import Menu from '../components/menu';
-ReactDom.render(
-    <div className="row">
-        <div className="col-md-3">
-            <Menu />
-        </div>
-        <div className="col-md-9">
-        </div>
-    </div>
-,document.getElementById('root'));
+import {
+    render
+} from 'react-dom';
+import {
+    Provider,
+} from 'react-redux';
+import blog_reducers from '../../reducers/blog';
+import configureStore from '../../stores/configure_store';
+import HomeApp from '../../containers/home';
+
+let store = configureStore(blog_reducers);
+render(
+    <Provider store={store}>
+        <HomeApp />
+    </Provider>,
+    document.getElementById('root')
+)
