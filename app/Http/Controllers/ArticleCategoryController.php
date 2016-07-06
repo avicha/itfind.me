@@ -9,6 +9,7 @@ use App\Http\Services\ArticleCategoryService;
 
 class ArticleCategoryController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *

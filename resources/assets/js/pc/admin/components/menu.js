@@ -25,6 +25,22 @@ const Menu = () => {
                     </ul>
                 </div>
             </div>
+            <div className="panel panel-default">
+                <div className="panel-heading" role="tab" id="blog-manage-tab">
+                    <h4 className="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#blog-manage">
+                        我的博客
+                        </a>
+                    </h4>
+                </div>
+                <div id="blog-manage" className="panel-collapse collapse in" role="tabpanel" aria-labelledby="blog-manage-tab">
+                    <ul className="nav nav-pills nav-stacked">
+                        <li className={url == '/blog/edit'? 'active':''}>
+                            <a href="/blog/edit">博客设置</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     );
 }

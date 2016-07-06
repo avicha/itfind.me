@@ -40,6 +40,7 @@ class ArticleService extends BaseService
         $article->content = $data['content'];
         $article->blog_id = $blog_id;
         $article->save();
+        Blog::findOrFail($blog_id)->increment('articles_count');
         return ['code' => 0, 'data' => $article];
     }
     /**
