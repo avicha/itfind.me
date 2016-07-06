@@ -18,7 +18,6 @@ class CreateUsersTable extends Migration
             $table->string('password')->comment('密码');
             $table->string('nick')->comment('昵称');
             $table->string('avatar')->nullable()->comment('头像');
-            $table->integer('blog_id')->nullable()->unsigned()->comment('关联博客ID');
             $table->boolean('active')->default(true)->comment('是否激活');
             $table->rememberToken();
             $table->timestamps();

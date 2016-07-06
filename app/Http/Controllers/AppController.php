@@ -17,8 +17,8 @@ class AppController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function adminIndexView()
+    public function adminHomeView(Request $request)
     {
-        return view(\App\Common\Utils::getAgent().'.admin.index');
+        return view(\App\Common\Utils::getAgent().'.admin.home', ['blog' => $request->user()->blog]);
     }
 }

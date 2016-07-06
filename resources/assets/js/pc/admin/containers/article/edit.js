@@ -3,6 +3,7 @@ import {
     connect,
     Provider,
 } from 'react-redux';
+import $ from 'jquery';
 import Menu from '../../components/menu';
 import ArticleEditNav from '../../components/article/edit_nav';
 import ArticleEditForm from '../../components/article/edit_form';
@@ -16,9 +17,8 @@ const ArticleEditContainer = ({
     dispatch,
     article_categories,
 }) => {
-    let pathname = window.location.pathname;
-    let is_create_article = /^\/article\/create/.test(pathname);
-    let article_id = /^\/article\/(\d+)\/edit/.test(pathname) ? pathname.match(/^\/article\/(\d+)\/edit/)[1] : '';
+    let article_id = $('meta[name="article-id"]').attr('content');
+    let is_create_article = !article_id;
     return (
         <div className="row">
             <div className="col-md-3">

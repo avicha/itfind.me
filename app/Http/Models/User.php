@@ -9,6 +9,12 @@ class User extends Authenticatable
 {
     use SoftDeletes;
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'users';
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -31,12 +37,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function article_categories()
+    public function blog()
     {
-        return $this->hasMany('App\Http\Models\ArticleCategory', 'user_id', 'id');
-    }
-    public function articles()
-    {
-        return $this->hasMany('App\Http\Models\Article', 'user_id', 'id');
+        return $this->hasOne('App\Http\Models\Blog', 'user_id', 'id');
     }
 }

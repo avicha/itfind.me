@@ -1,5 +1,10 @@
 @extends('pc.admin.app')
 
+@section('meta')
+@parent
+<meta name="article-id" content="{{ $id }}">
+@endsection
+
 @section('title', '文章预览')
 
 @section('stylesheet')

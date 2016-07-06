@@ -3,48 +3,47 @@
 namespace App\Http\Services;
 
 use Illuminate\Http\Response;
-use App\Http\Models\User;
 use App\Http\Models\Article;
+use App\Http\Models\Blog;
 /**
 * 文章服务层
 */
 class ArticleService extends BaseService
 {
     /**
-     * [getList 获取某个用户的文章列表]
-     * @param  [type] $user_id [用户ID]
+     * [getList 获取某个博客的文章列表]
+     * @param  [type] $blog_id [博客ID]
      * @return [type]          [分类列表]
      */
-    public static function getList($user_id)
+    public static function getList($blog_id)
     {
-        $user = new User();
-        $user->id = $user_id;
+        $blog = new Blog();
+        $blog->id = $blog_id;
         $with = ['category' => function($query){
             $query->select(['id', 'name']);
         }];
-        return ['code' => 0, 'data' => $user->articles()->select(['id', 'title', 'category_id', 'tags', 'content', 'created_at'])->with($with)->orderBy('created_at', 'desc')->get()->toArray()];
+        return ['code' => 0, 'data' => $blog->articles()->select(['id', 'title', 'category_id', 'tags', 'content', 'created_at'])->with($with)->orderBy('created_at', 'desc')->get()->toArray()];
     }
     /**
-     * [create 为某个用户创建文章]
-     * @param  [type]  $user_id     [用户ID]
+     * [create 为某个博客创建文章]
+     * @param  [type]  $blog_id     [博客ID]
      * @param  [type]  $data        [文章数据]
      * @param  boolean $is_systemic [是否系统分类]
      * @return [type]               [创建的文章]
      */
-    public static function create($user_id, $data)
+    public static function create($blog_id, $data)
     {
         $article = new Article();
         $article->title = $data['title'];
         $article->category_id = $data['category_id'];
         $article->tags = $data['tags'];
         $article->content = $data['content'];
-        $article->user_id = $user_id;
+        $article->blog_id = $blog_id;
         $article->save();
         return ['code' => 0, 'data' => $article];
     }
     /**
-     * [get 获取某个用户的文章]
-     * @param  [type] $user_id [用户ID]
+     * [get 获取某篇文章]
      * @param  [type] $id      [文章ID]
      * @return [type]          [文章]
      */
@@ -57,27 +56,27 @@ class ArticleService extends BaseService
         return ['code' => 0, 'data' => $article];
     }
     /**
-     * [update 更新某个用户的文章]
-     * @param  [type] $user_id [用户ID]
+     * [update 更新某个博客的文章]
+     * @param  [type] $blog_id [博客ID]
      * @param  [type] $id      [文章ID]
      * @param  [type] $data    [更新数据]
      * @return [type]          [更新的文章]
      */
-    public static function update($user_id, $id, $data)
+    public static function update($blog_id, $id, $data)
     {
-        $article = Article::where(['user_id' => $user_id, 'id' => $id])->firstOrFail();
+        $article = Article::where(['blog_id' => $blog_id, 'id' => $id])->firstOrFail();
         $article->update($data);
         return ['code' => 0, 'data' => $article];
     }
     /**
-     * [delete 删除某个用户的文章]
-     * @param  [type] $user_id [用户ID]
+     * [delete 删除某个博客的文章]
+     * @param  [type] $blog_id [博客ID]
      * @param  [type] $id      [文章ID]
      * @return [type]          [删除的文章]
      */
-    public static function delete($user_id, $id)
+    public static function delete($blog_id, $id)
     {
-        $article = Article::where(['user_id' => $user_id, 'id' => $id])->firstOrFail();
+        $article = Article::where(['blog_id' => $blog_id, 'id' => $id])->firstOrFail();
         $article->delete();
         return ['code' => 0, 'data' => $article];
     }

@@ -7,12 +7,12 @@ import {
 } from 'react-redux';
 import blog_reducers from '../../reducers/blog';
 import configureStore from '../../stores/configure_store';
-import HomeApp from '../../containers/home';
+import BlogEditApp from '../../containers/blog/edit';
 
 let store = configureStore(blog_reducers);
 render(
     <Provider store={store}>
-        <HomeApp />
+        <BlogEditApp />
     </Provider>,
     document.getElementById('root')
 )

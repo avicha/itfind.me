@@ -1,6 +1,7 @@
 import {
     combineReducers
 } from 'redux';
+import $ from 'jquery';
 import {
     RECEIVE_ARTICLE_CATEGORY_LIST,
 } from '../actions/article_category';
@@ -34,7 +35,7 @@ let articles = (state = [], action) => {
     }
 };
 let article = (state = {
-    id: /^\/article\/(\d+)$/.test(window.location.pathname) ? window.location.pathname.match(/^\/article\/(\d+)$/)[1] : ''
+    id: $('meta[name="article-id"]').attr('content')
 }, action) => {
     switch (action.type) {
         case RECEIVE_ARTICLE_FETCH:

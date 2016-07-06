@@ -3,7 +3,8 @@ var webpack = require('webpack');
 module.exports = {
     context: __dirname + '/resources/assets/js/pc/admin',
     entry: {
-        'index': ['./entries/index.js'],
+        'home': ['./entries/home.js'],
+        'blog/edit': ['./entries/blog/edit.js'],
         'article_category/list': ['./entries/article_category/list.js'],
         'article/list': ['./entries/article/list.js'],
         'article/edit': ['./entries/article/edit.js'],

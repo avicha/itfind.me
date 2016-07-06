@@ -19,6 +19,7 @@ class CreateBlogsTable extends Migration
             $table->integer('views_count')->unsigned()->comment('浏览数');
             $table->integer('articles_count')->unsigned()->comment('文章数');
             $table->float('w')->comment('博客权重');
+            $table->integer('user_id')->nullable()->unsigned()->comment('关联用户ID');
             $table->timestamps();
             $table->softDeletes();
         });

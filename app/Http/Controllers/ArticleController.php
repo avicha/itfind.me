@@ -17,7 +17,7 @@ class ArticleController extends Controller
     public function index(Request $request)
     {
         if($request->isXmlHttpRequest()){
-            $res = ArticleService::getList($request->user()->id);
+            $res = ArticleService::getList($request->user()->blog->id);
             if($res['code']){
                 return response()->json($res, $res['code']);
             }
@@ -48,7 +48,7 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         $data = $request->only(['title', 'category_id', 'tags', 'content']);
-        $res = ArticleService::create($request->user()->id, $data);
+        $res = ArticleService::create($request->user()->blog->id, $data);
         if($res['code']){
             return response()->json($res, $res['code']);
         }
@@ -75,7 +75,7 @@ class ArticleController extends Controller
                 return response()->json($res, Response::HTTP_OK);
             }
         }else{
-            return view(\App\Common\Utils::getAgent().'.admin.article.detail');
+            return view(\App\Common\Utils::getAgent().'.admin.article.detail', ['id' => $id]);
         }
     }
 
@@ -87,7 +87,7 @@ class ArticleController extends Controller
      */
     public function edit($id)
     {
-        return view(\App\Common\Utils::getAgent().'.admin.article.edit');
+        return view(\App\Common\Utils::getAgent().'.admin.article.edit', ['id' => $id]);
     }
 
     /**
@@ -100,7 +100,7 @@ class ArticleController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->only(['title', 'category_id', 'tags', 'content']);
-        $res = ArticleService::update($request->user()->id, $id, $data);
+        $res = ArticleService::update($request->user()->blog->id, $id, $data);
         if($res['code']){
             return response()->json($res, $res['code']);
         }
@@ -118,7 +118,7 @@ class ArticleController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $res = ArticleService::delete($request->user()->id, $id);
+        $res = ArticleService::delete($request->user()->blog->id, $id);
         if($res['code']){
             return response()->json($res, $res['code']);
         }
