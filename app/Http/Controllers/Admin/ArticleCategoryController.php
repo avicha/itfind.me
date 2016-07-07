@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
 use App\Http\Requests;
-use App\Http\Services\ArticleService;
-use Log;
+use App\Http\Services\ArticleCategoryService;
 
-class ArticleController extends Controller
+class ArticleCategoryController extends Controller
 {
     /**
      * Instantiate a new ArticleCategoryController instance.
@@ -19,7 +19,7 @@ class ArticleController extends Controller
     {
         $this->middleware('blog.exists');
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -28,7 +28,7 @@ class ArticleController extends Controller
     public function index(Request $request)
     {
         if($request->isXmlHttpRequest()){
-            $res = ArticleService::getList($request->user()->blog->id);
+            $res = ArticleCategoryService::getList($request->user()->blog->id);
             if($res['code']){
                 return response()->json($res, $res['code']);
             }
@@ -36,7 +36,7 @@ class ArticleController extends Controller
                 return response()->json($res, Response::HTTP_OK);
             }
         }else{
-            return view(\App\Common\Utils::getAgent().'.admin.article.list');
+            return view(\App\Common\Utils::getAgent().'.admin.article_category.list');
         }
     }
 
@@ -47,7 +47,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        return view(\App\Common\Utils::getAgent().'.admin.article.edit');
+        //
     }
 
     /**
@@ -58,14 +58,14 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->only(['title', 'category_id', 'tags', 'content', 'is_top']);
-        $res = ArticleService::create($request->user()->blog->id, $data);
+        $data = $request->only(['name']);
+        $res = ArticleCategoryService::create($request->user()->blog->id, $data);
         if($res['code']){
             return response()->json($res, $res['code']);
         }
         else{
-            $article = $res['data'];
-            return response()->json(['code' => 0, 'data' => ['created_at' => $article->created_at->format('Y-m-d h:i:s'), 'id' => $article->id]], Response::HTTP_CREATED);
+            $article_category = $res['data'];
+            return response()->json(['code' => 0, 'data' => ['created_at' => $article_category->created_at->format('Y-m-d h:i:s'), 'is_systemic' => $article_category->is_systemic, 'id' => $article_category->id]], Response::HTTP_CREATED);
         }
     }
 
@@ -77,16 +77,12 @@ class ArticleController extends Controller
      */
     public function show(Request $request, $id)
     {
-        if($request->isXmlHttpRequest()){
-            $res = ArticleService::get($id);
-            if($res['code']){
-                return response()->json($res, $res['code']);
-            }
-            else{
-                return response()->json($res, Response::HTTP_OK);
-            }
-        }else{
-            return view(\App\Common\Utils::getAgent().'.admin.article.detail', ['id' => $id]);
+        $res = ArticleCategoryService::get($id);
+        if($res['code']){
+            return response()->json($res, $res['code']);
+        }
+        else{
+            return response()->json($res, Response::HTTP_OK);
         }
     }
 
@@ -98,7 +94,7 @@ class ArticleController extends Controller
      */
     public function edit($id)
     {
-        return view(\App\Common\Utils::getAgent().'.admin.article.edit', ['id' => $id]);
+        //
     }
 
     /**
@@ -110,14 +106,14 @@ class ArticleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->only(['title', 'category_id', 'tags', 'content', 'is_top']);
-        $res = ArticleService::update($request->user()->blog->id, $id, $data);
+        $data = $request->only(['name']);
+        $res = ArticleCategoryService::update($request->user()->blog->id, $id, $data);
         if($res['code']){
             return response()->json($res, $res['code']);
         }
         else{
-            $article = $res['data'];
-            return response()->json(['code' => 0, 'data' => ['updated_at' => $article->updated_at->format('Y-m-d h:i:s')]], Response::HTTP_OK);
+            $article_category = $res['data'];
+            return response()->json(['code' => 0, 'data' => ['updated_at' => $article_category->updated_at->format('Y-m-d h:i:s')]], Response::HTTP_OK);
         }
     }
 
@@ -129,13 +125,13 @@ class ArticleController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $res = ArticleService::delete($request->user()->blog->id, $id);
+        $res = ArticleCategoryService::delete($request->user()->blog->id, $id);
         if($res['code']){
             return response()->json($res, $res['code']);
         }
         else{
-            $article = $res['data'];
-            return response()->json(['code' => 0, 'data' => ['deleted_at' => $article->deleted_at->format('Y-m-d h:i:s')]], Response::HTTP_OK);
+            $article_category = $res['data'];
+            return response()->json(['code' => 0, 'data' => ['deleted_at' => $article_category->deleted_at->format('Y-m-d h:i:s')]], Response::HTTP_OK);
         }
     }
 }

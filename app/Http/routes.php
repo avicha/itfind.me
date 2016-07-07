@@ -10,10 +10,10 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+//个人中心首页
+Route::get('/', ['as' => 'admin_index', 'uses' => 'AppController@adminHomeView']);
 //个人中心
-Route::group(['domain' => 'admin.itfind.me', 'middleware' => 'auth'], function(){
-    //首页
-    Route::get('/', ['as' => 'admin_index', 'uses' => 'AppController@adminHomeView']);
+Route::group(['domain' => config('app.admin_host'), 'middleware' => 'auth', 'namespace' => 'Admin'], function(){
     //文章分类
     Route::resource('article_category', 'ArticleCategoryController');
     //文章管理
@@ -28,9 +28,10 @@ Route::group(['domain' => 'admin.itfind.me', 'middleware' => 'auth'], function()
     });
 });
 //主站点
-Route::group(['domain' => config('main_host')], function(){
+Route::group(['domain' => config('app.main_host')], function(){
     //首页
-    Route::get('/', ['uses' => 'AppController@index']);
+    Route::get('/', 'AppController@index');
+    Route::get('/{nick}', 'BlogController@show');
 });
 
 //注册、登录、退出登录
