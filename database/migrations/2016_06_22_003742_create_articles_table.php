@@ -14,10 +14,12 @@ class CreateArticlesTable extends Migration
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->increments('id')->comment('文章ID');
-            $table->string('title')->comment('标题');
+            $table->string('title', 60)->comment('标题');
+            $table->string('author', 20)->comment('作者');
             $table->integer('category_id')->unsigned()->comment('分类');
-            $table->string('tags')->comment('标签');
+            $table->string('tags', 60)->comment('标签');
             $table->text('content')->comment('正文');
+            $table->text('desc', 120)->comment('摘要');
             $table->boolean('is_top')->default(false)->comment('是否置顶');
             $table->integer('blog_id')->unsigned()->comment('作者ID');
             $table->integer('views_count')->unsigned()->default(0)->comment('浏览数');

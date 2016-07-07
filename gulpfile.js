@@ -23,11 +23,11 @@ var revReplace = require('gulp-rev-replace');
 var env = fs.readFileSync(__dirname + '/.env', {
     encoding: 'utf8'
 });
-var blocks = ['mobile', 'pc-admin'];
+var blocks = ['mobile', 'pc-admin', 'pc-main'];
 var SOURCE = __dirname + '/resources/assets';
 var BUILD = __dirname + '/public/assets';
-var STATIC_HOST = (function() {
-    return /STATIC_HOST=.*/.test(env) ? env.match(/STATIC_HOST=(.*)/)[1] : 'http://assets.itfind.me';
+var STATIC_URL_PREFIX = (function() {
+    return /STATIC_URL_PREFIX=.*/.test(env) ? env.match(/STATIC_URL_PREFIX=(.*)/)[1] : 'http://assets.itfind.me';
 })();
 var VIEWS_ROOT = (function() {
     return /VIEWS_ROOT=.*/.test(env) ? env.match(/VIEWS_ROOT=(.*)/)[1] : 'resources/views';
@@ -111,7 +111,7 @@ var generateBlockTasks = function(block, blockPath) {
     });
     //copy block css
     gulp.task(block + '-sass', ['clean:' + block + '-css', 'copy:img'], function() {
-        return gulp.src([SOURCE + '/css/' + blockPath + '/**/*.scss']).pipe(replace('@host', STATIC_HOST)).pipe(sass().on('error', sass.logError)).pipe(autoprefixer({
+        return gulp.src([SOURCE + '/css/' + blockPath + '/**/*.scss']).pipe(replace('@host', STATIC_URL_PREFIX)).pipe(sass().on('error', sass.logError)).pipe(autoprefixer({
             browsers: ['last 18 versions'],
             cascade: false
         })).pipe(csslint(SOURCE + '/css/.csslintrc.json')).pipe(csscomb(SOURCE + '/css/.csscomb.json')).pipe(cleanCSS({
@@ -126,7 +126,7 @@ var generateBlockTasks = function(block, blockPath) {
         })).pipe(gulp.dest(BUILD));
     });
     gulp.task(block + '-sass-dev', ['clean:' + block + '-css', 'copy:img'], function() {
-        return gulp.src([SOURCE + '/css/' + blockPath + '/**/*.scss']).pipe(replace('@host', STATIC_HOST)).pipe(sass().on('error', sass.logError)).pipe(gulp.dest(BUILD + '/css/' + blockPath));
+        return gulp.src([SOURCE + '/css/' + blockPath + '/**/*.scss']).pipe(replace('@host', STATIC_URL_PREFIX)).pipe(sass().on('error', sass.logError)).pipe(gulp.dest(BUILD + '/css/' + blockPath));
     });
     //copy block html
     gulp.task(block + '-html', [block + '-js', block + '-sass', 'clean:' + block + '-html'], function() {

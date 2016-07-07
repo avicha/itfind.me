@@ -22,7 +22,7 @@ class ArticleService extends BaseService
         $with = ['category' => function($query){
             $query->select(['id', 'name']);
         }];
-        return ['code' => 0, 'data' => $blog->articles()->select(['id', 'title', 'category_id', 'tags', 'content', 'is_top', 'created_at'])->with($with)->orderBy('created_at', 'desc')->get()->toArray()];
+        return ['code' => 0, 'data' => $blog->articles()->select(['id', 'title', 'author', 'category_id', 'tags', 'content', 'desc', 'is_top', 'created_at'])->with($with)->orderBy('created_at', 'desc')->get()->toArray()];
     }
     /**
      * [create 为某个博客创建文章]
@@ -35,9 +35,11 @@ class ArticleService extends BaseService
     {
         $article = new Article();
         $article->title = $data['title'];
+        $article->author = $data['author'];
         $article->category_id = $data['category_id'];
         $article->tags = $data['tags'];
         $article->content = $data['content'];
+        $article->desc = $data['desc'];
         $article->is_top = $data['is_top'];
         $article->blog_id = $blog_id;
         $article->save();
@@ -49,7 +51,7 @@ class ArticleService extends BaseService
      * @param  [type] $id      [文章ID]
      * @return [type]          [文章]
      */
-    public static function get($id, $fields = ['id', 'title', 'category_id', 'tags', 'content', 'is_top', 'created_at'])
+    public static function get($id, $fields = ['id', 'title', 'author', 'category_id', 'tags', 'content', 'desc', 'is_top', 'created_at'])
     {
         $with = ['category' => function($query){
             $query->select(['id', 'name']);

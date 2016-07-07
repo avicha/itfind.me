@@ -36,9 +36,11 @@ export default class ArticleEditForm extends Component {
                     if (action.type == RECEIVE_ARTICLE_FETCH) {
                         let article = action.data;
                         this.refs.title.value = article.title;
+                        this.refs.author.value = article.author;
                         this.refs.category.value = article.category_id;
                         this.refs.tags.value = article.tags;
                         this.content_editor.summernote('code', article.content);
+                        this.refs.desc.value = article.desc;
                         this.refs.is_top.checked = article.is_top;
                         this.isReady = true;
                     }
@@ -56,9 +58,11 @@ export default class ArticleEditForm extends Component {
         } else {
             let data = {
                 title: this.refs.title.value,
+                author: this.refs.author.value,
                 category_id: this.refs.category.value,
                 tags: this.refs.tags.value.replace(/，/g, ','),
                 content: this.content_editor.summernote('code'),
+                desc: this.refs.desc.value.substring(0, 120) || $('<div></div>').html(this.content_editor.summernote('code')).text().replace(/\s+/g, ' ').substring(0, 120),
                 is_top: this.refs.is_top.checked,
             };
             if (!data.title) {
@@ -91,6 +95,12 @@ export default class ArticleEditForm extends Component {
                     </div>
                 </div>
                 <div className="form-group">
+                    <label htmlFor="author-input" className="col-sm-1 control-label">作者</label>
+                    <div className="col-sm-10">
+                        <input type="text" className="form-control" id="author-input" ref="author" placeholder="请输入文章作者，默认原创"/>
+                    </div>
+                </div>
+                <div className="form-group">
                     <label htmlFor="category-selector" className="col-sm-1 control-label">分类</label>
                     <div className="col-sm-10">
                         <select className="form-control" id="category-selector" ref="category">
@@ -110,6 +120,12 @@ export default class ArticleEditForm extends Component {
                     <label htmlFor="content-textarea" className="col-sm-1 control-label">正文</label>
                     <div className="col-sm-10">
                         <textarea className="form-control" value="" id="content-textarea"></textarea>
+                    </div>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="desc-textarea" className="col-sm-1 control-label">摘要</label>
+                    <div className="col-sm-10">
+                        <textarea className="form-control" placeholder="默认截取正文前120个字符" id="desc-textarea" ref="desc"></textarea>
                     </div>
                 </div>
                 <div className="form-group">

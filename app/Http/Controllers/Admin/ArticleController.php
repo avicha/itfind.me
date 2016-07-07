@@ -59,7 +59,9 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->only(['title', 'category_id', 'tags', 'content', 'is_top']);
+        $data = $request->only(['title', 'author', 'category_id', 'tags', 'content', 'desc', 'is_top']);
+        $data['author'] = $data['author'] ?: $request->user()->nick;
+        $data['desc'] = htmlentities(substr($data['desc'], 0, 120), ENT_COMPAT, 'UTF-8');
         $res = ArticleService::create($request->user()->blog->id, $data);
         if($res['code']){
             return response()->json($res, $res['code']);
@@ -111,7 +113,9 @@ class ArticleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->only(['title', 'category_id', 'tags', 'content', 'is_top']);
+        $data = $request->only(['title', 'author', 'category_id', 'tags', 'content', 'desc', 'is_top']);
+        $data['author'] = $data['author'] ?: $request->user()->nick;
+        $data['desc'] = htmlentities(substr($data['desc'], 0, 120), ENT_COMPAT, 'UTF-8');
         $res = ArticleService::update($request->user()->blog->id, $id, $data);
         if($res['code']){
             return response()->json($res, $res['code']);

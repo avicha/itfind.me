@@ -23,7 +23,6 @@ button {
 }
 a {
     text-decoration: none;
-    color: #000;
 }
 .fixed {
     position: fixed;
@@ -125,7 +124,6 @@ a {
     }
 }
 .clearfix {
-  display: inline-block;
   &:after {
     content: ".";
     display: block;
