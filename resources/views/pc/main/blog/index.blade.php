@@ -14,7 +14,24 @@
 @endsection
 
 @section('content')
-
+<div id="header">
+    <div class="container">
+        <a href="/{{ $blog->user->nick }}" class="title">{{ $blog->title }}</a>
+        <div class="article-categories">
+            @foreach ($blog->article_categories as $article_category)
+            <a href="/{{ $blog->user->nick }}/category/{{ $article_category->id }}">{{ $article_category->name }}</a>
+            @endforeach
+        </div>
+    </div>
+</div>
+<div id="content">
+    <div id="left-panel"></div>
+    <div id="right-panel">
+        <div class="blog-info-container">
+            
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('javascript')

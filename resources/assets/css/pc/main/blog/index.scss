@@ -1,0 +1,32 @@
+@import '../../../global';
+#header{
+    width: 100%;
+    height: 58px;
+    line-height: 58px;
+    background-color: #64a69c;
+    box-shadow: 0 2px 6px rgba(100,100,100,0.3);
+    @extend .topFixed;
+}
+#content{
+    @extend .container;
+    margin-top: 58px;
+    overflow: hidden;
+    #left-panel{
+        width: 80%;
+        float: left;
+    }
+    #right-panel{
+        width: 20%;
+        float: left;
+    }
+}
+.container{
+    margin-left: auto;
+    margin-right: auto;
+    @media screen and (min-width: 1080px) {
+        width: 900px;
+    }
+    @media screen and (min-width: 1400px) {
+        width: 1200px;
+    }
+}
