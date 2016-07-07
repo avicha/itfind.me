@@ -10,7 +10,7 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-//后台
+//个人中心
 Route::group(['domain' => 'admin.itfind.me', 'middleware' => 'auth'], function(){
     //首页
     Route::get('/', ['as' => 'admin_index', 'uses' => 'AppController@adminHomeView']);
@@ -19,7 +19,13 @@ Route::group(['domain' => 'admin.itfind.me', 'middleware' => 'auth'], function()
     //文章管理
     Route::resource('article', 'ArticleController');
     //博客管理
-    Route::resource('blog', 'BlogController');
+    Route::group(['prefix' => 'blog'], function(){
+        Route::get('/{id}', 'BlogController@show')->where(['id' => '\d+']);
+        Route::get('/create', 'BlogController@create');
+        Route::get('/edit', 'BlogController@edit');
+        Route::post('/', 'BlogController@store');
+        Route::put('/{id}', 'BlogController@update')->where(['id' => '\d+']);
+    });
 });
 //主站点
 Route::group(['domain' => config('main_host')], function(){

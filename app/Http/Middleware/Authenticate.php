@@ -25,7 +25,6 @@ class Authenticate
                 return redirect()->route('login', ['redirect_uri' => $request->getUri()]);
             }
         }
-
         return $next($request);
     }
 }

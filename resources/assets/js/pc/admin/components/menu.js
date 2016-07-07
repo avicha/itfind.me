@@ -2,12 +2,12 @@ import React from 'react';
 const Menu = () => {
     let url = window.location.pathname;
     return (
-        <div className="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div className="panel-group" role="tablist" aria-multiselectable="true">
             <div className="panel panel-default">
                 <div className="panel-heading" role="tab" id="article-manage-tab">
                     <h4 className="panel-title">
-                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#article-manage">
-                      文章管理
+                        <a role="button" data-toggle="collapse" href="#article-manage">
+                        文章管理
                         </a>
                     </h4>
                 </div>
@@ -28,7 +28,7 @@ const Menu = () => {
             <div className="panel panel-default">
                 <div className="panel-heading" role="tab" id="blog-manage-tab">
                     <h4 className="panel-title">
-                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#blog-manage">
+                        <a role="button" data-toggle="collapse" href="#blog-manage">
                         我的博客
                         </a>
                     </h4>

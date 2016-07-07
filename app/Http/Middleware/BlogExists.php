@@ -17,12 +17,12 @@ class BlogExists
      */
     public function handle($request, Closure $next)
     {
-        if($request->session()->has('blog')){
-            $next($request);
+        if($request->user()->has_blog){
+            return $next($request);
         }
         else{
             if($request->ajax()){
-                return response()->json(['code' => Response::HTTP_NO_CONTENT, 'msg' => '你还未开通博客'], Response::HTTP_NO_CONTENT);
+                return response()->json(['code' => Response::HTTP_EXPECTATION_FAILED, 'msg' => '你还未开通博客'], Response::HTTP_EXPECTATION_FAILED);
             }
             else{
                 return view(\App\Common\Utils::getAgent().'.admin.home');

@@ -18,7 +18,7 @@ const HomeContainer = () => {
                 <div className="col-md-9">
                     <div className="panel panel-default">
                         <div className="panel-heading clearfix">
-                            <a className="btn btn-info pull-right" href={'/blog/' + blog.id + '/edit'}>设置</a>
+                            <a className="btn btn-info pull-right" href="/blog/edit">设置</a>
                             <h3 className="panel-title">博客基本信息</h3>
                         </div>
                         <div className="panel-body">

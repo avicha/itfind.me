@@ -9,6 +9,15 @@ use App\Http\Services\ArticleCategoryService;
 
 class ArticleCategoryController extends Controller
 {
+    /**
+     * Instantiate a new ArticleCategoryController instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('blog.exists');
+    }
 
     /**
      * Display a listing of the resource.

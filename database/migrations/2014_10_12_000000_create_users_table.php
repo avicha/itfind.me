@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('nick')->comment('昵称');
             $table->string('avatar')->nullable()->comment('头像');
             $table->boolean('active')->default(true)->comment('是否激活');
+            $table->boolean('has_blog')->default(false)->comment('是否开通博客');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

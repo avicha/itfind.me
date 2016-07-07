@@ -18,14 +18,16 @@ class BlogService extends BaseService
      */
     public static function create($user_id, $data)
     {
-        $user = User::with('blog')->findOrFail($user_id);
-        if(!$user->blog){
+        $user = User::findOrFail($user_id);
+        if(!$user->has_blog){
             $blog = new Blog();
             $blog->title = $data['title'];
             $blog->intro = $data['intro'];
             $blog->user_id = $user_id;
             $blog->save();
             ArticleCategoryService::create($blog->id, ['name' => '默认分类'], true);
+            $user->has_blog = true;
+            $user->save();
             return ['code' => 0, 'data' => $blog];
         }
         else{
@@ -45,13 +47,12 @@ class BlogService extends BaseService
     /**
      * [update 更新某个用户的博客]
      * @param  [type] $user_id [用户ID]
-     * @param  [type] $id      [博客ID]
      * @param  [type] $data    [更新数据]
      * @return [type]          [更新的博客]
      */
-    public static function update($user_id, $id, $data)
+    public static function update($user_id, $data)
     {
-        $blog = Blog::where(['user_id' => $user_id, 'id' => $id])->firstOrFail();
+        $blog = Blog::where(['user_id' => $user_id])->firstOrFail();
         $blog->update($data);
         return ['code' => 0, 'data' => $blog];
     }
@@ -61,9 +62,9 @@ class BlogService extends BaseService
      * @param  [type] $id      [博客ID]
      * @return [type]          [删除的博客]
      */
-    public static function delete($user_id, $id)
+    public static function delete($user_id)
     {
-        $blog = Blog::where(['user_id' => $user_id, 'id' => $id])->firstOrFail();
+        $blog = Blog::where(['user_id' => $user_id])->firstOrFail();
         $blog->delete();
         return ['code' => 0, 'data' => $blog];
     }

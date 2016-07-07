@@ -10,6 +10,16 @@ use App\Http\Services\BlogService;
 class BlogController extends Controller
 {
     /**
+     * Instantiate a new BlogController instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('blog.exists', ['only' => ['show', 'edit', 'update', 'destroy']]);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -54,9 +64,9 @@ class BlogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        $res = BlogService::get($id);
+        $res = BlogService::get($request->user()->blog->id);
         if($res['code']){
             return response()->json($res, $res['code']);
         }
@@ -71,9 +81,9 @@ class BlogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
-        return view(\App\Common\Utils::getAgent().'.admin.blog.edit', ['id' => $id]);
+        return view(\App\Common\Utils::getAgent().'.admin.blog.edit', ['id' => $request->user()->blog->id]);
     }
 
     /**
@@ -86,7 +96,7 @@ class BlogController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->only(['title', 'intro']);
-        $res = BlogService::update($request->user()->id, $id, $data);
+        $res = BlogService::update($request->user()->id, $data);
         if($res['code']){
             return response()->json($res, $res['code']);
         }
@@ -104,7 +114,7 @@ class BlogController extends Controller
      */
     public function destroy($id)
     {
-        $res = BlogService::delete($request->user()->id, $id);
+        $res = BlogService::delete($request->user()->id);
         if($res['code']){
             return response()->json($res, $res['code']);
         }
