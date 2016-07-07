@@ -42,7 +42,7 @@
                     <span class="author">作者：{{ $article->author }}</span>
                 </div>
                 <p class="desc">
-                    摘要：{{ html_entity_decode($article->desc, ENT_COMPAT, 'UTF-8') }}&nbsp;
+                    摘要：{{ html_entity_decode($article->desc, ENT_COMPAT, 'UTF-8') }}...&nbsp;
                     <a class="read-more" href="/{{ $blog->user->nick }}/article/{{ $article->id }}">阅读全文</a>
                 </p>
                 <div class="meta">
