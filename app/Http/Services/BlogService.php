@@ -45,6 +45,22 @@ class BlogService extends BaseService
         return ['code' => 0, 'data' => $blog];
     }
     /**
+     * [get 获取博客]
+     * @param  [type] $id      [博客ID]
+     * @return [type]          [博客]
+     */
+    public static function getByNick($nick, $fields = ['id', 'title', 'intro', 'created_at'])
+    {
+        $user = User::where(['nick' => $nick])->firstOrFail();
+        $blog = $user->blog;
+        if($blog){
+            return ['code' => 0, 'data' => $blog];
+        }
+        else{
+            return ['code' => Response::HTTP_NOT_FOUND, 'msg' => '该用户还未开通博客'];
+        }
+    }
+    /**
      * [update 更新某个用户的博客]
      * @param  [type] $user_id [用户ID]
      * @param  [type] $data    [更新数据]

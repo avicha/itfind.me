@@ -9,7 +9,7 @@
 
 @section('stylesheet')
 @parent
-<link rel="stylesheet" type="text/css" href="{{ config('app.static_url_prefix') }}/css/pc/admin/containers/article/detail.css">
+<link rel="stylesheet" type="text/css" href="{{ config('app.static_url_prefix') }}/css/pc/admin/article/detail.css">
 @endsection
 
 @section('javascript')

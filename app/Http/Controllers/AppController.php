@@ -8,9 +8,9 @@ use App\Http\Requests;
 
 class AppController extends Controller
 {
-    public function index()
+    public function mainIndexView()
     {
-        return view(\App\Common\Utils::getAgent().'.index');
+        return view(\App\Common\Utils::getAgent().'.main.index');
     }
     /**
      * Show the application dashboard.

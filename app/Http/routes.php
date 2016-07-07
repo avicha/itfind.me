@@ -10,10 +10,11 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-//个人中心首页
-Route::get('/', ['as' => 'admin_index', 'uses' => 'AppController@adminHomeView']);
+
 //个人中心
 Route::group(['domain' => config('app.admin_host'), 'middleware' => 'auth', 'namespace' => 'Admin'], function(){
+    //个人中心首页
+    Route::get('/', ['as' => 'admin_index', 'uses' => '\App\Http\Controllers\AppController@adminHomeView']);
     //文章分类
     Route::resource('article_category', 'ArticleCategoryController');
     //文章管理
@@ -27,10 +28,11 @@ Route::group(['domain' => config('app.admin_host'), 'middleware' => 'auth', 'nam
         Route::put('/{id}', 'BlogController@update')->where(['id' => '\d+']);
     });
 });
+
 //主站点
-Route::group(['domain' => config('app.main_host')], function(){
+Route::group(['domain' => config('app.main_host'), 'namespace' => 'Main'], function(){
     //首页
-    Route::get('/', 'AppController@index');
+    Route::get('/', ['as' => 'main_index', 'uses' => '\App\Http\Controllers\AppController@mainIndexView']);
     Route::get('/{nick}', 'BlogController@show');
 });
 

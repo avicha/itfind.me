@@ -7,7 +7,7 @@
 
 @section('stylesheet')
 @parent
-<link rel="stylesheet" type="text/css" href="{{ config('app.static_url_prefix') }}/css/pc/admin/containers/home.css">
+<link rel="stylesheet" type="text/css" href="{{ config('app.static_url_prefix') }}/css/pc/admin/home.css">
 @endsection
 
 @section('title', '个人中心')
