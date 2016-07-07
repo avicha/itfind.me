@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Requests;
 use App\Http\Services\ArticleService;
+use Log;
 
 class ArticleController extends Controller
 {
@@ -57,7 +58,7 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->only(['title', 'category_id', 'tags', 'content']);
+        $data = $request->only(['title', 'category_id', 'tags', 'content', 'is_top']);
         $res = ArticleService::create($request->user()->blog->id, $data);
         if($res['code']){
             return response()->json($res, $res['code']);
@@ -109,7 +110,7 @@ class ArticleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->only(['title', 'category_id', 'tags', 'content']);
+        $data = $request->only(['title', 'category_id', 'tags', 'content', 'is_top']);
         $res = ArticleService::update($request->user()->blog->id, $id, $data);
         if($res['code']){
             return response()->json($res, $res['code']);

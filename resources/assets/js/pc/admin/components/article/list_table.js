@@ -29,7 +29,10 @@ class ArticleTable extends Component {
                 </thead>
                 <tbody>
                     {this.props.articles.map((article)=>{
-                        return <tr key={article.id}><td><a href={'/article/' + article.id}>{article.title}</a></td><td>{article.category.name}</td><td>{article.tags}</td><td>{article.created_at}</td><td><a className="btn btn-info btn-xs" href={'/article/' + article.id + '/edit'}><span className="glyphicon glyphicon-edit"></span> 编辑</a> <a className="btn btn-danger btn-xs" onClick={this.removeBtnClick.bind(this, article)}><span className="glyphicon glyphicon-remove"></span> 删除</a> <a className="btn btn-info btn-xs" href={'/article/' + article.id}><span className="glyphicon glyphicon-file"></span> 预览</a></td></tr>;
+                        let tags = (article.tags || '').split(',').map(tag => {
+                            return '<span class="label label-info">' + tag + '</span>';
+                        }).join(' ');
+                        return <tr key={article.id}><td>{article.is_top? '【置顶】':''}<a href={'/article/' + article.id}>{article.title}</a></td><td>{article.category.name}</td><td dangerouslySetInnerHTML={{__html: tags}}></td><td>{article.created_at}</td><td><a className="btn btn-info btn-xs" href={'/article/' + article.id + '/edit'}><span className="glyphicon glyphicon-edit"></span> 编辑</a> <a className="btn btn-danger btn-xs" onClick={this.removeBtnClick.bind(this, article)}><span className="glyphicon glyphicon-remove"></span> 删除</a> <a className="btn btn-info btn-xs" href={'/article/' + article.id}><span className="glyphicon glyphicon-file"></span> 预览</a></td></tr>;
                     })}
                 </tbody>
             </table>

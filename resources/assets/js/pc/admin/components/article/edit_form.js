@@ -39,6 +39,7 @@ export default class ArticleEditForm extends Component {
                         this.refs.category.value = article.category_id;
                         this.refs.tags.value = article.tags;
                         this.content_editor.summernote('code', article.content);
+                        this.refs.is_top.checked = article.is_top;
                         this.isReady = true;
                     }
                 });
@@ -57,7 +58,8 @@ export default class ArticleEditForm extends Component {
                 title: this.refs.title.value,
                 category_id: this.refs.category.value,
                 tags: this.refs.tags.value.replace(/，/g, ','),
-                content: this.content_editor.summernote('code')
+                content: this.content_editor.summernote('code'),
+                is_top: this.refs.is_top.checked,
             };
             if (!data.title) {
                 window.alert('请输入文章标题');
@@ -111,7 +113,12 @@ export default class ArticleEditForm extends Component {
                     </div>
                 </div>
                 <div className="form-group">
-                    <div className="col-sm-offset-1 col-sm-10">
+                    <div className="col-sm-offset-1 col-sm-2">
+                        <label className="checkbox-inline">
+                            <input type="checkbox" ref="is_top" /> 是否置顶
+                        </label>
+                    </div>
+                    <div className="col-sm-8">
                         <button type="submit" className="btn btn-primary">保存</button>
                     </div>
                 </div>

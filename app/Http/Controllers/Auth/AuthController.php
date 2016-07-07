@@ -124,8 +124,8 @@ class AuthController extends Controller
         return Validator::make($data, [
             'phone' => 'required|size:11|unique:users,phone',
             'password' => 'required|confirmed',
-            'nick' => 'required',
-        ], ['phone.required' => '请输入手机号码', 'phone.size' => '请输入11位数字的手机号码', 'phone.unique' => '手机号码已经被注册', 'password.required' => '请输入密码', 'password.confirmed' => '请输入一致的密码', 'nick.required' => '请输入昵称']);
+            'nick' => 'required|unique:users,nick',
+        ], ['phone.required' => '请输入手机号码', 'phone.size' => '请输入11位数字的手机号码', 'phone.unique' => '手机号码已经被注册', 'password.required' => '请输入密码', 'password.confirmed' => '请输入一致的密码', 'nick.required' => '请输入昵称', 'nick.unique' => '该昵称已经被使用']);
     }
 
     /**

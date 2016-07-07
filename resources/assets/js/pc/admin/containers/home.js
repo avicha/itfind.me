@@ -8,6 +8,7 @@ import Menu from '../components/menu';
 
 const HomeContainer = () => {
     let blog = $('meta[name="blog"]').attr('content');
+    let nick = $('meta[name="nick"]').attr('content');
     if (blog) {
         blog = JSON.parse(blog);
         return (
@@ -22,7 +23,7 @@ const HomeContainer = () => {
                             <h3 className="panel-title">博客基本信息</h3>
                         </div>
                         <div className="panel-body">
-                            <h3>您的博客：{blog.title}</h3>
+                            <h3>您的博客：<a href={'http://itfind.me/'+nick}>{blog.title}</a></h3>
                             <p>简介：{blog.intro}</p>
                             <p className="meta"><span>访问数：{blog.views_count}</span><span>文章数：{blog.articles_count}</span></p>
                             <p>
