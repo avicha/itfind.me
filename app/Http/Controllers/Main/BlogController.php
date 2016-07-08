@@ -15,6 +15,7 @@ class BlogController extends Controller
         $res = BlogService::getByNick($nick);
         $blog = $res['data'];
         $articles = $blog->articles()->orderBy('is_top', 'desc')->orderBy('created_at', 'desc')->paginate(12);
-        return view(\App\Common\Utils::getAgent().'.main.blog.index', ['blog' => $blog, 'articles' => $articles]);
+        $hot_articles = $blog->articles()->orderBy('w', 'desc')->limit(10)->get();
+        return view(\App\Common\Utils::getAgent().'.main.blog.index', ['blog' => $blog, 'articles' => $articles, 'hot_articles' => $hot_articles]);
     }
 }

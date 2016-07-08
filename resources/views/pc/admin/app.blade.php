@@ -14,7 +14,7 @@
 <link rel="stylesheet" type="text/css" href="{{ config('app.static_url_prefix') }}/css/lib/bootstrap/3.3.4/bootstrap.css">
 @endsection
 
-@section('content')
+@section('body')
 @include('pc.auth.nav')
 <div id="root" class="container"></div>
 @endsection

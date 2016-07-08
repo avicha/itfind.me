@@ -1,0 +1,23 @@
+@import '../../../global';
+$header-height: 58px;
+#header{
+    width: 100%;
+    z-index: 999;
+    background-color: #4db7ad;
+    box-shadow: 0 2px 6px rgba(100,100,100,0.3);
+    @extend .topFixed;
+    .container{
+        @extend .clearfix;
+        text-align: center;
+        line-height: $header-height;
+        .title{
+            display: block;
+            float: left;
+            height: $header-height;
+            line-height: $header-height;
+            color: #fff;
+            font-size: 26px;
+            margin-right: 20px;
+        }
+    }
+}

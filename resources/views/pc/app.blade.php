@@ -22,7 +22,7 @@
     @yield('stylesheet')
 </head>
 <body>
-    @yield('content')
+    @yield('body')
     @yield('javascript')
 </body>
 </html>

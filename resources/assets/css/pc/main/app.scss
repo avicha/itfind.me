@@ -1,0 +1,16 @@
+@import '../../global';
+body{
+    font-family: "Microsoft Yahei","Helvetica Neue",Helvetica,Arial,sans-serif;
+    background-color: #eee;
+    color: #555;
+}
+.container{
+    margin-left: auto;
+    margin-right: auto;
+    @media screen and (min-width: 1080px) {
+        width: 900px;
+    }
+    @media screen and (min-width: 1400px) {
+        width: 1200px;
+    }
+}

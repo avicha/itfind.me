@@ -51,7 +51,7 @@ class ArticleService extends BaseService
      * @param  [type] $id      [文章ID]
      * @return [type]          [文章]
      */
-    public static function get($id, $fields = ['id', 'title', 'author', 'category_id', 'tags', 'content', 'desc', 'is_top', 'created_at'])
+    public static function get($id, $fields = ['id', 'title', 'author', 'category_id', 'tags', 'content', 'desc', 'blog_id', 'is_top', 'created_at'])
     {
         $with = ['category' => function($query){
             $query->select(['id', 'name']);

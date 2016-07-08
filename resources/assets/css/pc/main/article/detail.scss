@@ -1,0 +1,29 @@
+@import '../../../global';
+@import '../app';
+@import '../components/header';
+#header{
+    .article-categories{
+        overflow: hidden;
+        .article-category{
+            list-style: none;
+            float: left;
+            a{
+                display: block;
+                padding: 0 20px;
+                font-size: 14px;
+                color: #fff;
+                line-height: $header-height;
+                transition: all .4s ease;
+                &:hover{
+                    background-color: #64a69c;
+                }
+            }
+        }
+    }
+}
+#content{
+    @extend .container;
+    margin-top: $header-height+20;
+    margin-bottom: 20px;
+    @import '../components/article_detail';
+}

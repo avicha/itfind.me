@@ -13,48 +13,87 @@
 <link rel="stylesheet" type="text/css" href="{{ config('app.static_url_prefix') }}/css/pc/main/blog/index.css">
 @endsection
 
-@section('content')
+@section('body')
 <div id="header">
     <div class="container">
         <a href="/{{ $blog->user->nick }}" class="title">{{ $blog->title }}</a>
-        <ul class="article-categories">
-            @foreach ($blog->article_categories as $article_category)
-            <li class="article-category">
-                <a href="/{{ $blog->
-                    user->nick }}/category/{{ $article_category->id }}">{{ $article_category->name }}
-                </a>
-            </li>
-            @endforeach
-        </ul>
+        <div class="search-form">
+            <input type="text" name="kw" class="search-input" placeholder="请输入搜索文章的关键字" />
+            <em class="btn search-btn"></em>
+        </div>
     </div>
 </div>
 <div id="content">
     <div id="left-panel">
+        <div class="blog-info-container">
+            <img class="avatar" src="{{ $blog->
+            user->avatar ?: config('app.static_url_prefix').'/img/pc/default_avatar.jpg' }}">
+            <div class="user-info">
+                <p>
+                    <span class="label">昵称：</span>
+                    <span class="value">{{ $blog->user->nick }}</span>
+                </p>
+                <p>
+                    <span class="label">简介：</span>
+                    <span class="value">{{ $blog->intro ?: '这个博主很懒，什么简介都没有。' }}</span>
+                </p>
+            </div>
+            <div class="blog-info">
+                <p>
+                    <span class="label">文章数：</span>
+                    <span class="value">{{ $blog->articles_count }}</span>
+                </p>
+                <p>
+                    <span class="label">浏览量：</span>
+                    <span class="value">{{ $blog->views_count }}</span>
+                </p>
+            </div>
+        </div>
+        <div class="article-categories-container">
+            <h3 class="article-categories-text">文章分类</h3>
+            <ul class="article-categories">
+                @foreach ($blog->article_categories as $article_category)
+                <li class="article-category">
+                    <a href="/{{ $blog->
+                        user->nick }}/category/{{ $article_category->id }}">{{ $article_category->name }}
+                    </a>
+                </li>
+                @endforeach
+            </ul>
+        </div>
+        <div class="hot-articles-container">
+            <h3 class="hot-articles-text">热门文章</h3>
+            <ul class="hot-articles">
+                @foreach ($hot_articles as $hot_article)
+                <li class="hot-article">
+                    <a href="/{{ $blog->
+                        user->nick }}/article/{{ $hot_article->id }}" target="_blank">{{ $hot_article->title }}
+                    </a>
+                </li>
+                @endforeach
+            </ul>
+        </div>
+    </div>
+    <div id="right-panel">
         <div class="articles">
             @foreach ($articles as $article)
-            <div class="article">
+            <a class="article" href="/{{ $blog->user->nick }}/article/{{ $article->id }}" target="_blank">
                 <img src="{{ $article->
                 image }}" class="image{{ $article->image?'':' none' }}" alt="{{ $article->title }}" />
-                <div class="title-container">
-                    <a class="title" href="/{{ $blog->
-                        user->nick }}/article/{{ $article->id }}">{{ $article->title }}
-                    </a>
+                <div class="title">
+                    {{ $article->is_top?'【置顶】':'' }}{{ $article->title }}
                     <span class="author">作者：{{ $article->author }}</span>
                 </div>
                 <p class="desc">
-                    摘要：{{ html_entity_decode($article->desc, ENT_COMPAT, 'UTF-8') }}...&nbsp;
-                    <a class="read-more" href="/{{ $blog->user->nick }}/article/{{ $article->id }}">阅读全文</a>
+                    摘要：{{ html_entity_decode($article->desc, ENT_COMPAT, 'UTF-8') }}...
                 </p>
                 <div class="meta">
                     发布时间：{{ $article->created_at }} 阅读数（{{ $article->views_count }}） 评论（{{ $article->comments_count }}）
                 </div>
-            </div>
+            </a>
             @endforeach
         </div>
         {{ $articles->links() }}
-    </div>
-    <div id="right-panel">
-        <div class="blog-info-container"></div>
     </div>
 </div>
 @endsection
