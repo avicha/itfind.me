@@ -111,7 +111,7 @@ var generateBlockTasks = function(block, blockPath) {
     });
     //copy block css
     gulp.task(block + '-sass', ['clean:' + block + '-css', 'copy:img'], function() {
-        return gulp.src([SOURCE + '/css/' + blockPath + '/**/*.scss']).pipe(replace('@host', STATIC_URL_PREFIX)).pipe(sass().on('error', sass.logError)).pipe(autoprefixer({
+        return gulp.src([SOURCE + '/css/' + blockPath + '/**/*.scss']).pipe(sass().on('error', sass.logError)).pipe(replace('@host', STATIC_URL_PREFIX)).pipe(autoprefixer({
             browsers: ['last 18 versions'],
             cascade: false
         })).pipe(csslint(SOURCE + '/css/.csslintrc.json')).pipe(csscomb(SOURCE + '/css/.csscomb.json')).pipe(cleanCSS({
@@ -126,7 +126,7 @@ var generateBlockTasks = function(block, blockPath) {
         })).pipe(gulp.dest(BUILD));
     });
     gulp.task(block + '-sass-dev', ['clean:' + block + '-css', 'copy:img'], function() {
-        return gulp.src([SOURCE + '/css/' + blockPath + '/**/*.scss']).pipe(replace('@host', STATIC_URL_PREFIX)).pipe(sass().on('error', sass.logError)).pipe(gulp.dest(BUILD + '/css/' + blockPath));
+        return gulp.src([SOURCE + '/css/' + blockPath + '/**/*.scss']).pipe(sass().on('error', sass.logError)).pipe(replace('@host', STATIC_URL_PREFIX)).pipe(gulp.dest(BUILD + '/css/' + blockPath));
     });
     //copy block html
     gulp.task(block + '-html', [block + '-js', block + '-sass', 'clean:' + block + '-html'], function() {

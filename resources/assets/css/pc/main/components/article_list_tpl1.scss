@@ -1,0 +1,52 @@
+.article{
+    display: block;
+    overflow: hidden;
+    position: relative;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    min-height: 117px;
+    background: url(@host/img/pc/article_line.png) bottom repeat-x;
+    .image{
+        display: block;
+        float: left;
+        width: 240px;
+        height: 160px;
+        cursor: pointer;
+        margin-right: 20px;
+        &.none{
+            display: none;
+        }
+    }
+    .title{
+        padding-top: 10px;
+        color: #64a69c;
+        font-size: 18px;
+        line-height: 1.5em;
+        text-shadow: 1px 1px 2px #d5d5d5;
+        transition: all .4s ease;
+        &:hover{
+            padding-left: 20px;
+        }
+        .author{
+            margin-left: 15px;
+            font-size: 12px;
+            line-height: 27px;
+            color: #555;
+        }
+    }
+    .desc{
+        margin-top: 15px;
+        text-indent: 2em;
+        font-size: 14px;
+        line-height: 1.5em;
+        color: #555;
+    }
+    .meta{
+        position: absolute;
+        right: 0;
+        bottom: 15px;
+        color: #c4c4c4;
+        font-size: 14px;
+        line-height: 1.5em;
+    }
+}

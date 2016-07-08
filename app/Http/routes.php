@@ -37,6 +37,10 @@ Route::group(['domain' => config('app.main_host'), 'namespace' => 'Main'], funct
     Route::get('/{nick}', 'BlogController@show');
     //文章详情页
     Route::get('/{nick}/article/{id}', 'ArticleController@show')->where(['id' => '\d+']);
+    //关键字文章列表页
+    Route::get('/{nick}/article', 'ArticleController@searchByKeyword');
+    //分类文章列表页
+    Route::get('/{nick}/category/{id}', 'ArticleController@searchByCategory')->where(['id' => '\d+']);
 });
 
 //注册、登录、退出登录

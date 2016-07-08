@@ -17,10 +17,10 @@
 <div id="header">
     <div class="container">
         <a href="/{{ $blog->user->nick }}" class="title">{{ $blog->title }}</a>
-        <div class="search-form">
+        <form class="search-form" action="/{{ $blog->user->nick }}/article">
             <input type="text" name="kw" class="search-input" placeholder="请输入搜索文章的关键字" />
             <em class="btn search-btn"></em>
-        </div>
+        </form>
     </div>
 </div>
 <div id="content">
@@ -64,34 +64,19 @@
         <div class="hot-articles-container">
             <h3 class="hot-articles-text">热门文章</h3>
             <ul class="hot-articles">
-                @foreach ($hot_articles as $hot_article)
-                <li class="hot-article">
-                    <a href="/{{ $blog->
-                        user->nick }}/article/{{ $hot_article->id }}" target="_blank">{{ $hot_article->title }}
-                    </a>
-                </li>
-                @endforeach
+                @each('pc.main.article.list_tpl2', $hot_articles, 'article')
             </ul>
         </div>
     </div>
     <div id="right-panel">
+        @if(isset($category))
+        <div class="search-result-tips">搜索到了{{ $articles->total() }}篇分类为“{{ $category->name }}”的文章</div>
+        @endif
+        @if(isset($kw))
+        <div class="search-result-tips">搜索到了{{ $articles->total() }}篇关键字为“{{ $kw }}”的文章</div>
+        @endif
         <div class="articles">
-            @foreach ($articles as $article)
-            <a class="article" href="/{{ $blog->user->nick }}/article/{{ $article->id }}" target="_blank">
-                <img src="{{ $article->
-                image }}" class="image{{ $article->image?'':' none' }}" alt="{{ $article->title }}" />
-                <div class="title">
-                    {{ $article->is_top?'【置顶】':'' }}{{ $article->title }}
-                    <span class="author">作者：{{ $article->author }}</span>
-                </div>
-                <p class="desc">
-                    摘要：{{ html_entity_decode($article->desc, ENT_COMPAT, 'UTF-8') }}...
-                </p>
-                <div class="meta">
-                    发布时间：{{ $article->created_at }} 阅读数（{{ $article->views_count }}） 评论（{{ $article->comments_count }}）
-                </div>
-            </a>
-            @endforeach
+        @each('pc.main.article.list_tpl1', $articles, 'article')
         </div>
         {{ $articles->links() }}
     </div>

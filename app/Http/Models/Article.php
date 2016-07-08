@@ -27,6 +27,11 @@ class Article extends Model
      */
     protected $fillable = ['title', 'author', 'category_id', 'tags', 'is_top', 'content', 'desc'];
 
+    public function blog()
+    {
+        return $this->belongsTo('App\Http\Models\Blog', 'blog_id', 'id');
+    }
+
     public function category()
     {
         return $this->hasOne('App\Http\Models\ArticleCategory', 'id', 'category_id');

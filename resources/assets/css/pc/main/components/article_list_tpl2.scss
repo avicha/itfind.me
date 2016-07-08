@@ -1,0 +1,16 @@
+@import '../../../global';
+.article{
+    list-style: none;
+    display: block;
+    a{
+        display: block;
+        font-size: 14px;
+        color: #555;
+        line-height: 30px;
+        transition: all .4s ease;
+        @extend .text-ellipsis;
+        &:hover{
+            color: #64a69c;
+        }
+    }
+}
