@@ -23,7 +23,7 @@ class ArticleService extends BaseService
         $with = ['category' => function($query){
             $query->select(['id', 'name']);
         }];
-        return ['code' => 0, 'data' => $blog->articles()->select(['id', 'title', 'author', 'category_id', 'tags', 'content', 'desc', 'is_top', 'created_at'])->with($with)->orderBy('created_at', 'desc')->get()->toArray()];
+        return $blog->articles()->select(['id', 'title', 'author', 'category_id', 'tags', 'content', 'desc', 'is_top', 'created_at'])->with($with);
     }
     /**
      * [create 为某个博客创建文章]

@@ -14,6 +14,23 @@ use App\Http\Services\ArticleCategoryService;
 
 class ArticleController extends Controller
 {
+    public function index(Request $request, $blog_id)
+    {
+        $articles = ArticleService::getList($blog_id);
+        switch ($request->query('order')) {
+            case 'created_at':
+                $articles->orderBy('created_at');
+                break;
+            case '-created_at':
+                $articles->orderBy('created_at', 'desc');
+                break;
+            default:
+                # code...
+                break;
+        }
+        return response(['code' => 0, 'data' => $articles->paginate(12)]);
+    }
+
     public function searchByCategory(Request $request, $nick, $id)
     {
         $blog = BlogService::getByNick($nick);

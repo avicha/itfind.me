@@ -29,13 +29,8 @@ class ArticleController extends Controller
     public function index(Request $request)
     {
         if($request->isXmlHttpRequest()){
-            $res = ArticleService::getList($request->user()->blog->id);
-            if($res['code']){
-                return response()->json($res, $res['code']);
-            }
-            else{
-                return response()->json($res, Response::HTTP_OK);
-            }
+            $articles = ArticleService::getList($request->user()->blog->id)->orderBy('created_at', 'desc')->get();
+            return response()->json(['code' => 0, 'data' => $articles], Response::HTTP_OK);
         }else{
             return view(\App\Common\Utils::getAgent().'.admin.article.list');
         }

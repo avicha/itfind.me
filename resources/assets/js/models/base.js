@@ -1,5 +1,3 @@
-import $ from 'jquery';
-
 let extend = (base, other) => {
     for (let prop in other) {
         base[prop] = other[prop];
@@ -11,6 +9,7 @@ export default class BaseModel {
         extend(this, attributes);
         this.urlRoot = '';
         this.idAttribute = 'id';
+        this.token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     }
     clone() {
         return new this.constructor(this._getAttributes());
@@ -73,7 +72,7 @@ export default class BaseModel {
                 Accept: 'application/json',
                 'X-Requested-With': 'XMLHttpRequest',
                 'Content-Type': 'application/json; charset=UTF-8',
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                'X-CSRF-TOKEN': this.token
             }),
             body: JSON.stringify(attributes),
             credentials: 'include',
@@ -96,7 +95,7 @@ export default class BaseModel {
                 Accept: 'application/json',
                 'X-Requested-With': 'XMLHttpRequest',
                 'Content-Type': 'application/json; charset=UTF-8',
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                'X-CSRF-TOKEN': this.token
             }),
             body: JSON.stringify(attributes),
             credentials: 'include',
@@ -125,7 +124,7 @@ export default class BaseModel {
             headers: {
                 Accept: 'application/json',
                 'X-Requested-With': 'XMLHttpRequest',
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                'X-CSRF-TOKEN': this.token
             },
             credentials: 'include'
         }).then(res => {

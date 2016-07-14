@@ -3,29 +3,9 @@ import {
     receiveError
 } from './global';
 
-export const RECEIVE_BLOG_LIST = 'RECEIVE_BLOG_LIST';
 export const RECEIVE_BLOG_FETCH = 'RECEIVE_BLOG_FETCH';
-export const RECEIVE_BLOG_CREATE = 'RECEIVE_BLOG_CREATE';
-export const RECEIVE_BLOG_UPDATE = 'RECEIVE_BLOG_UPDATE';
-export const RECEIVE_BLOG_REMOVE = 'RECEIVE_BLOG_REMOVE';
+export const RECEIVE_BLOG_NEWEST_ARTICLES_FETCH = 'RECEIVE_BLOG_NEWEST_ARTICLES_FETCH';
 
-let requestBlogList = (filter = {}) => {
-    return (dispatch) => {
-        return Blog.list(filter).then(json => {
-            if (json.code === 0) {
-                return dispatch(receiveBlogList(json.data));
-            } else {
-                return dispatch(receiveError(json.msg));
-            }
-        });
-    };
-};
-let receiveBlogList = (data) => {
-    return {
-        type: RECEIVE_BLOG_LIST,
-        data: data.map(blog => new Blog(blog)),
-    };
-};
 let requestBlogFetch = (id) => {
     return (dispatch) => {
         let blog = new Blog({
@@ -46,68 +26,31 @@ let receiveBlogFetch = (data) => {
         data,
     };
 };
-let requestBlogCreate = (data) => {
-    return (dispatch) => {
-        let blog = new Blog(data);
-        return blog.create().then(json => {
-            if (json.code === 0) {
-                return dispatch(receiveBlogCreate(blog));
-            } else {
-                return dispatch(receiveError(json.msg))
-            }
-        });
-    };
-};
-let receiveBlogCreate = (data) => {
+let receiveBlogNewestArticlesFetch = (data) => {
     return {
-        type: RECEIVE_BLOG_CREATE,
+        type: RECEIVE_BLOG_NEWEST_ARTICLES_FETCH,
         data,
     };
 };
-let requestBlogUpdate = (id, data) => {
+let requestNewestArticlesFetch = (id, page) => {
     return (dispatch) => {
         let blog = new Blog({
             id: id
         });
-        return blog.update(data).then(json => {
+        return blog.fetchArticles({
+            page: page,
+            order: '-created_at'
+        }).then(json => {
             if (json.code === 0) {
-                return dispatch(receiveBlogUpdate(blog));
+                return dispatch(receiveBlogNewestArticlesFetch(json.data));
             } else {
-                return dispatch(receiveError(json.msg))
+                return dispatch(receiveError(json.msg));
             }
+        }).catch(e => {
+            return dispatch(receiveError(e));
         });
-    };
-};
-let receiveBlogUpdate = (data) => {
-    return {
-        type: RECEIVE_BLOG_UPDATE,
-        data,
-    };
-};
-let requestBlogRemove = (id) => {
-    return (dispatch) => {
-        let blog = new Blog({
-            id: id
-        });
-        return blog.remove().then(json => {
-            if (json.code === 0) {
-                return dispatch(receiveBlogRemove(id));
-            } else {
-                return dispatch(receiveError(json.msg))
-            }
-        });
-    };
-};
-let receiveBlogRemove = (data) => {
-    return {
-        type: RECEIVE_BLOG_REMOVE,
-        data,
-    };
-};
+    }
+}
 export {
-    requestBlogList,
-    requestBlogFetch,
-    requestBlogCreate,
-    requestBlogUpdate,
-    requestBlogRemove,
+    requestNewestArticlesFetch,
 };

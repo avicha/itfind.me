@@ -4,12 +4,19 @@ import {
 import {
     RECEIVE_ERROR
 } from '../actions/global';
+import {
+    RECEIVE_BLOG_NEWEST_ARTICLES_FETCH
+} from '../actions/blog';
+
 let blog_id = (state = document.querySelector('meta[name="blog-id"]').getAttribute('content'), action) => {
     return state;
 };
 let newest_articles = (state = [], action) => {
     switch (action.type) {
-        default: return state;
+        case RECEIVE_BLOG_NEWEST_ARTICLES_FETCH:
+            return action.data.data
+        default:
+            return state;
     }
 }
 let error = (state = '', action) => {

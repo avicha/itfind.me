@@ -1,8 +1,28 @@
-import React from 'react';
+import React, {
+    Component
+} from 'react';
+import ArticleListTpl1 from './list_tpl1';
+import {
+    requestNewestArticlesFetch,
+} from '../../actions/blog';
 
-const NewestArticleList = () => (
-    <header>
-        <h4>最新文章</h4>
-    </header>
-);
-export default NewestArticleList;
+
+export default class NewestArticleList extends Component {
+    constructor(props) {
+        super(props);
+    }
+    componentDidMount() {
+        this.props.dispatch(requestNewestArticlesFetch(this.props.blog_id));
+    }
+    render() {
+        return (
+            <div className="articles">
+                {
+                    this.props.newest_articles.map(article=>{
+                        return <ArticleListTpl1 article={article} key={article.id} />
+                    })
+                }
+            </div>
+        );
+    }
+}

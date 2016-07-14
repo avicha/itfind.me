@@ -67,13 +67,8 @@ class BlogController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $res = BlogService::get($request->user()->blog->id);
-        if($res['code']){
-            return response()->json($res, $res['code']);
-        }
-        else{
-            return response()->json($res, Response::HTTP_OK);
-        }
+        $blog = BlogService::get($request->user()->blog->id);
+        return response()->json(['code' => 0, 'data' => $blog], Response::HTTP_OK);
     }
 
     /**

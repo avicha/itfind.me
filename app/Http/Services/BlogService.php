@@ -42,7 +42,7 @@ class BlogService extends BaseService
     public static function get($id, $fields = ['id', 'title', 'intro', 'created_at'])
     {
         $blog = Blog::select($fields)->findOrFail($id);
-        return ['code' => 0, 'data' => $blog];
+        return $blog;
     }
     /**
      * [get 获取博客]
