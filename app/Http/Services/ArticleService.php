@@ -4,6 +4,7 @@ namespace App\Http\Services;
 
 use Illuminate\Http\Response;
 use App\Http\Models\Article;
+use App\Http\Models\ArticleCategory;
 use App\Http\Models\Blog;
 /**
 * 文章服务层
@@ -44,6 +45,7 @@ class ArticleService extends BaseService
         $article->blog_id = $blog_id;
         $article->save();
         Blog::findOrFail($blog_id)->increment('articles_count');
+        ArticleCategory::findOrFail($article->category_id)->increment('articles_count');
         return ['code' => 0, 'data' => $article];
     }
     /**

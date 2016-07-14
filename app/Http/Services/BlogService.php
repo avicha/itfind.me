@@ -54,7 +54,7 @@ class BlogService extends BaseService
         $user = User::where(['nick' => $nick])->firstOrFail();
         $blog = $user->blog;
         if($blog){
-            return ['code' => 0, 'data' => $blog];
+            return $blog;
         }
         else{
             return ['code' => Response::HTTP_NOT_FOUND, 'msg' => '该用户还未开通博客'];

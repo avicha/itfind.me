@@ -23,7 +23,7 @@ var revReplace = require('gulp-rev-replace');
 var env = fs.readFileSync(__dirname + '/.env', {
     encoding: 'utf8'
 });
-var blocks = ['mobile', 'pc-admin', 'pc-main'];
+var blocks = ['mobile-main', 'pc-admin', 'pc-main'];
 var SOURCE = __dirname + '/resources/assets';
 var BUILD = __dirname + '/public/assets';
 var STATIC_URL_PREFIX = (function() {

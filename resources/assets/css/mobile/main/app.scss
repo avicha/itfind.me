@@ -1,0 +1,13 @@
+@import '../../global';
+body{
+    font-family: "Microsoft Yahei","Helvetica Neue",Helvetica,Arial,sans-serif;
+    background-color: #eee;
+    color: #555;
+}
+#page-blog-index{
+    @import 'components/blog_index_nav';
+    @import 'components/blog_menu';
+    .bottom{
+        height: 50px;
+    }
+}

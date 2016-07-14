@@ -1,0 +1,20 @@
+@import '../../../global';
+footer{
+    @extend .bottomFixed;
+    .nav{
+        display: flex;
+        box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
+        .nav-item{
+            flex: 1;
+            text-align: center;
+            line-height: 49px;
+            background-color: #4db7ad;
+            &.active{
+                background-color: #64a69c;
+            }
+            .nav-link{
+                color: #fff;
+            }
+        }
+    }
+}
