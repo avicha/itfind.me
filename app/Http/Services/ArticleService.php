@@ -51,12 +51,12 @@ class ArticleService extends BaseService
      * @param  [type] $id      [文章ID]
      * @return [type]          [文章]
      */
-    public static function fetch($id, $fields = ['id', 'title', 'author', 'category_id', 'tags', 'content', 'desc', 'blog_id', 'is_top', 'created_at'])
+    public static function fetch($id)
     {
         $with = ['category' => function($query){
             $query->select(['id', 'name']);
         }];
-        $article = Article::select($fields)->with($with)->findOrFail($id);
+        $article = Article::with($with)->findOrFail($id);
         return $article;
     }
     /**

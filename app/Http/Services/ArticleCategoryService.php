@@ -42,9 +42,9 @@ class ArticleCategoryService extends BaseService
      * @param  [type] $id      [文章分类ID]
      * @return [type]          [文章分类]
      */
-    public static function fetch($id, $fields = ['id', 'name', 'is_systemic'])
+    public static function fetch($id)
     {
-        $article_category = ArticleCategory::select($fields)->findOrFail($id);
+        $article_category = ArticleCategory::findOrFail($id);
         return $article_category;
     }
     /**

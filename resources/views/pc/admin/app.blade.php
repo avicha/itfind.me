@@ -7,7 +7,6 @@
     @section('meta_description', '管理后台')
     @section('meta_keywords', 'blog,博客,管理后台')
     @section('meta_author', 'avicha, avichabc@gmail.com')
-    <meta name="nick" content="{{ Auth::user()->nick }}">
 @endsection
 
 @section('stylesheet')

@@ -37,9 +37,9 @@ class BlogService extends BaseService
      * @param  [type] $id      [博客ID]
      * @return [type]          [博客]
      */
-    public static function fetch($id, $fields = ['id', 'title', 'intro', 'created_at', 'user_id'])
+    public static function fetch($id)
     {
-        $blog = Blog::select($fields)->findOrFail($id);
+        $blog = Blog::findOrFail($id);
         return $blog;
     }
     /**
