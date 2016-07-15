@@ -4,16 +4,14 @@ namespace App\Http\Services;
 
 use Illuminate\Http\Response;
 use App\Http\Models\Article;
-use App\Http\Models\ArticleCategory;
-use App\Http\Models\Blog;
 /**
 * 文章服务层
 */
 class ArticleService extends BaseService
 {
     /**
-     * [getList 获取某个博客的文章列表]
-     * @param  [type] $blog_id [博客ID]
+     * [searchByBlog 获取某个博客的文章列表]
+     * @param  [type] $blog    [博客]
      * @return [type]          [分类列表]
      */
     public static function searchByBlog($blog)
@@ -25,7 +23,7 @@ class ArticleService extends BaseService
     }
     /**
      * [create 为某个博客创建文章]
-     * @param  [type]  $blog_id     [博客ID]
+     * @param  [type]  $blog        [博客]
      * @param  [type]  $data        [文章数据]
      * @param  boolean $is_systemic [是否系统分类]
      * @return [type]               [创建的文章]
@@ -33,6 +31,8 @@ class ArticleService extends BaseService
     public static function create($blog, $data)
     {
         $article = new Article();
+        $data['content'] = htmlentities($data['content'], ENT_COMPAT, 'UTF-8');
+        $data['desc'] = htmlentities(substr($data['desc'], 0, 120), ENT_COMPAT, 'UTF-8');
         $article->title = $data['title'];
         $article->author = $data['author'];
         $article->category_id = $data['category_id'];
@@ -47,7 +47,7 @@ class ArticleService extends BaseService
         return $article;
     }
     /**
-     * [get 获取某篇文章]
+     * [fetch 获取某篇文章]
      * @param  [type] $id      [文章ID]
      * @return [type]          [文章]
      */
@@ -61,7 +61,7 @@ class ArticleService extends BaseService
     }
     /**
      * [update 更新某个博客的文章]
-     * @param  [type] $blog_id [博客ID]
+     * @param  [type] $blog    [博客]
      * @param  [type] $id      [文章ID]
      * @param  [type] $data    [更新数据]
      * @return [type]          [更新的文章]
@@ -69,12 +69,14 @@ class ArticleService extends BaseService
     public static function update($blog, $id, $data)
     {
         $article = Article::where(['blog_id' => $blog->id, 'id' => $id])->firstOrFail();
+        $data['desc'] = htmlentities(substr($data['desc'], 0, 120), ENT_COMPAT, 'UTF-8');
+        $data['content'] = htmlentities($data['content'], ENT_COMPAT, 'UTF-8');
         $article->update($data);
         return $article;
     }
     /**
      * [delete 删除某个博客的文章]
-     * @param  [type] $blog_id [博客ID]
+     * @param  [type] $blog    [博客]
      * @param  [type] $id      [文章ID]
      * @return [type]          [删除的文章]
      */

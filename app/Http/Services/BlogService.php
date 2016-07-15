@@ -3,7 +3,6 @@
 namespace App\Http\Services;
 
 use Illuminate\Http\Response;
-use App\Http\Models\User;
 use App\Http\Models\Blog;
 /**
 * 博客服务层
@@ -12,7 +11,7 @@ class BlogService extends BaseService
 {
     /**
      * [create 为某个用户创建博客]
-     * @param  [type]  $user_id     [用户ID]
+     * @param  [type]  $user        [用户]
      * @param  [type]  $data        [博客数据]
      * @return [type]               [创建的博客]
      */
@@ -24,7 +23,7 @@ class BlogService extends BaseService
             $blog->intro = $data['intro'];
             $blog->user_id = $user->id;
             $blog->save();
-            ArticleCategoryService::create($blog->id, ['name' => '默认分类'], true);
+            ArticleCategoryService::create($blog, ['name' => '默认分类'], true);
             $user->has_blog = true;
             $user->save();
             return $blog;
@@ -34,7 +33,7 @@ class BlogService extends BaseService
         }
     }
     /**
-     * [get 获取博客]
+     * [fetch 获取博客]
      * @param  [type] $id      [博客ID]
      * @return [type]          [博客]
      */
@@ -45,7 +44,7 @@ class BlogService extends BaseService
     }
     /**
      * [update 更新某个用户的博客]
-     * @param  [type] $user_id [用户ID]
+     * @param  [type] $user    [用户]
      * @param  [type] $data    [更新数据]
      * @return [type]          [更新的博客]
      */
@@ -57,7 +56,7 @@ class BlogService extends BaseService
     }
     /**
      * [delete 删除某个用户的博客]
-     * @param  [type] $user_id [用户ID]
+     * @param  [type] $user    [用户]
      * @param  [type] $id      [博客ID]
      * @return [type]          [删除的博客]
      */

@@ -12,8 +12,8 @@ use App\Http\Models\ArticleCategory;
 class ArticleCategoryService extends BaseService
 {
     /**
-     * [getList 获取某个博客的文章分类列表]
-     * @param  [type] $blog_id [博客ID]
+     * [searchByBlog 获取某个博客的文章分类列表]
+     * @param  [type] $blog    [博客]
      * @return [type]          [分类列表]
      */
     public static function searchByBlog($blog)
@@ -22,7 +22,7 @@ class ArticleCategoryService extends BaseService
     }
     /**
      * [create 为某个博客创建文章分类]
-     * @param  [type]  $blog_id     [博客ID]
+     * @param  [type]  $blog        [博客]
      * @param  [type]  $data        [文章分类数据]
      * @param  boolean $is_systemic [是否系统分类]
      * @return [type]               [创建的文章分类]
@@ -38,7 +38,7 @@ class ArticleCategoryService extends BaseService
         return $article_category;
     }
     /**
-     * [get 获取某个文章分类]
+     * [fetch 获取某个文章分类]
      * @param  [type] $id      [文章分类ID]
      * @return [type]          [文章分类]
      */
@@ -49,7 +49,7 @@ class ArticleCategoryService extends BaseService
     }
     /**
      * [update 更新某个博客的文章分类]
-     * @param  [type] $blog_id [博客ID]
+     * @param  [type] $blog    [博客]
      * @param  [type] $id      [文章分类ID]
      * @param  [type] $data    [更新数据]
      * @return [type]          [更新的文章分类]
@@ -66,7 +66,7 @@ class ArticleCategoryService extends BaseService
     }
     /**
      * [delete 删除某个博客的文章分类]
-     * @param  [type] $blog_id [博客ID]
+     * @param  [type] $blog    [博客]
      * @param  [type] $id      [文章分类ID]
      * @return [type]          [删除的文章分类]
      */

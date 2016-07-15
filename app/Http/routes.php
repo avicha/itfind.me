@@ -33,16 +33,12 @@ Route::group(['domain' => config('app.admin_host'), 'middleware' => 'auth', 'nam
 Route::group(['domain' => config('app.main_host'), 'namespace' => 'Main'], function(){
     //首页
     Route::get('/', ['as' => 'main_index', 'uses' => '\App\Http\Controllers\AppController@mainIndexView']);
-    // //博客首页
-    // Route::get('/{nick}', 'BlogController@show');
     //文章详情页
     Route::get('/article/{id}', 'ArticleController@show')->where(['id' => '\d+']);
-    // //关键字文章列表页
-    // Route::get('/{nick}/article', 'ArticleController@searchByKeyword');
-    // //分类文章列表页
-    // Route::get('/{nick}/category/{id}', 'ArticleController@searchByCategory')->where(['id' => '\d+']);
     Route::group(['prefix' => 'blog/{id}'], function(){
+        //博客首页
         Route::get('/', 'BlogController@show')->where(['id' => '\d+']);
+        //文章列表页
         Route::get('/article', 'ArticleController@index')->where(['id' => '\d+']);
     });
 });

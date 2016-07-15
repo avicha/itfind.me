@@ -7,7 +7,6 @@ use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Http\Services\ArticleService;
-use Log;
 
 class ArticleController extends Controller
 {
@@ -56,8 +55,6 @@ class ArticleController extends Controller
     {
         $data = $request->only(['title', 'author', 'category_id', 'tags', 'content', 'desc', 'is_top']);
         $data['author'] = $data['author'] ?: $request->user()->nick;
-        $data['desc'] = htmlentities(substr($data['desc'], 0, 120), ENT_COMPAT, 'UTF-8');
-        $data['content'] = htmlentities($data['content'], ENT_COMPAT, 'UTF-8');
         $article = ArticleService::create($request->user()->blog, $data);
         return response()->json(['code' => 0, 'data' => ['created_at' => $article->created_at->format('Y-m-d h:i:s'), 'id' => $article->id]], Response::HTTP_CREATED);
     }
@@ -100,8 +97,6 @@ class ArticleController extends Controller
     {
         $data = $request->only(['title', 'author', 'category_id', 'tags', 'content', 'desc', 'is_top']);
         $data['author'] = $data['author'] ?: $request->user()->nick;
-        $data['desc'] = htmlentities(substr($data['desc'], 0, 120), ENT_COMPAT, 'UTF-8');
-        $data['content'] = htmlentities($data['content'], ENT_COMPAT, 'UTF-8');
         $article = ArticleService::update($request->user()->blog, $id, $data);
         return response()->json(['code' => 0, 'data' => ['updated_at' => $article->updated_at->format('Y-m-d h:i:s')]], Response::HTTP_OK);
     }
