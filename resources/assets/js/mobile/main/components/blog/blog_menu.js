@@ -1,17 +1,17 @@
 import React from 'react';
 import {
     Link
-} from 'react-router'
+} from 'react-router';
 
 const BlogMenuNav = ({
     current_location,
-    nick,
+    blog_id,
 }) => (
     <footer>
         <ul className="nav">
-            <li className={'nav-item' + (current_location == ('/' + nick)? ' active':'')}><Link className="nav-link" to="/">最新</Link></li>
-            <li className={'nav-item' + (current_location == ('/' + nick + 'category')? ' active':'')}><Link className="nav-link" to="/category">分类</Link></li>
-            <li className={'nav-item' + (current_location == ('/'+ nick + 'introduction')? ' active':'')}><Link className="nav-link" to="/introduction">我</Link></li>
+            <li className={'nav-item' + (current_location == ('/blog/' + blog_id)? ' active':'')}><Link className="nav-link" to={'/blog/' + blog_id}>最新</Link></li>
+            <li className={'nav-item' + (current_location == ('/blog/' + blog_id + '/category')? ' active':'')}><Link className="nav-link" to={'/blog/' + blog_id + '/category'}>分类</Link></li>
+            <li className={'nav-item' + (current_location == ('/blog/'+ blog_id + '/about')? ' active':'')}><Link className="nav-link" to={'/blog/' + blog_id + '/about'}>我</Link></li>
         </ul>
     </footer>
 );

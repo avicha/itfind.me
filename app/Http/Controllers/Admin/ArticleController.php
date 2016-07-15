@@ -29,7 +29,7 @@ class ArticleController extends Controller
     public function index(Request $request)
     {
         if($request->isXmlHttpRequest()){
-            $articles = ArticleService::getList($request->user()->blog->id)->orderBy('created_at', 'desc')->get();
+            $articles = ArticleService::searchByBlog($request->user()->blog)->orderBy('created_at', 'desc')->get();
             return response()->json(['code' => 0, 'data' => $articles], Response::HTTP_OK);
         }else{
             return view(\App\Common\Utils::getAgent().'.admin.article.list');
@@ -57,14 +57,9 @@ class ArticleController extends Controller
         $data = $request->only(['title', 'author', 'category_id', 'tags', 'content', 'desc', 'is_top']);
         $data['author'] = $data['author'] ?: $request->user()->nick;
         $data['desc'] = htmlentities(substr($data['desc'], 0, 120), ENT_COMPAT, 'UTF-8');
-        $res = ArticleService::create($request->user()->blog->id, $data);
-        if($res['code']){
-            return response()->json($res, $res['code']);
-        }
-        else{
-            $article = $res['data'];
-            return response()->json(['code' => 0, 'data' => ['created_at' => $article->created_at->format('Y-m-d h:i:s'), 'id' => $article->id]], Response::HTTP_CREATED);
-        }
+        $data['content'] = htmlentities($data['content'], ENT_COMPAT, 'UTF-8');
+        $article = ArticleService::create($request->user()->blog, $data);
+        return response()->json(['code' => 0, 'data' => ['created_at' => $article->created_at->format('Y-m-d h:i:s'), 'id' => $article->id]], Response::HTTP_CREATED);
     }
 
     /**
@@ -76,13 +71,8 @@ class ArticleController extends Controller
     public function show(Request $request, $id)
     {
         if($request->isXmlHttpRequest()){
-            $res = ArticleService::get($id);
-            if($res['code']){
-                return response()->json($res, $res['code']);
-            }
-            else{
-                return response()->json($res, Response::HTTP_OK);
-            }
+            $article = ArticleService::fetch($id);
+            return response()->json(['code' => 0, 'data' => $article], Response::HTTP_OK);
         }else{
             return view(\App\Common\Utils::getAgent().'.admin.article.detail', ['id' => $id]);
         }
@@ -111,14 +101,9 @@ class ArticleController extends Controller
         $data = $request->only(['title', 'author', 'category_id', 'tags', 'content', 'desc', 'is_top']);
         $data['author'] = $data['author'] ?: $request->user()->nick;
         $data['desc'] = htmlentities(substr($data['desc'], 0, 120), ENT_COMPAT, 'UTF-8');
-        $res = ArticleService::update($request->user()->blog->id, $id, $data);
-        if($res['code']){
-            return response()->json($res, $res['code']);
-        }
-        else{
-            $article = $res['data'];
-            return response()->json(['code' => 0, 'data' => ['updated_at' => $article->updated_at->format('Y-m-d h:i:s')]], Response::HTTP_OK);
-        }
+        $data['content'] = htmlentities($data['content'], ENT_COMPAT, 'UTF-8');
+        $article = ArticleService::update($request->user()->blog, $id, $data);
+        return response()->json(['code' => 0, 'data' => ['updated_at' => $article->updated_at->format('Y-m-d h:i:s')]], Response::HTTP_OK);
     }
 
     /**
@@ -129,13 +114,7 @@ class ArticleController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $res = ArticleService::delete($request->user()->blog->id, $id);
-        if($res['code']){
-            return response()->json($res, $res['code']);
-        }
-        else{
-            $article = $res['data'];
-            return response()->json(['code' => 0, 'data' => ['deleted_at' => $article->deleted_at->format('Y-m-d h:i:s')]], Response::HTTP_OK);
-        }
+        $article = ArticleService::delete($request->user()->blog, $id);
+        return response()->json(['code' => 0, 'data' => ['deleted_at' => $article->deleted_at->format('Y-m-d h:i:s')]], Response::HTTP_OK);
     }
 }

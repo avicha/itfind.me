@@ -49,14 +49,8 @@ class BlogController extends Controller
     public function store(Request $request)
     {
         $data = $request->only(['title', 'intro']);
-        $res = BlogService::create($request->user()->id, $data);
-        if($res['code']){
-            return response()->json($res, $res['code']);
-        }
-        else{
-            $blog = $res['data'];
-            return response()->json(['code' => 0, 'data' => ['created_at' => $blog->created_at->format('Y-m-d h:i:s'), 'id' => $blog->id]], Response::HTTP_CREATED);
-        }
+        $blog = BlogService::create($request->user(), $data);
+        return response()->json(['code' => 0, 'data' => ['created_at' => $blog->created_at->format('Y-m-d h:i:s'), 'id' => $blog->id]], Response::HTTP_CREATED);
     }
 
     /**
@@ -67,7 +61,7 @@ class BlogController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $blog = BlogService::get($request->user()->blog->id);
+        $blog = BlogService::fetch($request->user()->blog->id);
         return response()->json(['code' => 0, 'data' => $blog], Response::HTTP_OK);
     }
 
@@ -92,14 +86,8 @@ class BlogController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->only(['title', 'intro']);
-        $res = BlogService::update($request->user()->id, $data);
-        if($res['code']){
-            return response()->json($res, $res['code']);
-        }
-        else{
-            $blog = $res['data'];
-            return response()->json(['code' => 0, 'data' => ['updated_at' => $blog->updated_at->format('Y-m-d h:i:s')]], Response::HTTP_OK);
-        }
+        $blog = BlogService::update($request->user(), $data);
+        return response()->json(['code' => 0, 'data' => ['updated_at' => $blog->updated_at->format('Y-m-d h:i:s')]], Response::HTTP_OK);
     }
 
     /**
@@ -110,13 +98,7 @@ class BlogController extends Controller
      */
     public function destroy($id)
     {
-        $res = BlogService::delete($request->user()->id);
-        if($res['code']){
-            return response()->json($res, $res['code']);
-        }
-        else{
-            $blog = $res['data'];
-            return response()->json(['code' => 0, 'data' => ['deleted_at' => $blog->deleted_at->format('Y-m-d h:i:s')]], Response::HTTP_OK);
-        }
+        $blog = BlogService::delete($request->user());
+        return response()->json(['code' => 0, 'data' => ['deleted_at' => $blog->deleted_at->format('Y-m-d h:i:s')]], Response::HTTP_OK);
     }
 }

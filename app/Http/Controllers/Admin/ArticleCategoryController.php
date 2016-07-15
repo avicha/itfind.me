@@ -28,13 +28,8 @@ class ArticleCategoryController extends Controller
     public function index(Request $request)
     {
         if($request->isXmlHttpRequest()){
-            $res = ArticleCategoryService::getList($request->user()->blog->id);
-            if($res['code']){
-                return response()->json($res, $res['code']);
-            }
-            else{
-                return response()->json($res, Response::HTTP_OK);
-            }
+            $article_categories = ArticleCategoryService::searchByBlog($request->user()->blog)->get();
+            return response()->json(['code' => 0, 'data' => $article_categories], Response::HTTP_OK);
         }else{
             return view(\App\Common\Utils::getAgent().'.admin.article_category.list');
         }
@@ -59,14 +54,8 @@ class ArticleCategoryController extends Controller
     public function store(Request $request)
     {
         $data = $request->only(['name']);
-        $res = ArticleCategoryService::create($request->user()->blog->id, $data);
-        if($res['code']){
-            return response()->json($res, $res['code']);
-        }
-        else{
-            $article_category = $res['data'];
-            return response()->json(['code' => 0, 'data' => ['created_at' => $article_category->created_at->format('Y-m-d h:i:s'), 'is_systemic' => $article_category->is_systemic, 'id' => $article_category->id]], Response::HTTP_CREATED);
-        }
+        $article_category = ArticleCategoryService::create($request->user()->blog, $data);
+        return response()->json(['code' => 0, 'data' => ['created_at' => $article_category->created_at->format('Y-m-d h:i:s'), 'is_systemic' => $article_category->is_systemic, 'id' => $article_category->id]], Response::HTTP_CREATED);
     }
 
     /**
@@ -77,13 +66,8 @@ class ArticleCategoryController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $res = ArticleCategoryService::get($id);
-        if($res['code']){
-            return response()->json($res, $res['code']);
-        }
-        else{
-            return response()->json($res, Response::HTTP_OK);
-        }
+        $article_category = ArticleCategoryService::fetch($id);
+        return response()->json(['code' => 0, 'data' => $article_category], Response::HTTP_OK);
     }
 
     /**
@@ -107,14 +91,8 @@ class ArticleCategoryController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->only(['name']);
-        $res = ArticleCategoryService::update($request->user()->blog->id, $id, $data);
-        if($res['code']){
-            return response()->json($res, $res['code']);
-        }
-        else{
-            $article_category = $res['data'];
-            return response()->json(['code' => 0, 'data' => ['updated_at' => $article_category->updated_at->format('Y-m-d h:i:s')]], Response::HTTP_OK);
-        }
+        $article_category = ArticleCategoryService::update($request->user()->blog, $id, $data);
+        return response()->json(['code' => 0, 'data' => ['updated_at' => $article_category->updated_at->format('Y-m-d h:i:s')]], Response::HTTP_OK);
     }
 
     /**
@@ -125,13 +103,7 @@ class ArticleCategoryController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $res = ArticleCategoryService::delete($request->user()->blog->id, $id);
-        if($res['code']){
-            return response()->json($res, $res['code']);
-        }
-        else{
-            $article_category = $res['data'];
-            return response()->json(['code' => 0, 'data' => ['deleted_at' => $article_category->deleted_at->format('Y-m-d h:i:s')]], Response::HTTP_OK);
-        }
+        $article_category = ArticleCategoryService::delete($request->user()->blog, $id);
+        return response()->json(['code' => 0, 'data' => ['deleted_at' => $article_category->deleted_at->format('Y-m-d h:i:s')]], Response::HTTP_OK);
     }
 }

@@ -16,8 +16,8 @@
 @section('body')
 <div id="header">
     <div class="container">
-        <a href="/{{ $blog->user->nick }}" class="title">{{ $blog->title }}</a>
-        <form class="search-form" action="/{{ $blog->user->nick }}/article">
+        <a href="/blog/{{ $blog->id }}" class="title">{{ $blog->title }}</a>
+        <form class="search-form" action="/blog/{{ $blog->id }}/article">
             <input type="text" name="kw" class="search-input" placeholder="请输入搜索文章的关键字" />
             <em class="btn search-btn"></em>
         </form>
@@ -26,8 +26,7 @@
 <div id="content">
     <div id="left-panel">
         <div class="blog-info-container">
-            <img class="avatar" src="{{ $blog->
-            user->avatar ?: config('app.static_url_prefix').'/img/pc/default_avatar.jpg' }}">
+            <img class="avatar" src="{{ $blog->user->avatar ?: config('app.static_url_prefix').'/img/pc/default_avatar.jpg' }}">
             <div class="user-info">
                 <p>
                     <span class="label">昵称：</span>
@@ -54,8 +53,7 @@
             <ul class="article-categories">
                 @foreach ($blog->article_categories as $article_category)
                 <li class="article-category">
-                    <a href="/{{ $blog->
-                        user->nick }}/category/{{ $article_category->id }}">{{ $article_category->name }}
+                    <a href="/blog/{{ $blog->id }}/article?category_id={{ $article_category->id }}">{{ $article_category->name }}
                     </a>
                 </li>
                 @endforeach

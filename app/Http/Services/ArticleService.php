@@ -16,14 +16,12 @@ class ArticleService extends BaseService
      * @param  [type] $blog_id [博客ID]
      * @return [type]          [分类列表]
      */
-    public static function getList($blog_id)
+    public static function searchByBlog($blog)
     {
-        $blog = new Blog();
-        $blog->id = $blog_id;
         $with = ['category' => function($query){
             $query->select(['id', 'name']);
         }];
-        return $blog->articles()->select(['id', 'title', 'author', 'category_id', 'tags', 'content', 'desc', 'is_top', 'created_at'])->with($with);
+        return $blog->articles()->with($with);
     }
     /**
      * [create 为某个博客创建文章]
@@ -32,7 +30,7 @@ class ArticleService extends BaseService
      * @param  boolean $is_systemic [是否系统分类]
      * @return [type]               [创建的文章]
      */
-    public static function create($blog_id, $data)
+    public static function create($blog, $data)
     {
         $article = new Article();
         $article->title = $data['title'];
@@ -42,24 +40,24 @@ class ArticleService extends BaseService
         $article->content = $data['content'];
         $article->desc = $data['desc'];
         $article->is_top = $data['is_top'];
-        $article->blog_id = $blog_id;
+        $article->blog_id = $blog->id;
         $article->save();
-        Blog::findOrFail($blog_id)->increment('articles_count');
-        ArticleCategory::findOrFail($article->category_id)->increment('articles_count');
-        return ['code' => 0, 'data' => $article];
+        $blog->increment('articles_count');
+        $article->category->increment('articles_count');
+        return $article;
     }
     /**
      * [get 获取某篇文章]
      * @param  [type] $id      [文章ID]
      * @return [type]          [文章]
      */
-    public static function get($id, $fields = ['id', 'title', 'author', 'category_id', 'tags', 'content', 'desc', 'blog_id', 'is_top', 'created_at'])
+    public static function fetch($id, $fields = ['id', 'title', 'author', 'category_id', 'tags', 'content', 'desc', 'blog_id', 'is_top', 'created_at'])
     {
         $with = ['category' => function($query){
             $query->select(['id', 'name']);
         }];
         $article = Article::select($fields)->with($with)->findOrFail($id);
-        return ['code' => 0, 'data' => $article];
+        return $article;
     }
     /**
      * [update 更新某个博客的文章]
@@ -68,11 +66,11 @@ class ArticleService extends BaseService
      * @param  [type] $data    [更新数据]
      * @return [type]          [更新的文章]
      */
-    public static function update($blog_id, $id, $data)
+    public static function update($blog, $id, $data)
     {
-        $article = Article::where(['blog_id' => $blog_id, 'id' => $id])->firstOrFail();
+        $article = Article::where(['blog_id' => $blog->id, 'id' => $id])->firstOrFail();
         $article->update($data);
-        return ['code' => 0, 'data' => $article];
+        return $article;
     }
     /**
      * [delete 删除某个博客的文章]
@@ -80,10 +78,10 @@ class ArticleService extends BaseService
      * @param  [type] $id      [文章ID]
      * @return [type]          [删除的文章]
      */
-    public static function delete($blog_id, $id)
+    public static function delete($blog, $id)
     {
-        $article = Article::where(['blog_id' => $blog_id, 'id' => $id])->firstOrFail();
+        $article = Article::where(['blog_id' => $blog->id, 'id' => $id])->firstOrFail();
         $article->delete();
-        return ['code' => 0, 'data' => $article];
+        return $article;
     }
 }

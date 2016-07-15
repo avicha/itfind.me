@@ -21,6 +21,14 @@ class Article extends Model
      */
     protected $dates = ['deleted_at'];
     /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'deleted_at', 'w',
+    ];
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -35,5 +43,15 @@ class Article extends Model
     public function category()
     {
         return $this->hasOne('App\Http\Models\ArticleCategory', 'id', 'category_id');
+    }
+
+    public function getDescAttribute($value)
+    {
+        return html_entity_decode($value, ENT_COMPAT, 'UTF-8');
+    }
+
+    public function getContentAttribute($value)
+    {
+        return html_entity_decode($value, ENT_COMPAT, 'UTF-8');
     }
 }

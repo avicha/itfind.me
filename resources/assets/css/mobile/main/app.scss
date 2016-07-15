@@ -6,6 +6,11 @@ body{
 }
 #page-blog-index{
     @import 'components/blog_index_nav';
+    .articles{
+        padding: 10px;
+        background-color: #fff;
+        @import 'components/article_list_tpl1';
+    }
     @import 'components/blog_menu';
     .bottom{
         height: 50px;

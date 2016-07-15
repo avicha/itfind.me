@@ -24,7 +24,7 @@ const BlogIndexContainer = ({
         <BlogNav />
         <NewestArticleList newest_articles={newest_articles} dispatch={dispatch} blog_id={blog_id} />
         <div className="bottom"></div>
-        <BlogMenu current_location={location.pathname} nick={params.nick} />
+        <BlogMenu current_location={location.pathname} blog_id={blog_id} />
     </div>
 );
 export default connect(mapStateToProps)(BlogIndexContainer)

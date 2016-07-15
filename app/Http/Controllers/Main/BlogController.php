@@ -11,9 +11,9 @@ use App\Http\Services\BlogService;
 
 class BlogController extends Controller
 {
-    public function show(Request $request, $nick)
+    public function show(Request $request, $id)
     {
-        $blog = BlogService::getByNick($nick);
+        $blog = BlogService::fetch($id);
         event(new BlogRead($blog));
         if(\App\Common\Utils::getAgent() == 'pc'){
             $articles = $blog->articles()->orderBy('is_top', 'desc')->orderBy('created_at', 'desc')->paginate(12);

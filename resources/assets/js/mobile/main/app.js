@@ -21,7 +21,7 @@ let store = configureStore(app_reducers);
 render(
     <Provider store={store}>
         <Router history={browserHistory}>
-            <Route path="/:nick" component={BlogIndex} />
+            <Route path="/blog/:id" component={BlogIndex} />
         </Router>
     </Provider>,
     document.getElementById('root')
