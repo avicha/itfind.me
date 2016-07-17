@@ -4,7 +4,8 @@ import {
 } from './global';
 
 export const RECEIVE_BLOG_FETCH = 'RECEIVE_BLOG_FETCH';
-export const RECEIVE_BLOG_NEWEST_ARTICLES_FETCH = 'RECEIVE_BLOG_NEWEST_ARTICLES_FETCH';
+export const RECEIVE_BLOG_ARTICLE_CATEGORY_LIST = 'RECEIVE_BLOG_ARTICLE_CATEGORY_LIST';
+export const RECEIVE_BLOG_ARTICLE_LIST = 'RECEIVE_BLOG_ARTICLE_LIST';
 
 let requestBlogFetch = (id) => {
     return (dispatch) => {
@@ -26,23 +27,42 @@ let receiveBlogFetch = (data) => {
         data,
     };
 };
-let receiveBlogNewestArticlesFetch = (data) => {
+let receiveBlogArticleList = (data) => {
     return {
-        type: RECEIVE_BLOG_NEWEST_ARTICLES_FETCH,
+        type: RECEIVE_BLOG_ARTICLE_LIST,
         data,
     };
 };
-let requestNewestArticlesFetch = (id, page) => {
+let requestBlogArticleListFetch = (id, opts) => {
     return (dispatch) => {
         let blog = new Blog({
             id: id
         });
-        return blog.fetchArticles({
-            page: page,
-            order: '-created_at'
-        }).then(json => {
+        return blog.fetchArticles(opts).then(json => {
             if (json.code === 0) {
-                return dispatch(receiveBlogNewestArticlesFetch(json.data));
+                return dispatch(receiveBlogArticleList(json.data));
+            } else {
+                return dispatch(receiveError(json.msg));
+            }
+        }).catch(e => {
+            return dispatch(receiveError(e));
+        });
+    }
+};
+let receiveBlogArticleCategoryList = (data) => {
+    return {
+        type: RECEIVE_BLOG_ARTICLE_CATEGORY_LIST,
+        data,
+    };
+};
+let requestBlogArticleCategoryListFetch = (id) => {
+    return (dispatch) => {
+        let blog = new Blog({
+            id: id
+        });
+        return blog.fetchArticleCategories().then(json => {
+            if (json.code === 0) {
+                return dispatch(receiveBlogArticleCategoryList(json.data));
             } else {
                 return dispatch(receiveError(json.msg));
             }
@@ -52,5 +72,7 @@ let requestNewestArticlesFetch = (id, page) => {
     }
 }
 export {
-    requestNewestArticlesFetch,
+    requestBlogFetch,
+    requestBlogArticleListFetch,
+    requestBlogArticleCategoryListFetch,
 };

@@ -35,11 +35,15 @@ Route::group(['domain' => config('app.main_host'), 'namespace' => 'Main'], funct
     Route::get('/', ['as' => 'main_index', 'uses' => '\App\Http\Controllers\AppController@mainIndexView']);
     //文章详情页
     Route::get('/article/{id}', 'ArticleController@show')->where(['id' => '\d+']);
+    //文章分类api
+    Route::get('/article_category/{id}', 'ArticleCategoryController@show')->where(['id' => '\d+']);
     Route::group(['prefix' => 'blog/{id}'], function(){
         //博客首页
         Route::get('/', 'BlogController@show')->where(['id' => '\d+']);
         //文章列表页
         Route::get('/article', 'ArticleController@index')->where(['id' => '\d+']);
+        //文章分类列表页
+        Route::get('/article_category', 'ArticleCategoryController@index');
     });
 });
 

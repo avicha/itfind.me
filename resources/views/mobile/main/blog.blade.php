@@ -1,15 +1,5 @@
 @extends('mobile.app')
 
-@section('title', $blog->title)
-
-@section('meta')
-    @parent
-    @section('meta_description', $blog->intro)
-    @section('meta_keywords', 'blog,博客,itfind.me')
-    @section('meta_author', 'avicha, avichabc@gmail.com')
-    <meta name="blog-id" content="{{ $blog->id }}">
-@endsection
-
 @section('stylesheet')
 <link rel="stylesheet" type="text/css" href="{{ config('app.static_url_prefix') }}/css/mobile/main/app.css">
 @endsection

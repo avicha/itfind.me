@@ -35,13 +35,15 @@ export default class BaseModel {
         return attributes;
     }
     static list(filter = {}) {
-        return fetch(this.urlRoot, {
+        let url = this.urlRoot;
+        let qs = [];
+        Object.keys(filter).forEach(key => qs.push(key + '=' + filter[key]));
+        return fetch(url + '?' + qs.join('&'), {
             method: 'get',
             headers: new Headers({
                 Accept: 'application/json',
                 'X-Requested-With': 'XMLHttpRequest'
             }),
-            body: filter,
             credentials: 'include',
         }).then(res => res.json());
     }

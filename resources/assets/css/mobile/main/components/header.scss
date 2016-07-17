@@ -1,0 +1,22 @@
+@import '../../../global';
+$header-height: 40px;
+header{
+    @extend .topFixed;
+    h4{
+        line-height: $header-height;
+        background-color: #4db7ad;
+        text-align: center;
+        font-size: 18px;
+        color: #fff;
+    }
+    .back-btn{
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        width: 40px;
+        height: 40px;
+        background: url(@host/img/mobile/arrow_left.png) center center no-repeat;
+        background-size: 20px 20px;
+    }
+}
