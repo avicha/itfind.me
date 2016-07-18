@@ -1,7 +1,7 @@
 var path = require('path');
 var webpack = require('webpack');
 module.exports = {
-    context: __dirname + '/resources/assets/js/pc/admin',
+    context: __dirname + '/resources/assets/pc-admin/js',
     entry: {
         'home': ['./entries/home.js'],
         'blog/edit': ['./entries/blog/edit.js'],
@@ -11,7 +11,7 @@ module.exports = {
         'article/detail': ['./entries/article/detail.js'],
     },
     output: {
-        path: './public/assets/js/pc/admin/entries',
+        path: __dirname + '/public/assets/pc-admin/js/entries',
         filename: '[name].bundle.js'
     },
     module: {
@@ -27,8 +27,7 @@ module.exports = {
     plugins: [
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production')
-        }),
-        new webpack.optimize.DedupePlugin(),
+        })
     ],
     externals: {
         'react': 'React',
@@ -39,6 +38,6 @@ module.exports = {
     },
     resolve: {
         extensions: ['', '.js', '.jsx'],
-        root: [path.resolve('node_modules'), path.resolve('resources/assets/js')]
+        root: [path.resolve('node_modules'), path.resolve('resources/assets/services')]
     }
 }

@@ -21,7 +21,7 @@ class ArticleCategoryController extends Controller
             return response(['code' => 0, 'data' => $article_categories]);
         }
         else{
-            return view('mobile.main.blog');
+            return view('mobile-main.blog');
         }
     }
     public function show(Request $request, $id)

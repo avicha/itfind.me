@@ -23,7 +23,7 @@ var revReplace = require('gulp-rev-replace');
 var env = fs.readFileSync(__dirname + '/.env', {
     encoding: 'utf8'
 });
-var blocks = ['mobile-main', 'pc-admin', 'pc-main'];
+var projects = ['mobile-main', 'pc-admin', 'pc-main'];
 var SOURCE = __dirname + '/resources/assets';
 var BUILD = __dirname + '/public/assets';
 var STATIC_URL_PREFIX = (function() {
@@ -36,139 +36,127 @@ var VIEWS_BUILD_ROOT = (function() {
     return /VIEWS_BUILD_ROOT=.*/.test(env) ? env.match(/VIEWS_BUILD_ROOT=(.*)/)[1] : 'resources/views_build';
 })();
 //clean common
-gulp.task('clean:lib-css', function() {
-    return del([BUILD + '/css/lib/**/*']);
-});
-gulp.task('clean:lib-js', function() {
-    return del([BUILD + '/js/lib/**/*']);
+gulp.task('clean:libs', function() {
+    return del([BUILD + '/libs/**/*']);
 });
 gulp.task('clean:img', function() {
     return del([BUILD + '/img/**/*']);
 });
 //copy common
-gulp.task('copy:lib-css', ['clean:lib-css'], function() {
-    return gulp.src([SOURCE + '/css/lib/**/*']).pipe(gulpif('*.css', cleanCSS({
+gulp.task('copy:libs', ['clean:libs'], function() {
+    return gulp.src([SOURCE + '/libs/**/*']).pipe(gulpif('*.css', cleanCSS({
         compatibility: 'ie8'
-    }))).pipe(gulp.dest(BUILD + '/css/lib'));
+    }))).pipe(gulpif('*.js', uglify())).pipe(gulp.dest(BUILD + '/libs'));
 });
-gulp.task('copy:lib-css-dev', ['clean:lib-css'], function() {
-    return gulp.src([SOURCE + '/css/lib/**/*']).pipe(gulp.dest(BUILD + '/css/lib'));
-});
-gulp.task('copy:lib-js', ['clean:lib-js'], function() {
-    return gulp.src([SOURCE + '/js/lib/**/*.js']).pipe(uglify()).pipe(gulp.dest(BUILD + '/js/lib'));
-});
-gulp.task('copy:lib-js-dev', ['clean:lib-js'], function() {
-    return gulp.src([SOURCE + '/js/lib/**/*.js']).pipe(gulp.dest(BUILD + '/js/lib'));
+gulp.task('copy:libs-dev', ['clean:libs'], function() {
+    return gulp.src([SOURCE + '/libs/**/*']).pipe(gulp.dest(BUILD + '/libs'));
 });
 gulp.task('copy:img', ['clean:img'], function() {
     return gulp.src(SOURCE + '/img/**/*').pipe(gulp.dest(BUILD + '/img'));
 });
 
-var generateBlockTasks = function(block, blockPath) {
-    //clean block
-    gulp.task('clean:' + block + '-css', function() {
-        return del([BUILD + '/css/' + blockPath + '/**/*']);
+var generateProjectTasks = function(project) {
+    //clean project
+    gulp.task('clean:' + project + '-css', function() {
+        return del([BUILD + '/' + project + '/css/**/*']);
     });
-    gulp.task('clean:' + block + '-js', function() {
-        return del([BUILD + '/js/' + blockPath + '/**/*']);
+    gulp.task('clean:' + project + '-js', function() {
+        return del([BUILD + '/' + project + '/js/**/*']);
     });
-    gulp.task('clean:' + block + '-html', function() {
-        return del([VIEWS_BUILD_ROOT + '/' + blockPath + '/**/*']);
+    gulp.task('clean:' + project + '-html', function() {
+        return del([VIEWS_BUILD_ROOT + '/' + project + '/**/*']);
     });
-    //clean block rev-manifest
-    gulp.task('clean:' + block + '-rev-manifest', function() {
-        return del([BUILD + '/' + block + '-rev-manifest.json']);
+    //clean project rev-manifest
+    gulp.task('clean:' + project + '-rev-manifest', function() {
+        return del([BUILD + '/' + project + '-rev-manifest.json']);
     });
-    //copy block js
-    gulp.task(block + '-webpack', ['clean:' + block + '-js'], function(callback) {
-        var webpackConf = require('./webpack.' + block + '.config.prod.js');
+    //copy project js
+    gulp.task(project + '-webpack', ['clean:' + project + '-js'], function(callback) {
+        var webpackConf = require('./webpack.' + project + '.config.prod.js');
         webpack(webpackConf, function(err, stats) {
-            if (err) throw new gutil.PluginError('[' + block + '-webpack]', err);
-            gutil.log('[' + block + '-webpack]', stats.toString({
+            if (err) throw new gutil.PluginError('[' + project + '-webpack]', err);
+            gutil.log('[' + project + '-webpack]', stats.toString({
                 // output options
             }));
             callback();
         });
     });
-    gulp.task(block + '-webpack-dev', ['clean:' + block + '-js'], function(callback) {
-        var webpackConf = require('./webpack.' + block + '.config.dev.js');
+    gulp.task(project + '-webpack-dev', ['clean:' + project + '-js'], function(callback) {
+        var webpackConf = require('./webpack.' + project + '.config.dev.js');
         webpack(webpackConf, function(err, stats) {
-            if (err) throw new gutil.PluginError('[' + block + '-webpack]', err);
-            gutil.log('[' + block + '-webpack]', stats.toString({
+            if (err) throw new gutil.PluginError('[' + project + '-webpack]', err);
+            gutil.log('[' + project + '-webpack]', stats.toString({
                 // output options
             }));
             callback();
         });
     });
-    gulp.task(block + '-js', [block + '-webpack'], function() {
-        return gulp.src([BUILD + '/js/' + blockPath + '/**/*.js']).pipe(jshint()).pipe(uglify()).pipe(rev()).pipe(gulp.dest(BUILD + '/js/' + blockPath)).pipe(rev.manifest(BUILD + '/' + block + '-rev-manifest.json', {
+    gulp.task(project + '-js', [project + '-webpack'], function() {
+        return gulp.src([BUILD + '/' + project + '/js/**/*.js']).pipe(jshint()).pipe(uglify()).pipe(rev()).pipe(gulp.dest(BUILD + '/' + project + '/js')).pipe(rev.manifest(BUILD + '/' + project + '-rev-manifest.json', {
             base: BUILD,
             merge: true
         })).pipe(gulp.dest(BUILD));
     });
-    gulp.task(block + '-js-dev', [block + '-webpack-dev'], function() {
-        return gulp.src([BUILD + '/js/' + blockPath + '/**/*.js']).pipe(jshint()).pipe(gulp.dest(BUILD + '/js/' + blockPath));
-    });
-    //copy block css
-    gulp.task(block + '-sass', ['clean:' + block + '-css', 'copy:img'], function() {
-        return gulp.src([SOURCE + '/css/' + blockPath + '/**/*.scss']).pipe(sass().on('error', sass.logError)).pipe(replace('@host', STATIC_URL_PREFIX)).pipe(autoprefixer({
+    gulp.task(project + '-js-dev', [project + '-webpack-dev']);
+    //copy project css
+    gulp.task(project + '-sass', ['clean:' + project + '-css', 'copy:img'], function() {
+        return gulp.src([SOURCE + '/' + project + '/css/**/*.scss']).pipe(sass().on('error', sass.logError)).pipe(replace('@host', STATIC_URL_PREFIX)).pipe(autoprefixer({
             browsers: ['last 18 versions'],
             cascade: false
-        })).pipe(csslint(SOURCE + '/css/.csslintrc.json')).pipe(csscomb(SOURCE + '/css/.csscomb.json')).pipe(cleanCSS({
+        })).pipe(csslint(SOURCE + '/.csslintrc.json')).pipe(csscomb(SOURCE + '/.csscomb.json')).pipe(cleanCSS({
             compatibility: 'ie8'
         })).pipe(cssBase64({
             baseDir: BUILD,
             maxWeightResource: 32768,
             extensionsAllowed: ['.gif', '.jpg', '.png']
-        })).pipe(rev()).pipe(gulp.dest(BUILD + '/css/' + blockPath)).pipe(rev.manifest(BUILD + '/' + block + '-rev-manifest.json', {
+        })).pipe(rev()).pipe(gulp.dest(BUILD + '/' + project + '/css')).pipe(rev.manifest(BUILD + '/' + project + '-rev-manifest.json', {
             base: BUILD,
             merge: true
         })).pipe(gulp.dest(BUILD));
     });
-    gulp.task(block + '-sass-dev', ['clean:' + block + '-css', 'copy:img'], function() {
-        return gulp.src([SOURCE + '/css/' + blockPath + '/**/*.scss']).pipe(sass().on('error', sass.logError)).pipe(replace('@host', STATIC_URL_PREFIX)).pipe(gulp.dest(BUILD + '/css/' + blockPath));
+    gulp.task(project + '-sass-dev', ['clean:' + project + '-css', 'copy:img'], function() {
+        return gulp.src([SOURCE + '/' + project + '/css/**/*.scss']).pipe(sass().on('error', sass.logError)).pipe(replace('@host', STATIC_URL_PREFIX)).pipe(gulp.dest(BUILD + '/' + project + '/css'));
     });
-    //copy block html
-    gulp.task(block + '-html', [block + '-js', block + '-sass', 'clean:' + block + '-html'], function() {
-        return gulp.src(VIEWS_ROOT + '/**/*').pipe(gulpif(blockPath + '/**/*', revReplace({
-            replaceInExtensions: ['.js', '.css', '.html', '.hbs', '.php'],
-            manifest: gulp.src(BUILD + '/' + block + '-rev-manifest.json')
-        }), htmlmin({
+    //copy project html
+    gulp.task(project + '-html', [project + '-js', project + '-sass', 'clean:' + project + '-html'], function() {
+        return gulp.src(VIEWS_ROOT + '/' + project + '/**/*').pipe(revReplace({
+            replaceInExtensions: ['.html', '.php'],
+            manifest: gulp.src(BUILD + '/' + project + '-rev-manifest.json')
+        })).pipe(htmlmin({
             collapseWhitespace: true,
             removeComments: true
-        }))).pipe(gulp.dest(VIEWS_BUILD_ROOT));
+        })).pipe(gulp.dest(VIEWS_BUILD_ROOT));
     });
-    //watch block
-    gulp.task('watch:' + block, function() {
-        gulp.watch(SOURCE + '/js/' + blockPath + '/**/*.js', [block + '-js-dev']);
-        gulp.watch(SOURCE + '/css/' + blockPath + '/**/*.scss', [block + '-sass-dev']);
+    //watch project
+    gulp.task('watch:' + project, function() {
+        gulp.watch(SOURCE + '/' + project + '/js/**/*.js', [project + '-js-dev']);
+        gulp.watch(SOURCE + '/' + project + '/css/**/*.scss', [project + '-sass-dev']);
     });
-    //build block
-    gulp.task('build:' + block, ['copy:lib-css', 'copy:lib-js', block + '-html']);
-    //开发环境下build block
-    gulp.task('build:' + block + '-dev', ['copy:lib-css-dev', 'copy:lib-js-dev', block + '-js-dev', block + '-sass-dev']);
+    //build project
+    gulp.task('build:' + project, ['copy:libs', project + '-html']);
+    //开发环境下build project
+    gulp.task('build:' + project + '-dev', ['copy:libs-dev', project + '-js-dev', project + '-sass-dev']);
 };
 
-blocks.forEach(function(block) {
-    var blockPath = block.split('-').join('/');
-    generateBlockTasks(block, blockPath);
+projects.forEach(function(project) {
+    generateProjectTasks(project);
 });
 //默认build全部
-gulp.task('default', ['copy:lib-css', 'copy:lib-js'], function() {
-    blocks.forEach(function(block) {
-        gulp.start(block + '-html');
+gulp.task('default', ['copy:libs'], function() {
+    projects.forEach(function(project) {
+        gulp.start(project + '-html');
     });
 });
 //开发环境下build全部
-gulp.task('dev', ['copy:lib-css-dev', 'copy:lib-js-dev'], function() {
-    blocks.forEach(function(block) {
-        gulp.start(block + '-js-dev');
-        gulp.start(block + '-sass-dev');
+gulp.task('dev', ['copy:libs-dev'], function() {
+    projects.forEach(function(project) {
+        gulp.start(project + '-js-dev');
+        gulp.start(project + '-sass-dev');
     });
 });
 //watch 全部
 gulp.task('watch', function() {
-    blocks.forEach(function(block) {
-        gulp.start('watch:' + block);
+    projects.forEach(function(project) {
+        gulp.start('watch:' + project);
     });
 });

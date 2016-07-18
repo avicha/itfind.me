@@ -1,12 +1,12 @@
 var path = require('path');
 var webpack = require('webpack');
 module.exports = {
-    context: __dirname + '/resources/assets/js/mobile/main',
+    context: __dirname + '/resources/assets/mobile-main/js',
     entry: {
         app: ['babel-polyfill', './app.js']
     },
     output: {
-        path: './public/assets/js/mobile/main',
+        path: __dirname + '/public/assets/mobile-main/js',
         filename: '[name].bundle.js'
     },
     module: {
@@ -28,12 +28,11 @@ module.exports = {
     externals: {
         'react': 'React',
         'react-dom': 'ReactDOM',
-        'jquery': 'jQuery',
         'react-redux': 'ReactRedux',
         'redux': 'Redux'
     },
     resolve: {
         extensions: ['', '.js', '.jsx'],
-        root: [path.resolve('node_modules'), path.resolve('resources/assets/js')]
+        root: [path.resolve('node_modules'), path.resolve('resources/assets/services')]
     }
 }

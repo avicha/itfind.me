@@ -55,7 +55,7 @@ class ArticleController extends Controller
             }
         }
         else{
-            return view('mobile.main.blog');
+            return view('mobile-main.blog');
         }
     }
 
@@ -74,7 +74,7 @@ class ArticleController extends Controller
             }
         }
         else{
-            return view('mobile.main.blog');
+            return view('mobile-main.blog');
         }
     }
 }

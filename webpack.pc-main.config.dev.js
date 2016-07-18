@@ -1,12 +1,12 @@
 var path = require('path');
 var webpack = require('webpack');
 module.exports = {
-    context: __dirname + '/resources/assets/js/pc/main',
+    context: __dirname + '/resources/assets/pc-main/js',
     entry: {
 
     },
     output: {
-        path: './public/assets/js/pc/main/entries',
+        path: __dirname + '/public/assets/pc-main/js',
         filename: '[name].bundle.js'
     },
     module: {
@@ -29,6 +29,6 @@ module.exports = {
     },
     resolve: {
         extensions: ['', '.js', '.jsx'],
-        root: [path.resolve('node_modules'), path.resolve('resources/assets/js')]
+        root: [path.resolve('node_modules'), path.resolve('resources/assets/services')]
     }
 }

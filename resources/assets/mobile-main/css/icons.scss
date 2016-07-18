@@ -1,0 +1,14 @@
+.icon-like{
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: url(@host/img/icon_like.png) center center no-repeat;
+    background-size: contain;
+}
+.icon-like-alt{
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: url(@host/img/icon_like_alt.png) center center no-repeat;
+    background-size: contain;
+}

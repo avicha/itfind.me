@@ -27,7 +27,7 @@ class BlogController extends Controller
             }
         }
         else{
-            return view('mobile.main.blog');
+            return view('mobile-main.blog');
         }
     }
 }
