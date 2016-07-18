@@ -4,6 +4,7 @@ import {
 } from './global';
 
 export const RECEIVE_ARTICLE_CATEGORY_FETCH = 'RECEIVE_ARTICLE_CATEGORY_FETCH';
+export const RESET_ARTICLE_CATEGORY = 'RESET_ARTICLE_CATEGORY';
 let requestArticleCategoryFetch = (id) => {
     return (dispatch) => {
         let article_category = new ArticleCategory({
@@ -24,6 +25,12 @@ let receiveArticleCategoryFetch = (data) => {
         data,
     };
 };
+let resetArticleCategory = () => {
+    return {
+        type: RESET_ARTICLE_CATEGORY,
+    }
+}
 export {
     requestArticleCategoryFetch,
+    resetArticleCategory,
 };

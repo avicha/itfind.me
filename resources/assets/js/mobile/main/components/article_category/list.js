@@ -13,7 +13,7 @@ const ArticleCategoryListTpl1 = ({
     article_category,
 }) => (
     <li className="article-category">
-        <Link to={'/blog/' + blog_id + '/article?category_id=' + article_category.id}>{article_category.name}</Link>
+        <Link to={'/blog/' + blog_id + '/article_category/' + article_category.id}>{article_category.name}</Link>
     </li>
 )
 export default class ArticleCategoryList extends Component {

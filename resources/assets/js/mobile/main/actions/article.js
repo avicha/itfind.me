@@ -4,6 +4,7 @@ import {
 } from './global';
 
 export const RECEIVE_ARTICLE_FETCH = 'RECEIVE_ARTICLE_FETCH';
+export const RESET_ARTICLE = 'RESET_ARTICLE';
 
 let requestArticleFetch = (id) => {
     return (dispatch) => {
@@ -25,6 +26,12 @@ let receiveArticleFetch = (data) => {
         data,
     };
 };
+let resetArticle = () => {
+    return {
+        type: RESET_ARTICLE,
+    }
+}
 export {
     requestArticleFetch,
+    resetArticle,
 };

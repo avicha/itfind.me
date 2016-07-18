@@ -7,7 +7,7 @@ body{
 }
 $header-height: 40px;
 $footer-height: 50px;
-#page-blog-index{
+#page-blog-index,#page-article-category-article-list{
     @import 'components/header';
     .articles{
         margin-top: $header-height;
@@ -30,8 +30,8 @@ $footer-height: 50px;
 #page-article-category-list{
     @import 'components/header';
     .article-categories{
-        padding-top: $header-height;
-        padding-bottom: $footer-height;
+        margin-top: $header-height;
+        margin-bottom: $footer-height;
     }
     @import 'components/article_category_list';
     @import 'components/footer';
@@ -39,8 +39,8 @@ $footer-height: 50px;
 #page-blog-about{
     @import 'components/header';
     .blog-about{
-        padding-top: $header-height;
-        padding-bottom: $footer-height;
+        margin-top: $header-height;
+        margin-bottom: $footer-height;
     }
     @import 'components/blog_about';
     @import 'components/footer';

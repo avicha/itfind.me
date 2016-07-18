@@ -6,6 +6,7 @@ import {
 export const RECEIVE_BLOG_FETCH = 'RECEIVE_BLOG_FETCH';
 export const RECEIVE_BLOG_ARTICLE_CATEGORY_LIST = 'RECEIVE_BLOG_ARTICLE_CATEGORY_LIST';
 export const RECEIVE_BLOG_ARTICLE_LIST = 'RECEIVE_BLOG_ARTICLE_LIST';
+export const RESET_BLOG_ARTICLE_LIST = 'RESET_BLOG_ARTICLE_LIST';
 
 let requestBlogFetch = (id) => {
     return (dispatch) => {
@@ -71,8 +72,14 @@ let requestBlogArticleCategoryListFetch = (id) => {
         });
     }
 }
+let resetBlogArticleList = () => {
+    return {
+        type: RESET_BLOG_ARTICLE_LIST,
+    };
+}
 export {
     requestBlogFetch,
     requestBlogArticleListFetch,
     requestBlogArticleCategoryListFetch,
+    resetBlogArticleList,
 };

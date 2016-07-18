@@ -3,6 +3,7 @@ import React, {
 } from 'react';
 import {
     requestArticleFetch,
+    resetArticle,
 } from '../../actions/article';
 
 
@@ -12,6 +13,9 @@ export default class ArticleDetailPanel extends Component {
     }
     componentDidMount() {
         this.props.dispatch(requestArticleFetch(this.props.article_id));
+    }
+    componentWillUnmount() {
+        this.props.dispatch(resetArticle());
     }
     render() {
         let {

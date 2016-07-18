@@ -7,23 +7,18 @@ import {
 import {
     RECEIVE_BLOG_ARTICLE_LIST,
     RECEIVE_BLOG_FETCH,
-    RECEIVE_BLOG_ARTICLE_CATEGORY_LIST
+    RECEIVE_BLOG_ARTICLE_CATEGORY_LIST,
+    RESET_BLOG_ARTICLE_LIST,
 } from '../actions/blog';
 import {
-    RECEIVE_ARTICLE_CATEGORY_FETCH
+    RECEIVE_ARTICLE_CATEGORY_FETCH,
+    RESET_ARTICLE_CATEGORY,
 } from '../actions/article_category';
 import {
-    RECEIVE_ARTICLE_FETCH
+    RECEIVE_ARTICLE_FETCH,
+    RESET_ARTICLE,
 } from '../actions/article';
 
-let blog_id = (state = '', action) => {
-    switch (action.type) {
-        case RECEIVE_ARTICLE_FETCH:
-            return action.data.blog_id;
-        default:
-            return state;
-    }
-};
 let blog = (state = {}, action) => {
     switch (action.type) {
         case RECEIVE_BLOG_FETCH:
@@ -35,7 +30,9 @@ let blog = (state = {}, action) => {
 let articles = (state = [], action) => {
     switch (action.type) {
         case RECEIVE_BLOG_ARTICLE_LIST:
-            return action.data.data
+            return action.data.data;
+        case RESET_BLOG_ARTICLE_LIST:
+            return [];
         default:
             return state;
     }
@@ -43,7 +40,9 @@ let articles = (state = [], action) => {
 let article = (state = {}, action) => {
     switch (action.type) {
         case RECEIVE_ARTICLE_FETCH:
-            return action.data
+            return action.data;
+        case RESET_ARTICLE:
+            return {};
         default:
             return state;
     }
@@ -51,15 +50,17 @@ let article = (state = {}, action) => {
 let article_categories = (state = [], action) => {
     switch (action.type) {
         case RECEIVE_BLOG_ARTICLE_CATEGORY_LIST:
-            return action.data
+            return action.data;
         default:
             return state;
     }
 }
-let selected_article_category = (state = {}, action) => {
+let article_category = (state = {}, action) => {
     switch (action.type) {
         case RECEIVE_ARTICLE_CATEGORY_FETCH:
-            return action.data
+            return action.data;
+        case RESET_ARTICLE_CATEGORY:
+            return {};
         default:
             return state;
     }
@@ -73,12 +74,11 @@ let error = (state = '', action) => {
     }
 };
 const app = combineReducers({
-    blog_id,
     blog,
     articles,
     article,
     article_categories,
-    selected_article_category,
+    article_category,
     error,
 });
 

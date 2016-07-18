@@ -17,6 +17,7 @@ import app_reducers from './reducers';
 import configureStore from './stores/configure_store';
 import ArticleList from './containers/article/list';
 import ArticleCategoryList from './containers/article_category/list';
+import ArticleCategoryArticleList from './containers/article_category/article_list';
 import ArticleDetail from './containers/article/detail';
 import BlogAbout from './containers/blog/about';
 
@@ -27,6 +28,7 @@ render(
         <Router history={browserHistory}>
             <Route path="/blog/:blog_id/article" component={ArticleList} />
             <Route path="/blog/:blog_id/article_category" component={ArticleCategoryList} />
+            <Route path="/blog/:blog_id/article_category/:category_id" component={ArticleCategoryArticleList} />
             <Route path="/article/:article_id" component={ArticleDetail} />
             <Route path="/blog/:blog_id" component={BlogAbout} />
         </Router>

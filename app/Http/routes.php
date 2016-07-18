@@ -44,6 +44,8 @@ Route::group(['domain' => config('app.main_host'), 'namespace' => 'Main'], funct
         Route::get('/article', 'ArticleController@index')->where(['id' => '\d+']);
         //文章分类列表页
         Route::get('/article_category', 'ArticleCategoryController@index');
+        //文章分类文章列表页
+        Route::get('/article_category/{category_id}', 'ArticleController@index');
     });
 });
 
