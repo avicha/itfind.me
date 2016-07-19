@@ -64,6 +64,8 @@ class BlogService extends BaseService
     {
         $blog = $user->blog;
         $blog->delete();
+        $user->has_blog = false;
+        $user->save();
         return $blog;
     }
 }

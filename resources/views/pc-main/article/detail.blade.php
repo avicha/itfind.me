@@ -21,7 +21,7 @@
             @foreach ($blog->article_categories as $article_category)
             <li class="article-category">
                 <a href="/blog/{{ $blog->
-                    id }}/article?category_id={{ $article_category->id }}">{{ $article_category->name }}
+                    id }}/article_category/{{ $article_category->id }}">{{ $article_category->name }}
                 </a>
             </li>
             @endforeach

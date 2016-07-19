@@ -23,7 +23,7 @@ var revReplace = require('gulp-rev-replace');
 var env = fs.readFileSync(__dirname + '/.env', {
     encoding: 'utf8'
 });
-var projects = ['mobile-main', 'pc-admin', 'pc-main'];
+var projects = ['mobile-main', 'pc-admin', 'pc-main', 'pc-auth'];
 var SOURCE = __dirname + '/resources/assets';
 var BUILD = __dirname + '/public/assets';
 var STATIC_URL_PREFIX = (function() {
@@ -72,24 +72,34 @@ var generateProjectTasks = function(project) {
     });
     //copy project js
     gulp.task(project + '-webpack', ['clean:' + project + '-js'], function(callback) {
-        var webpackConf = require('./webpack.' + project + '.config.prod.js');
-        webpack(webpackConf, function(err, stats) {
-            if (err) throw new gutil.PluginError('[' + project + '-webpack]', err);
-            gutil.log('[' + project + '-webpack]', stats.toString({
-                // output options
-            }));
+        var webpackConfFile = './webpack.' + project + '.config.prod.js';
+        if (fs.existsSync(webpackConfFile)) {
+            var webpackConf = require(webpackConfFile);
+            webpack(webpackConf, function(err, stats) {
+                if (err) throw new gutil.PluginError('[' + project + '-webpack]', err);
+                gutil.log('[' + project + '-webpack]', stats.toString({
+                    // output options
+                }));
+                callback();
+            });
+        } else {
             callback();
-        });
+        }
     });
     gulp.task(project + '-webpack-dev', ['clean:' + project + '-js'], function(callback) {
-        var webpackConf = require('./webpack.' + project + '.config.dev.js');
-        webpack(webpackConf, function(err, stats) {
-            if (err) throw new gutil.PluginError('[' + project + '-webpack]', err);
-            gutil.log('[' + project + '-webpack]', stats.toString({
-                // output options
-            }));
+        var webpackConfFile = './webpack.' + project + '.config.dev.js';
+        if (fs.existsSync(webpackConfFile)) {
+            var webpackConf = require(webpackConfFile);
+            webpack(webpackConf, function(err, stats) {
+                if (err) throw new gutil.PluginError('[' + project + '-webpack-dev]', err);
+                gutil.log('[' + project + '-webpack]', stats.toString({
+                    // output options
+                }));
+                callback();
+            });
+        } else {
             callback();
-        });
+        }
     });
     gulp.task(project + '-js', [project + '-webpack'], function() {
         return gulp.src([BUILD + '/' + project + '/js/**/*.js']).pipe(jshint()).pipe(uglify()).pipe(rev()).pipe(gulp.dest(BUILD + '/' + project + '/js')).pipe(rev.manifest(BUILD + '/' + project + '-rev-manifest.json', {
@@ -125,7 +135,7 @@ var generateProjectTasks = function(project) {
         })).pipe(htmlmin({
             collapseWhitespace: true,
             removeComments: true
-        })).pipe(gulp.dest(VIEWS_BUILD_ROOT));
+        })).pipe(gulp.dest(VIEWS_BUILD_ROOT + '/' + project));
     });
     //watch project
     gulp.task('watch:' + project, function() {

@@ -27,7 +27,7 @@ class ArticleController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->isXmlHttpRequest()){
+        if($request->ajax()){
             $articles = ArticleService::searchByBlog($request->user()->blog)->orderBy('created_at', 'desc')->get();
             return response()->json(['code' => 0, 'data' => $articles], Response::HTTP_OK);
         }else{
@@ -67,7 +67,7 @@ class ArticleController extends Controller
      */
     public function show(Request $request, $id)
     {
-        if($request->isXmlHttpRequest()){
+        if($request->ajax()){
             $article = ArticleService::fetch($id);
             return response()->json(['code' => 0, 'data' => $article], Response::HTTP_OK);
         }else{

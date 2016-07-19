@@ -27,7 +27,7 @@ class ArticleCategoryController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->isXmlHttpRequest()){
+        if($request->ajax()){
             $article_categories = ArticleCategoryService::searchByBlog($request->user()->blog)->get();
             return response()->json(['code' => 0, 'data' => $article_categories], Response::HTTP_OK);
         }else{

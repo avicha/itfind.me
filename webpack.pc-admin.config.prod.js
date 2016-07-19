@@ -3,12 +3,12 @@ var webpack = require('webpack');
 module.exports = {
     context: __dirname + '/resources/assets/pc-admin/js',
     entry: {
-        'home': ['./entries/home.js'],
-        'blog/edit': ['./entries/blog/edit.js'],
-        'article_category/list': ['./entries/article_category/list.js'],
-        'article/list': ['./entries/article/list.js'],
-        'article/edit': ['./entries/article/edit.js'],
-        'article/detail': ['./entries/article/detail.js'],
+        'home': ['babel-polyfill', './entries/home.js'],
+        'blog/edit': ['babel-polyfill', './entries/blog/edit.js'],
+        'article_category/list': ['babel-polyfill', './entries/article_category/list.js'],
+        'article/list': ['babel-polyfill', './entries/article/list.js'],
+        'article/edit': ['babel-polyfill', './entries/article/edit.js'],
+        'article/detail': ['babel-polyfill', './entries/article/detail.js'],
     },
     output: {
         path: __dirname + '/public/assets/pc-admin/js',

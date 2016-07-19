@@ -32,7 +32,7 @@ class ArticleController extends Controller
                     # code...
                     break;
             }
-            $category_id = $request->query('category_id');
+            $category_id = $request->category_id;
             $kw = $request->query('kw');
             if($category_id){
                 $category = ArticleCategoryService::fetch($category_id);
