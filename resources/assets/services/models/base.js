@@ -7,24 +7,19 @@ let extend = (base, other) => {
 export default class BaseModel {
     constructor(attributes = {}) {
         extend(this, attributes);
-        this.urlRoot = '';
         this.idAttribute = 'id';
         this.token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     }
     clone() {
-        return new this.constructor(this._getAttributes());
+        return new this.constructor(this.attributes);
     }
-    get(attribute_name) {
-        return this[attribute_name];
-    }
-    set(attribute_name, attribute_value) {
-        this[attribute_name] = attribute_value;
-        return this;
-    }
-    _getId() {
+    getId() {
         return this[this.idAttribute];
     }
-    _getAttributes() {
+    get urlRoot() {
+        return this.constructor.urlRoot;
+    }
+    get attributes() {
         let attributes = {};
         let blackProps = ['urlRoot', 'idAttribute'];
         for (let prop in this) {
@@ -48,7 +43,7 @@ export default class BaseModel {
         }).then(res => res.json());
     }
     fetch() {
-        let id = this._getId();
+        let id = this.getId();
         return fetch(this.urlRoot + '/' + id, {
             method: 'get',
             headers: new Headers({
@@ -66,8 +61,8 @@ export default class BaseModel {
             });
         });
     }
-    update(attributes = this._getAttributes()) {
-        let id = this._getId();
+    update(attributes = this.attributes) {
+        let id = this.getId();
         return fetch(this.urlRoot + '/' + id, {
             method: 'put',
             headers: new Headers({
@@ -90,7 +85,7 @@ export default class BaseModel {
         });
     }
     create() {
-        let attributes = this._getAttributes();
+        let attributes = this.attributes;
         return fetch(this.urlRoot, {
             method: 'post',
             headers: new Headers({
@@ -112,7 +107,7 @@ export default class BaseModel {
         });
     }
     save() {
-        let id = this._getId();
+        let id = this.getId();
         if (id) {
             return this.update();
         } else {
@@ -120,7 +115,7 @@ export default class BaseModel {
         }
     }
     remove() {
-        let id = this._getId();
+        let id = this.getId();
         return fetch(this.urlRoot + '/' + id, {
             method: 'delete',
             headers: {

@@ -2,10 +2,9 @@ import BaseModel from 'models/base';
 class BlogModel extends BaseModel {
     constructor(props) {
         super(props);
-        this.urlRoot = '/blog';
     }
     fetchArticles(filter = {}) {
-        let url = this.urlRoot + '/' + this.id + '/article';
+        let url = this.urlRoot + '/' + this.getId() + '/article';
         let qs = [];
         Object.keys(filter).forEach(key => qs.push(key + '=' + filter[key]));
         return fetch(url + '?' + qs.join('&'), {
@@ -18,7 +17,7 @@ class BlogModel extends BaseModel {
         }).then(res => res.json());
     }
     fetchArticleCategories(filter = {}) {
-        return fetch(this.urlRoot + '/' + this.id + '/article_category', {
+        return fetch(this.urlRoot + '/' + this.getId() + '/article_category', {
             method: 'get',
             headers: new Headers({
                 Accept: 'application/json',
