@@ -1,4 +1,4 @@
-@extends('pc.admin.app')
+@extends('pc-admin.app')
 
 @section('meta')
 @parent

@@ -1,4 +1,4 @@
-@extends('pc.admin.app')
+@extends('pc-admin.app')
 
 @section('meta')
 @parent
@@ -9,5 +9,5 @@
 
 @section('javascript')
 @parent
-<script type="text/javascript" src="{{ config('app.static_url_prefix') }}/js/pc/admin/entries/blog/edit.bundle.js"></script>
+<script type="text/javascript" src="{{ config('app.static_url_prefix') }}/pc-admin/js/blog/edit.bundle.js"></script>
 @endsection

@@ -1,4 +1,4 @@
-@extends('pc.app')
+@extends('pc-main.app')
 
 @section('title', $blog->title)
 
@@ -10,7 +10,7 @@
 @endsection
 
 @section('stylesheet')
-<link rel="stylesheet" type="text/css" href="{{ config('app.static_url_prefix') }}/css/pc/main/blog/index.css">
+<link rel="stylesheet" type="text/css" href="{{ config('app.static_url_prefix') }}/pc-main/css/blog/index.css">
 @endsection
 
 @section('body')
@@ -26,7 +26,7 @@
 <div id="content">
     <div id="left-panel">
         <div class="blog-info-container">
-            <img class="avatar" src="{{ $blog->user->avatar ?: config('app.static_url_prefix').'/img/pc/default_avatar.jpg' }}">
+            <img class="avatar" src="{{ $blog->user->avatar ?: config('app.static_url_prefix').'/img/default_avatar.jpg' }}">
             <div class="user-info">
                 <p>
                     <span class="label">昵称：</span>
@@ -62,7 +62,7 @@
         <div class="hot-articles-container">
             <h3 class="hot-articles-text">热门文章</h3>
             <ul class="hot-articles">
-                @each('pc.main.article.list_tpl2', $hot_articles, 'article')
+                @each('pc-main.article.list_tpl2', $hot_articles, 'article')
             </ul>
         </div>
     </div>
@@ -74,7 +74,7 @@
         <div class="search-result-tips">搜索到了{{ $articles->total() }}篇关键字为“{{ $kw }}”的文章</div>
         @endif
         <div class="articles">
-        @each('pc.main.article.list_tpl1', $articles, 'article')
+        @each('pc-main.article.list_tpl1', $articles, 'article')
         </div>
         {{ $articles->links() }}
     </div>

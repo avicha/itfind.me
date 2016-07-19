@@ -27,6 +27,6 @@ class AppController extends Controller
      */
     public function adminHomeView(Request $request)
     {
-        return view(\App\Common\Utils::getAgent().'.admin.home', ['blog' => $request->user()->blog]);
+        return view('pc-admin.home', ['blog' => $request->user()->blog]);
     }
 }

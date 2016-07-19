@@ -51,7 +51,7 @@ class ArticleController extends Controller
                 $resp['hot_articles'] = $hot_articles;
                 $resp['articles'] = $articles->paginate(12);
                 event(new BlogRead($blog));
-                return view(\App\Common\Utils::getAgent().'.main.blog.index', $resp);
+                return view('pc-main.blog.index', $resp);
             }
         }
         else{
@@ -70,7 +70,7 @@ class ArticleController extends Controller
                 return response(['code' => 0, 'data' => $article]);
             }
             else{
-                return view('pc.main.article.detail', ['blog' => $blog, 'article' => $article]);
+                return view('pc-main.article.detail', ['blog' => $blog, 'article' => $article]);
             }
         }
         else{

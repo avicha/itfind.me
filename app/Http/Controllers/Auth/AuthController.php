@@ -46,7 +46,7 @@ class AuthController extends Controller
 
     public function showLoginForm()
     {
-        return view(\App\Common\Utils::getAgent().'.auth.login');
+        return view('pc-auth.login');
     }
 
     public function login(Request $req)
@@ -97,7 +97,7 @@ class AuthController extends Controller
 
     public function showRegistrationForm()
     {
-        return view(\App\Common\Utils::getAgent().'.auth.register');
+        return view('pc-auth.register');
     }
 
     public function register(Request $req)

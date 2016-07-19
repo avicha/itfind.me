@@ -31,7 +31,7 @@ class ArticleCategoryController extends Controller
             $article_categories = ArticleCategoryService::searchByBlog($request->user()->blog)->get();
             return response()->json(['code' => 0, 'data' => $article_categories], Response::HTTP_OK);
         }else{
-            return view(\App\Common\Utils::getAgent().'.admin.article_category.list');
+            return view('pc-admin.article_category.list');
         }
     }
 

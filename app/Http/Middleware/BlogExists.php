@@ -25,7 +25,7 @@ class BlogExists
                 return response()->json(['code' => Response::HTTP_EXPECTATION_FAILED, 'msg' => '你还未开通博客'], Response::HTTP_EXPECTATION_FAILED);
             }
             else{
-                return view(\App\Common\Utils::getAgent().'.admin.home');
+                return view('pc-admin.home');
             }
         }
     }

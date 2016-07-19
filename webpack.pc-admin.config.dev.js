@@ -11,7 +11,7 @@ module.exports = {
         'article/detail': ['./entries/article/detail.js'],
     },
     output: {
-        path: __dirname + '/public/assets/pc-admin/js/entries',
+        path: __dirname + '/public/assets/pc-admin/js',
         filename: '[name].bundle.js'
     },
     module: {

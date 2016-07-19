@@ -23,7 +23,7 @@ class BlogController extends Controller
             else{
                 $articles = $blog->articles()->orderBy('is_top', 'desc')->orderBy('created_at', 'desc')->paginate(12);
                 $hot_articles = $blog->articles()->orderBy('w', 'desc')->limit(10)->get();
-                return view('pc.main.blog.index', ['blog' => $blog, 'articles' => $articles, 'hot_articles' => $hot_articles]);
+                return view('pc-main.blog.index', ['blog' => $blog, 'articles' => $articles, 'hot_articles' => $hot_articles]);
             }
         }
         else{

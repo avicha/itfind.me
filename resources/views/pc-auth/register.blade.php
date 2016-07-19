@@ -3,10 +3,9 @@
 @section('meta_description', '注册页面')
 @section('meta_keywords', '注册')
 @section('meta_author', 'avicha, avichabc@gmail.com')
-@section('meta_apple_title', '注册')
 @section('title', '注册')
 @section('stylesheet')
-<link rel="stylesheet" type="text/css" href="{{ config('app.static_url_prefix') }}/css/lib/bootstrap/3.3.4/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="{{ config('app.static_url_prefix') }}/libs/bootstrap/3.3.4/bootstrap.css">
 @endsection
 
 @section('body')
@@ -90,6 +89,6 @@
 @endsection
 
 @section('javascript')
-<script type="text/javascript" src="{{ config('app.static_url_prefix') }}/js/lib/jquery/2.2.4/jquery.js"></script>
-<script type="text/javascript" src="{{ config('app.static_url_prefix') }}/js/lib/bootstrap/3.3.4/bootstrap.js"></script>
+<script type="text/javascript" src="{{ config('app.static_url_prefix') }}/libs/jquery/2.2.4/jquery.js"></script>
+<script type="text/javascript" src="{{ config('app.static_url_prefix') }}/libs/bootstrap/3.3.4/bootstrap.js"></script>
 @endsection

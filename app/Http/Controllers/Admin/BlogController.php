@@ -37,7 +37,7 @@ class BlogController extends Controller
      */
     public function create()
     {
-        return view(\App\Common\Utils::getAgent().'.admin.blog.edit');
+        return view('pc-admin.blog.edit');
     }
 
     /**
@@ -73,7 +73,7 @@ class BlogController extends Controller
      */
     public function edit(Request $request)
     {
-        return view(\App\Common\Utils::getAgent().'.admin.blog.edit', ['id' => $request->user()->blog->id]);
+        return view('pc-admin.blog.edit', ['id' => $request->user()->blog->id]);
     }
 
     /**

@@ -31,7 +31,7 @@ class ArticleController extends Controller
             $articles = ArticleService::searchByBlog($request->user()->blog)->orderBy('created_at', 'desc')->get();
             return response()->json(['code' => 0, 'data' => $articles], Response::HTTP_OK);
         }else{
-            return view(\App\Common\Utils::getAgent().'.admin.article.list');
+            return view('pc-admin.article.list');
         }
     }
 
@@ -42,7 +42,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        return view(\App\Common\Utils::getAgent().'.admin.article.edit');
+        return view('pc-admin.article.edit');
     }
 
     /**
@@ -71,7 +71,7 @@ class ArticleController extends Controller
             $article = ArticleService::fetch($id);
             return response()->json(['code' => 0, 'data' => $article], Response::HTTP_OK);
         }else{
-            return view(\App\Common\Utils::getAgent().'.admin.article.detail', ['id' => $id]);
+            return view('pc-admin.article.detail', ['id' => $id]);
         }
     }
 
@@ -83,7 +83,7 @@ class ArticleController extends Controller
      */
     public function edit($id)
     {
-        return view(\App\Common\Utils::getAgent().'.admin.article.edit', ['id' => $id]);
+        return view('pc-admin.article.edit', ['id' => $id]);
     }
 
     /**

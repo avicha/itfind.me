@@ -1,4 +1,4 @@
-@extends('pc.admin.app')
+@extends('pc-admin.app')
 
 @section('meta')
 @parent
@@ -9,10 +9,10 @@
 
 @section('stylesheet')
 @parent
-<link rel="stylesheet" type="text/css" href="{{ config('app.static_url_prefix') }}/css/pc/admin/article/detail.css">
+<link rel="stylesheet" type="text/css" href="{{ config('app.static_url_prefix') }}/pc-admin/css/article/detail.css">
 @endsection
 
 @section('javascript')
 @parent
-<script type="text/javascript" src="{{ config('app.static_url_prefix') }}/js/pc/admin/entries/article/detail.bundle.js"></script>
+<script type="text/javascript" src="{{ config('app.static_url_prefix') }}/pc-admin/js/article/detail.bundle.js"></script>
 @endsection

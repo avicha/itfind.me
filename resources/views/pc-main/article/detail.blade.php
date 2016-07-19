@@ -1,4 +1,4 @@
-@extends('pc.app')
+@extends('pc-main.app')
 
 @section('title', $article->title)
 
@@ -10,7 +10,7 @@
 @endsection
 
 @section('stylesheet')
-<link rel="stylesheet" type="text/css" href="{{ config('app.static_url_prefix') }}/css/pc/main/article/detail.css">
+<link rel="stylesheet" type="text/css" href="{{ config('app.static_url_prefix') }}/pc-main/css/article/detail.css">
 @endsection
 
 @section('body')

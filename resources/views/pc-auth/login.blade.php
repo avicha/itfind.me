@@ -1,16 +1,15 @@
-@extends('pc.app')
+@extends('pc-auth.app')
 
 @section('meta_description', '登录页面')
 @section('meta_keywords', '登录')
 @section('meta_author', 'avicha, avichabc@gmail.com')
-@section('meta_apple_title', '登录')
 @section('title', '登录')
 @section('stylesheet')
-<link rel="stylesheet" type="text/css" href="{{ config('app.static_url_prefix') }}/css/lib/bootstrap/3.3.4/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="{{ config('app.static_url_prefix') }}/libs/bootstrap/3.3.4/bootstrap.css">
 @endsection
 
 @section('body')
-@include('pc.auth.nav')
+@include('pc-auth.nav')
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -73,6 +72,6 @@
 @endsection
 
 @section('javascript')
-<script type="text/javascript" src="{{ config('app.static_url_prefix') }}/js/lib/jquery/2.2.4/jquery.js"></script>
-<script type="text/javascript" src="{{ config('app.static_url_prefix') }}/js/lib/bootstrap/3.3.4/bootstrap.js"></script>
+<script type="text/javascript" src="{{ config('app.static_url_prefix') }}/libs/jquery/2.2.4/jquery.js"></script>
+<script type="text/javascript" src="{{ config('app.static_url_prefix') }}/libs/bootstrap/3.3.4/bootstrap.js"></script>
 @endsection
