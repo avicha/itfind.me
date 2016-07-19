@@ -2,6 +2,7 @@ var fs = require('fs');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var gulpif = require('gulp-if');
+var lazypipe = require('lazypipe');
 var del = require('del');
 var webpack = require('webpack');
 //CSS
