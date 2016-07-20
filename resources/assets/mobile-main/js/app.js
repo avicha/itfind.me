@@ -22,7 +22,7 @@ import BlogAbout from './containers/blog/about';
 
 FastClick.attach(document.body);
 let store = configureStore(app_reducers);
-render(
+let rootInstance = render(
     <Provider store={store}>
         <Router history={browserHistory}>
             <Route path="/blog/:blog_id/article" component={ArticleList} />
@@ -34,3 +34,11 @@ render(
     </Provider>,
     document.getElementById('root')
 )
+if (module.hot) {
+    require('react-hot-loader/Injection').RootInstanceProvider.injectProvider({
+        getRootInstances: function() {
+            // Help React Hot Loader figure out the root component instances on the page:
+            return [rootInstance];
+        }
+    });
+}

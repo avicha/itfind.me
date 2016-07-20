@@ -1,23 +1,21 @@
 var path = require('path');
 var webpack = require('webpack');
+var rootPath = path.join(__dirname, 'resources/assets/mobile-main/js');
 module.exports = {
-    context: __dirname + '/resources/assets/mobile-main/js',
+    // context: __dirname + '/resources/assets/mobile-main/js',
     entry: {
-        app: ['babel-polyfill', './app.js']
+        app: ["webpack-dev-server/client?http://localhost:3000/", "webpack/hot/dev-server", path.resolve(rootPath, 'app.js')]
     },
     output: {
-        path: __dirname + '/public/assets/mobile-main/js',
-        publicPath: '/assets/',
+        path: path.resolve(__dirname, 'public/assets/mobile-main/js'),
+        publicPath: 'http://localhost:3000/assets/mobile-main/js/',
         filename: '[name].bundle.js'
     },
     module: {
         loaders: [{
             test: /\.js$/,
             exclude: /node_modules/,
-            loader: 'babel-loader',
-            query: {
-                presets: ['es2015', 'react']
-            }
+            loaders: ['react-hot', 'babel-loader'],
         }]
     },
     plugins: [

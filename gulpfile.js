@@ -2,7 +2,6 @@ var fs = require('fs');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var gulpif = require('gulp-if');
-var lazypipe = require('lazypipe');
 var del = require('del');
 var webpack = require('webpack');
 var webpackDevMiddleware = require('webpack-dev-middleware');
@@ -150,25 +149,30 @@ var generateProjectTasks = function(project) {
         var webpackConfig = require('./webpack.' + project + '.config.dev.js');
         var bundler = webpack(webpackConfig);
         browserSync.init({
-            proxy: {
-                target: 'itfind.me',
-                middleware: [
-                    webpackDevMiddleware(bundler, {
-                        publicPath: webpackConfig.output.publicPath,
-                        noInfo: true,
-                        hot: true,
-                        stats: {
-                            colors: true
-                        }
-                    }),
-                    webpackHotMiddleware(bundler)
-                ]
+            server: {
+                baseDir: 'public',
             },
+            middleware: [
+                function(req, res, next) {
+                    res.setHeader('Access-Control-Allow-Origin', 'http://itfind.me');
+                    res.setHeader('Access-Control-Allow-Credentials', 'true');
+                    next();
+                },
+                webpackDevMiddleware(bundler, {
+                    publicPath: webpackConfig.output.publicPath,
+                    noInfo: false,
+                    quiet: false,
+                    hot: true,
+                    stats: {
+                        colors: true
+                    }
+                }),
+                webpackHotMiddleware(bundler)
+            ],
             open: false,
-            // files: [BUILD + '/' + project + '/js/**/*.js']
+            port: 3000
         });
         gulp.watch(SOURCE + '/' + project + '/css/**/*.scss', [project + '-sass-dev']);
-        // gulp.watch(SOURCE + '/' + project + '/js/**/*.js', [project + '-js-dev']);
     });
     //build project
     gulp.task('build:' + project, ['copy:libs', project + '-html']);
