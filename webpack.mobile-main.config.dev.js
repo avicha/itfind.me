@@ -7,6 +7,7 @@ module.exports = {
     },
     output: {
         path: __dirname + '/public/assets/mobile-main/js',
+        publicPath: '/assets/',
         filename: '[name].bundle.js'
     },
     module: {
@@ -23,6 +24,7 @@ module.exports = {
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('development')
         }),
+        new webpack.HotModuleReplacementPlugin(),
         new webpack.optimize.DedupePlugin(),
     ],
     externals: {

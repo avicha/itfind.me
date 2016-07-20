@@ -5,6 +5,9 @@ var gulpif = require('gulp-if');
 var lazypipe = require('lazypipe');
 var del = require('del');
 var webpack = require('webpack');
+var webpackDevMiddleware = require('webpack-dev-middleware');
+var webpackHotMiddleware = require('webpack-hot-middleware');
+var browserSync = require('browser-sync').create();
 //CSS
 var cleanCSS = require('gulp-clean-css');
 var sass = require('gulp-sass');
@@ -126,7 +129,7 @@ var generateProjectTasks = function(project) {
         })).pipe(gulp.dest(BUILD));
     });
     gulp.task(project + '-sass-dev', ['clean:' + project + '-css', 'copy:img'], function() {
-        return gulp.src([SOURCE + '/' + project + '/css/**/*.scss']).pipe(sass().on('error', sass.logError)).pipe(replace('@host', STATIC_URL_PREFIX)).pipe(gulp.dest(BUILD + '/' + project + '/css'));
+        return gulp.src([SOURCE + '/' + project + '/css/**/*.scss']).pipe(sass().on('error', sass.logError)).pipe(replace('@host', STATIC_URL_PREFIX)).pipe(gulp.dest(BUILD + '/' + project + '/css')).pipe(browserSync.stream());
     });
     //copy project html
     gulp.task(project + '-html', [project + '-js', project + '-sass', 'clean:' + project + '-html'], function() {
@@ -142,6 +145,30 @@ var generateProjectTasks = function(project) {
     gulp.task('watch:' + project, function() {
         gulp.watch(SOURCE + '/' + project + '/js/**/*.js', [project + '-js-dev']);
         gulp.watch(SOURCE + '/' + project + '/css/**/*.scss', [project + '-sass-dev']);
+    });
+    gulp.task('serve:' + project, function() {
+        var webpackConfig = require('./webpack.' + project + '.config.dev.js');
+        var bundler = webpack(webpackConfig);
+        browserSync.init({
+            proxy: {
+                target: 'itfind.me',
+                middleware: [
+                    webpackDevMiddleware(bundler, {
+                        publicPath: webpackConfig.output.publicPath,
+                        noInfo: true,
+                        hot: true,
+                        stats: {
+                            colors: true
+                        }
+                    }),
+                    webpackHotMiddleware(bundler)
+                ]
+            },
+            open: false,
+            // files: [BUILD + '/' + project + '/js/**/*.js']
+        });
+        gulp.watch(SOURCE + '/' + project + '/css/**/*.scss', [project + '-sass-dev']);
+        // gulp.watch(SOURCE + '/' + project + '/js/**/*.js', [project + '-js-dev']);
     });
     //build project
     gulp.task('build:' + project, ['copy:libs', project + '-html']);
