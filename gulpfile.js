@@ -1,4 +1,5 @@
 var fs = require('fs');
+var url = require('url');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var gulpif = require('gulp-if');
@@ -6,6 +7,7 @@ var del = require('del');
 var webpack = require('webpack');
 var webpackDevMiddleware = require('webpack-dev-middleware');
 var webpackHotMiddleware = require('webpack-hot-middleware');
+var proxy = require('proxy-middleware');
 var browserSync = require('browser-sync').create();
 //CSS
 var cleanCSS = require('gulp-clean-css');
@@ -145,19 +147,20 @@ var generateProjectTasks = function(project) {
         gulp.watch(SOURCE + '/' + project + '/js/**/*.js', [project + '-js-dev']);
         gulp.watch(SOURCE + '/' + project + '/css/**/*.scss', [project + '-sass-dev']);
     });
-    gulp.task('serve:' + project, function() {
+    gulp.task('serve:' + project, [project + '-sass-dev'], function() {
         var webpackConfig = require('./webpack.' + project + '.config.dev.js');
+        for (var i in webpackConfig.entry) {
+            webpackConfig.entry[i].unshift('webpack/hot/dev-server', 'webpack-hot-middleware/client?reload=true&path=http://' + webpackConfig.devServer.host + ':' + webpackConfig.devServer.port + '/__webpack_hmr');
+        }
+        webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
         var bundler = webpack(webpackConfig);
+        var proxyOptions = url.parse(webpackConfig.devServer.proxy['*'].target);
+        proxyOptions.route = '/';
         browserSync.init({
             server: {
                 baseDir: 'public',
             },
             middleware: [
-                function(req, res, next) {
-                    res.setHeader('Access-Control-Allow-Origin', 'http://itfind.me');
-                    res.setHeader('Access-Control-Allow-Credentials', 'true');
-                    next();
-                },
                 webpackDevMiddleware(bundler, {
                     publicPath: webpackConfig.output.publicPath,
                     noInfo: false,
@@ -165,12 +168,13 @@ var generateProjectTasks = function(project) {
                     hot: true,
                     stats: {
                         colors: true
-                    }
+                    },
                 }),
-                webpackHotMiddleware(bundler)
+                webpackHotMiddleware(bundler),
+                proxy(proxyOptions)
             ],
             open: false,
-            port: 3000
+            port: webpackConfig.devServer.port
         });
         gulp.watch(SOURCE + '/' + project + '/css/**/*.scss', [project + '-sass-dev']);
     });

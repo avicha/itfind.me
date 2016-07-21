@@ -1,14 +1,28 @@
 var path = require('path');
 var webpack = require('webpack');
-var rootPath = path.join(__dirname, 'resources/assets/mobile-main/js');
+
+var sourceDir = path.join(__dirname, 'resources/assets');
+var buildDir = path.join(__dirname, 'public/assets');
+var relativeDir = 'mobile-main/js';
+var devServerConf = {
+    hot: true,
+    host: 'localhost',
+    port: 3000,
+    proxy: {
+        '*': {
+            target: 'http://itfind.me',
+            secure: false,
+            changeOrigin: true,
+        }
+    }
+};
 module.exports = {
-    // context: __dirname + '/resources/assets/mobile-main/js',
     entry: {
-        app: ["webpack-dev-server/client?http://localhost:3000/", "webpack/hot/dev-server", path.resolve(rootPath, 'app.js')]
+        app: [path.resolve(sourceDir, relativeDir, 'app.js')]
     },
     output: {
-        path: path.resolve(__dirname, 'public/assets/mobile-main/js'),
-        publicPath: 'http://localhost:3000/assets/mobile-main/js/',
+        path: path.join(buildDir, relativeDir),
+        publicPath: 'http://' + devServerConf.host + ':' + devServerConf.port + '/assets/mobile-main/js/',
         filename: '[name].bundle.js'
     },
     module: {
@@ -19,12 +33,14 @@ module.exports = {
         }]
     },
     plugins: [
+        new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('development')
         }),
-        new webpack.HotModuleReplacementPlugin(),
         new webpack.optimize.DedupePlugin(),
+        new webpack.NoErrorsPlugin()
     ],
+    devServer: devServerConf,
     externals: {
         'react': 'React',
         'react-dom': 'ReactDOM',
