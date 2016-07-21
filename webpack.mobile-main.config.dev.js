@@ -22,7 +22,7 @@ module.exports = {
     },
     output: {
         path: path.join(buildDir, relativeDir),
-        publicPath: 'http://' + devServerConf.host + ':' + devServerConf.port + '/assets/mobile-main/js/',
+        publicPath: '/assets/mobile-main/js/',
         filename: '[name].bundle.js'
     },
     module: {
